@@ -12,7 +12,7 @@ export const themeCostum = themeAlpine.withParams({
 
   // Encabezados
   headerBackgroundColor: "#e5e7eb",
-  headerTextColor: "#374151",
+  headerTextColor: "#1f2937",
   headerFontWeight: 600,
 
   // Filas

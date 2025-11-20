@@ -139,11 +139,16 @@
   text-align: right !important;
 }
 
-/* Fila total más oscura y negrita para destacar */
-.ag-row-pinned .ag-cell.numeric-cell {
+/* Fila total más oscura y negrita para destacar - TODAS las celdas */
+.ag-row-pinned .ag-cell {
   color: #1e293b !important; /* Gris muy oscuro */
   font-weight: 700 !important;
   background-color: #e5e7eb !important; /* Fondo gris claro */
+}
+
+/* Extra énfasis en celdas numéricas del total */
+.ag-row-pinned .ag-cell.numeric-cell {
+  font-weight: 800 !important;
 }
 
 /* Headers de columnas numéricas también a la derecha */
