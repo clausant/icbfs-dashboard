@@ -201,11 +201,7 @@ export const useProyeccion = (selectedSociety) => {
   }, []);
 
   const statusBar = useMemo(() => {
-    return {
-      statusPanels: [
-        { statusPanel: 'agTotalRowCountComponent' },
-      ]
-    };
+    return null; // Status bar oculto
   }, []);
 
   return {

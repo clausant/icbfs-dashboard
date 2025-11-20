@@ -140,11 +140,7 @@ export const useEvolucion = () => {
   }, []);
 
   const statusBar = useMemo(() => {
-    return {
-      statusPanels: [
-        { statusPanel: 'agTotalRowCountComponent' },
-      ]
-    };
+    return null; // Status bar oculto
   }, []);
 
   const handleViewChange = (viewId) => {

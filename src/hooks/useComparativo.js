@@ -217,11 +217,7 @@ export const useComparativo = () => {
   }, []);
 
   const statusBar = useMemo(() => {
-    return {
-      statusPanels: [
-        { statusPanel: 'agTotalRowCountComponent' },
-      ]
-    };
+    return null; // Status bar oculto
   }, []);
 
   const handleViewChange = (viewId) => {
