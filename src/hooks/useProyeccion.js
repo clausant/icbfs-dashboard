@@ -4,11 +4,11 @@ import { levelDefs } from '../pages/dashboard/levelDefs';
 import { useCubeData } from './useCubeData';
 import { breadcrumbNameMap } from '../pages/dashboard/dashboardConstants';
 
-// Función helper para obtener el mes más reciente por defecto
+// Función helper para obtener el mes actual por defecto
 const getDefaultMonth = () => {
   const now = new Date();
   const year = now.getFullYear();
-  const month = String(now.getMonth()).padStart(2, '0'); // Mes anterior
+  const month = String(now.getMonth() + 1).padStart(2, '0'); // Mes actual (getMonth es 0-indexed)
   return `${year}-${month}`;
 };
 

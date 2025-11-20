@@ -128,3 +128,17 @@
   color: #64748b;
   font-weight: 500;
 }
+
+/* Alinear todas las celdas de AG Grid a la izquierda */
+.ag-cell {
+  text-align: left !important;
+}
+
+.ag-header-cell-label {
+  justify-content: flex-start !important;
+}
+
+/* Asegurar que los números también se alineen a la izquierda */
+.ag-cell-value {
+  text-align: left !important;
+}
