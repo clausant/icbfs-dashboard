@@ -61,6 +61,11 @@ const ProyeccionView = () => {
     }
   }, [rowData, currentLevelDef]);
 
+  const onGridReady = useCallback((params) => {
+    // Auto-size todas las columnas al cargar
+    params.api.autoSizeAllColumns();
+  }, []);
+
   const getRowStyle = params => {
     if (params.node.isRowPinned()) {
       return { 'font-weight': 'bold', 'background-color': '#f0f0f0' };
@@ -108,6 +113,7 @@ const ProyeccionView = () => {
             statusBar={statusBar}
             pinnedTopRowData={pinnedTopRowData}
             getRowStyle={getRowStyle}
+            onGridReady={onGridReady}
           />
         </div>
       </div>

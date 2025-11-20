@@ -1,5 +1,5 @@
 'use client';
-import React, { useRef } from "react";
+import React, { useRef, useCallback } from "react";
 import { ModuleRegistry, AllCommunityModule } from "ag-grid-community";
 import { AllEnterpriseModule } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
@@ -36,6 +36,11 @@ const EvolucionView = () => {
     setSelectedMetric,
     setNumMonths,
   } = useEvolucion();
+
+  const onGridReady = useCallback((params) => {
+    // Auto-size todas las columnas al cargar
+    params.api.autoSizeAllColumns();
+  }, []);
 
   const getRowStyle = params => {
     if (params.node.isRowPinned()) {
@@ -98,6 +103,7 @@ const EvolucionView = () => {
             statusBar={statusBar}
             pinnedTopRowData={pinnedTopRowData}
             getRowStyle={getRowStyle}
+            onGridReady={onGridReady}
           />
         </div>
       </div>
