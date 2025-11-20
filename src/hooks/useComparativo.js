@@ -135,7 +135,7 @@ export const useComparativo = () => {
         headerName: currentLevelDef.columnDefs[0].headerName,
         field: mainDimensionField,
         valueGetter: params => params.data ? params.data[mainDimensionField] : '',
-        minWidth: 270,
+        minWidth: 320,
         sortable: true,
         filter: 'agSetColumnFilter',
       },
@@ -198,8 +198,7 @@ export const useComparativo = () => {
 
   const defaultColDef = useMemo(
     () => ({
-      flex: 1,
-      minWidth: 150,
+      minWidth: 100,
       resizable: true,
       cellClassRules: {
         'numeric-cell': (params) => {

@@ -12,7 +12,8 @@
       "Bash(git restore:*)",
       "Bash(node update-currency-format.js:*)",
       "Bash(node update-currency-format.cjs:*)",
-      "Bash(node update-sku-headers.cjs:*)"
+      "Bash(node update-sku-headers.cjs:*)",
+      "Bash(node update-first-column-width.cjs:*)"
     ],
     "deny": [],
     "ask": []
