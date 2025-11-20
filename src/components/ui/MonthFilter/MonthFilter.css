@@ -26,3 +26,18 @@
   align-items: center;
   gap: 0.5rem;
 }
+
+.month-filter-loading-icon {
+  font-size: 0.875rem;
+  margin-left: 0.25rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}

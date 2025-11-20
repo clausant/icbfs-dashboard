@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './MultiSelectMonthDropdown.css';
 
-const MultiSelectMonthDropdown = ({ options, selectedValues, onChange }) => {
+const MultiSelectMonthDropdown = ({ options, selectedValues, onChange, disabled = false }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const dropdownRef = useRef(null);
@@ -19,7 +19,9 @@ const MultiSelectMonthDropdown = ({ options, selectedValues, onChange }) => {
   }, []);
 
   const handleHeaderClick = () => {
-    setIsOpen((prev) => !prev);
+    if (!disabled) {
+      setIsOpen((prev) => !prev);
+    }
   };
 
   const handleSearchChange = (e) => {
@@ -45,7 +47,10 @@ const MultiSelectMonthDropdown = ({ options, selectedValues, onChange }) => {
 
   return (
     <div className="multi-select-month-dropdown-container" ref={dropdownRef}>
-      <div className="multi-select-month-dropdown-header" onClick={handleHeaderClick}>
+      <div
+        className={`multi-select-month-dropdown-header ${disabled ? 'disabled' : ''}`}
+        onClick={handleHeaderClick}
+      >
         <span>{displayValue}</span>
       </div>
 

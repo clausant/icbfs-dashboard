@@ -6,18 +6,17 @@ import './MonthFilter.css';
 const MonthFilter = ({ selectedMonth, setSelectedMonth }) => {
   const { months, loading, error } = useCubeMonths();
 
+  // Actualizar al mes más reciente cuando los meses se carguen
+  // Solo si el mes seleccionado no está en la lista de meses disponibles
   useEffect(() => {
-    if (months.length > 0 && (!selectedMonth || selectedMonth.length === 0)) {
-      setSelectedMonth([months[0]]);
+    if (months.length > 0 && selectedMonth.length > 0) {
+      const currentMonth = selectedMonth[0];
+      // Si el mes por defecto no existe en la lista, usar el primero disponible
+      if (!months.includes(currentMonth)) {
+        setSelectedMonth([months[0]]);
+      }
     }
   }, [months, selectedMonth, setSelectedMonth]);
-
-  if (loading) return (
-    <div className="month-filter-loading">
-      <span>⏳</span>
-      <span>Cargando meses...</span>
-    </div>
-  );
 
   if (error) return (
     <div className="month-filter-error">
@@ -26,14 +25,17 @@ const MonthFilter = ({ selectedMonth, setSelectedMonth }) => {
     </div>
   );
 
+  // Mostrar el componente incluso mientras carga (con el mes por defecto)
   return (
     <div className="month-filter-container">
       <label className="month-filter-label">Mes:</label>
       <MultiSelectMonthDropdown
-        options={months}
+        options={loading ? selectedMonth : months}
         selectedValues={selectedMonth}
         onChange={setSelectedMonth}
+        disabled={loading}
       />
+      {loading && <span className="month-filter-loading-icon">⏳</span>}
     </div>
   );
 };

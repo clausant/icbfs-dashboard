@@ -30,14 +30,40 @@ export const useCubeData = (query, isQueryReady = true) => {
   return { data, loading, error };
 };
 
+// Caché para los meses para evitar múltiples llamadas
+let monthsCache = null;
+let monthsCachePromise = null;
+
 export const useCubeMonths = () => {
-  const [months, setMonths] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [months, setMonths] = useState(monthsCache || []);
+  const [loading, setLoading] = useState(!monthsCache);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    // Si ya tenemos los meses en caché, no hacer nada
+    if (monthsCache) {
+      setMonths(monthsCache);
+      setLoading(false);
+      return;
+    }
+
+    // Si ya hay una petición en curso, esperarla
+    if (monthsCachePromise) {
+      monthsCachePromise
+        .then(monthData => {
+          setMonths(monthData);
+          setLoading(false);
+        })
+        .catch(error => {
+          setError(error);
+          setLoading(false);
+        });
+      return;
+    }
+
+    // Iniciar nueva petición
     setLoading(true);
-    cubeApi.load({
+    monthsCachePromise = cubeApi.load({
       "dimensions": [
         "detalle_factura.fecha_year_month"
       ],
@@ -46,12 +72,21 @@ export const useCubeMonths = () => {
       }
     }).then(resultSet => {
       const monthData = resultSet.tablePivot().map(row => row['detalle_factura.fecha_year_month']);
-      setMonths(monthData);
-      setLoading(false);
-    }).catch(error => {
-      setError(error);
-      setLoading(false);
+      monthsCache = monthData; // Guardar en caché
+      monthsCachePromise = null;
+      return monthData;
     });
+
+    monthsCachePromise
+      .then(monthData => {
+        setMonths(monthData);
+        setLoading(false);
+      })
+      .catch(error => {
+        setError(error);
+        setLoading(false);
+        monthsCachePromise = null;
+      });
   }, []);
 
   return { months, loading, error };

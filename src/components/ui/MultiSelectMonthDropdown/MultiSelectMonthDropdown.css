@@ -23,6 +23,12 @@
   background-position: right 0.75rem center;
 }
 
+.multi-select-month-dropdown-header.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #f8fafc;
+}
+
 .multi-select-month-dropdown-list {
   position: absolute;
   top: 100%;

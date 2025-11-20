@@ -4,12 +4,20 @@ import { levelDefs } from '../pages/dashboard/levelDefs';
 import { useCubeData } from './useCubeData';
 import { breadcrumbNameMap } from '../pages/dashboard/dashboardConstants';
 
+// Función helper para obtener el mes más reciente por defecto
+const getDefaultMonth = () => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth()).padStart(2, '0'); // Mes anterior
+  return `${year}-${month}`;
+};
+
 export const useProyeccion = (selectedSociety) => {
   const [drilldownLevel, setDrilldownLevel] = useState(0);
   const [filters, setFilters] = useState([]);
   const [selectedView, setSelectedView] = useState('categoria');
   const [dynamicDimensions, setDynamicDimensions] = useState([]);
-  const [selectedMonth, setSelectedMonth] = useState([]);
+  const [selectedMonth, setSelectedMonth] = useState([getDefaultMonth()]); // Mes por defecto
   const [isRappelActive, setIsRappelActive] = useState(false);
 
   const location = useLocation();
@@ -70,7 +78,7 @@ export const useProyeccion = (selectedSociety) => {
     });
   }, [currentLevelDef, isRappelActive]);
 
-  const { data: rowData, loading } = useCubeData(query, selectedMonth.length > 0);
+  const { data: rowData, loading } = useCubeData(query, true); // Siempre cargar datos
 
   const pinnedTopRowData = useMemo(() => {
     if (!rowData || rowData.length === 0) {
