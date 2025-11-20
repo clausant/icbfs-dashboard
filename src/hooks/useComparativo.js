@@ -201,6 +201,13 @@ export const useComparativo = () => {
       flex: 1,
       minWidth: 150,
       resizable: true,
+      cellClassRules: {
+        'numeric-cell': (params) => {
+          // Aplicar clase a celdas numéricas (que tienen type: 'numericColumn')
+          const colDef = params.colDef;
+          return colDef.type === 'numericColumn';
+        }
+      }
     }),
     []
   );

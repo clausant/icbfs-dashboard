@@ -185,6 +185,13 @@ export const useProyeccion = (selectedSociety) => {
       sortable: true,
       resizable: true,
       enablePivot: true,
+      cellClassRules: {
+        'numeric-cell': (params) => {
+          // Aplicar clase a celdas numéricas (que tienen aggFunc)
+          const colDef = params.colDef;
+          return colDef.aggFunc !== undefined;
+        }
+      }
     }),
     []
   );
