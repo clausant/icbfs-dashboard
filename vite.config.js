@@ -1,9 +1,34 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { execSync } from 'child_process'
+import fs from 'fs'
+
+// Obtener información de versión
+const getGitCommitHash = () => {
+  try {
+    return execSync('git rev-parse HEAD').toString().trim()
+  } catch (e) {
+    return 'unknown'
+  }
+}
+
+const getPackageVersion = () => {
+  try {
+    const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf-8'))
+    return packageJson.version
+  } catch (e) {
+    return '0.0.0'
+  }
+}
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  define: {
+    'import.meta.env.VITE_APP_VERSION': JSON.stringify(getPackageVersion()),
+    'import.meta.env.VITE_BUILD_DATE': JSON.stringify(new Date().toISOString()),
+    'import.meta.env.VITE_COMMIT_HASH': JSON.stringify(getGitCommitHash()),
+  },
   build: {
     rollupOptions: {
       output: {
