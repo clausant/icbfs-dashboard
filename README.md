@@ -1,0 +1,1 @@
+# Prueba de frontend con cube.js
