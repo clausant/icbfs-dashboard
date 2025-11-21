@@ -68,7 +68,7 @@ const ProyeccionView = () => {
     // Luego fijar el ancho de la primera columna a 150px
     const firstColumn = params.api.getAllDisplayedColumns()[0];
     if (firstColumn) {
-      params.api.setColumnWidth(firstColumn, 150);
+      params.api.setColumnWidths([{key: firstColumn.getColId(), newWidth: 150}]);
     }
   }, []);
 
@@ -116,10 +116,7 @@ const ProyeccionView = () => {
             columnDefs={dynamicColumnDefs}
             defaultColDef={defaultColDef}
             onRowClicked={handleRowClicked}
-            suppressRowClickSelection={false}
-            rowSelection="single"
-            suppressCellFocus={true}
-            suppressRowHoverHighlight={false}
+            onCellClicked={handleRowClicked}
             pivotPanelShow="always"
             loadingOverlayComponent={customLoadingOverlay}
             loadingOverlayComponentParams={loadingOverlayComponentParams}

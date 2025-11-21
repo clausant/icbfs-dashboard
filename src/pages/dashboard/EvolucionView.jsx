@@ -44,7 +44,7 @@ const EvolucionView = () => {
     // Luego fijar el ancho de la primera columna a 150px
     const firstColumn = params.api.getAllDisplayedColumns()[0];
     if (firstColumn) {
-      params.api.setColumnWidth(firstColumn, 150);
+      params.api.setColumnWidths([{key: firstColumn.getColId(), newWidth: 150}]);
     }
   }, []);
 

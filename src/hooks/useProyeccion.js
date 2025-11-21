@@ -167,6 +167,7 @@ export const useProyeccion = (selectedSociety) => {
   const handleRowClicked = useCallback((event) => {
     // Ignorar clicks en fila pinned (TOTAL)
     if (event.node.isRowPinned()) {
+      console.log('Click en fila TOTAL - ignorado');
       return;
     }
 
@@ -177,7 +178,8 @@ export const useProyeccion = (selectedSociety) => {
       drillDownField,
       clickedValue: event.data[drillDownField],
       hasNextLevel: !!levelDefs[selectedView][drilldownLevel + 1],
-      currentLevel: drilldownLevel
+      currentLevel: drilldownLevel,
+      allData: event.data
     });
 
     if (drillDownField && levelDefs[selectedView][drilldownLevel + 1]) {
@@ -189,6 +191,7 @@ export const useProyeccion = (selectedSociety) => {
         return;
       }
 
+      console.log('Aplicando filtro y avanzando nivel...');
       const newFilter = {
         member: drillDownField,
         operator: 'equals',
@@ -197,6 +200,7 @@ export const useProyeccion = (selectedSociety) => {
       setFilters([...filters, newFilter]);
       setDrilldownLevel(drilldownLevel + 1);
     } else {
+      console.log('No hay siguiente nivel');
       alert("No hay mas niveles");
     }
   }, [currentLevelDef, drilldownLevel, filters, selectedView]);
