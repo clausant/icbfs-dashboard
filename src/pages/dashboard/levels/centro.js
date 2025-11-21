@@ -31,7 +31,7 @@ export const centro = {
       "detalle_factura.combinacion_sku_cliente"
     ],
     columnDefs: [
-      { headerName: "Centro", field: "detalle_factura.centro", valueGetter: p => p.data ? p.data["detalle_factura.centro"] : '', enableRowGroup: true, width: 280, pinned: 'left' },
+      { headerName: "Centro", field: "detalle_factura.centro", valueGetter: p => p.data ? p.data["detalle_factura.centro"] : '', enableRowGroup: true, width: 150, pinned: 'left' },
       { headerName: "Venta$", field: "detalle_factura.valor_neto_sum", valueGetter: p => p.data ? Number(p.data["detalle_factura.valor_neto_sum"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), sort: 'desc', width: 110, suppressHeaderMenuButton: true },
       { headerName: "VentasProy$", field: "detalle_factura.ventas_proyeccion", valueGetter: p => p.data ? Number(p.data["detalle_factura.ventas_proyeccion"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), width: 120, suppressHeaderMenuButton: true },
       { headerName: "PrecioUnit$", field: "detalle_factura.precio_unitario", valueGetter: p => p.data ? Number(p.data["detalle_factura.precio_unitario"]) : 0, aggFunc: 'avg', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), width: 120, suppressHeaderMenuButton: true },
@@ -65,7 +65,7 @@ export const centro = {
       "detalle_factura.combinacion_sku_cliente"
     ],
     columnDefs: [
-      { headerName: "Categoria", field: "detalle_factura.categoria", valueGetter: p => p.data ? p.data["detalle_factura.categoria"] : '', enableRowGroup: true, width: 280, pinned: 'left' },
+      { headerName: "Categoria", field: "detalle_factura.categoria", valueGetter: p => p.data ? p.data["detalle_factura.categoria"] : '', enableRowGroup: true, width: 150, pinned: 'left' },
       { headerName: "Venta$", field: "detalle_factura.valor_neto_sum", valueGetter: p => p.data ? Number(p.data["detalle_factura.valor_neto_sum"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), sort: 'desc', width: 110, suppressHeaderMenuButton: true },
       { headerName: "VentasProy$", field: "detalle_factura.ventas_proyeccion", valueGetter: p => p.data ? Number(p.data["detalle_factura.ventas_proyeccion"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), width: 120, suppressHeaderMenuButton: true },
       { headerName: "PrecioUnit$", field: "detalle_factura.precio_unitario", valueGetter: p => p.data ? Number(p.data["detalle_factura.precio_unitario"]) : 0, aggFunc: 'avg', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), width: 120, suppressHeaderMenuButton: true },
@@ -99,7 +99,7 @@ export const centro = {
       "detalle_factura.combinacion_sku_cliente"
     ],
     columnDefs: [
-      { headerName: "SKU", field: "detalle_factura.sku", valueGetter: p => p.data ? p.data["detalle_factura.sku"] : '', enableRowGroup: true, width: 280, pinned: 'left' },
+      { headerName: "SKU", field: "detalle_factura.sku", valueGetter: p => p.data ? p.data["detalle_factura.sku"] : '', enableRowGroup: true, width: 150, pinned: 'left' },
       { headerName: "Venta$", field: "detalle_factura.valor_neto_sum", valueGetter: p => p.data ? Number(p.data["detalle_factura.valor_neto_sum"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), sort: 'desc', width: 110, suppressHeaderMenuButton: true },
       { headerName: "VentasProy$", field: "detalle_factura.ventas_proyeccion", valueGetter: p => p.data ? Number(p.data["detalle_factura.ventas_proyeccion"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), width: 120, suppressHeaderMenuButton: true },
       { headerName: "PrecioUnit$", field: "detalle_factura.precio_unitario", valueGetter: p => p.data ? Number(p.data["detalle_factura.precio_unitario"]) : 0, aggFunc: 'avg', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), width: 120, suppressHeaderMenuButton: true },
@@ -133,7 +133,7 @@ export const centro = {
       "detalle_factura.combinacion_sku_cliente"
     ],
     columnDefs: [
-      { headerName: "Vendedor", field: "detalle_factura.vendedor", valueGetter: p => p.data ? p.data["detalle_factura.vendedor"] : '', enableRowGroup: true, width: 280, pinned: 'left' },
+      { headerName: "Vendedor", field: "detalle_factura.vendedor", valueGetter: p => p.data ? p.data["detalle_factura.vendedor"] : '', enableRowGroup: true, width: 150, pinned: 'left' },
       { headerName: "Venta$", field: "detalle_factura.valor_neto_sum", valueGetter: p => p.data ? Number(p.data["detalle_factura.valor_neto_sum"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), sort: 'desc', width: 110, suppressHeaderMenuButton: true },
       { headerName: "VentasProy$", field: "detalle_factura.ventas_proyeccion", valueGetter: p => p.data ? Number(p.data["detalle_factura.ventas_proyeccion"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), width: 120, suppressHeaderMenuButton: true },
       { headerName: "PrecioUnit$", field: "detalle_factura.precio_unitario", valueGetter: p => p.data ? Number(p.data["detalle_factura.precio_unitario"]) : 0, aggFunc: 'avg', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), width: 120, suppressHeaderMenuButton: true },
@@ -167,7 +167,7 @@ export const centro = {
       "detalle_factura.combinacion_sku_cliente"
     ],
     columnDefs: [
-      { headerName: "Cliente", field: "detalle_factura.nombre_cliente", valueGetter: p => p.data ? p.data["detalle_factura.nombre_cliente"] : '', enableRowGroup: true, width: 280, pinned: 'left' },
+      { headerName: "Cliente", field: "detalle_factura.nombre_cliente", valueGetter: p => p.data ? p.data["detalle_factura.nombre_cliente"] : '', enableRowGroup: true, width: 150, pinned: 'left' },
       { headerName: "Venta$", field: "detalle_factura.valor_neto_sum", valueGetter: p => p.data ? Number(p.data["detalle_factura.valor_neto_sum"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), sort: 'desc', width: 110, suppressHeaderMenuButton: true },
       { headerName: "VentasProy$", field: "detalle_factura.ventas_proyeccion", valueGetter: p => p.data ? Number(p.data["detalle_factura.ventas_proyeccion"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), width: 120, suppressHeaderMenuButton: true },
       { headerName: "PrecioUnit$", field: "detalle_factura.precio_unitario", valueGetter: p => p.data ? Number(p.data["detalle_factura.precio_unitario"]) : 0, aggFunc: 'avg', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), width: 120, suppressHeaderMenuButton: true },
@@ -201,7 +201,7 @@ export const centro = {
       "detalle_factura.combinacion_sku_cliente"
     ],
     columnDefs: [
-      { headerName: "Sala", field: "detalle_factura.id_sala", valueGetter: p => p.data ? p.data["detalle_factura.id_sala"] : '', enableRowGroup: true, width: 280, pinned: 'left' },
+      { headerName: "Sala", field: "detalle_factura.id_sala", valueGetter: p => p.data ? p.data["detalle_factura.id_sala"] : '', enableRowGroup: true, width: 150, pinned: 'left' },
       { headerName: "Venta$", field: "detalle_factura.valor_neto_sum", valueGetter: p => p.data ? Number(p.data["detalle_factura.valor_neto_sum"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), sort: 'desc', width: 110, suppressHeaderMenuButton: true },
       { headerName: "VentasProy$", field: "detalle_factura.ventas_proyeccion", valueGetter: p => p.data ? Number(p.data["detalle_factura.ventas_proyeccion"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), width: 120, suppressHeaderMenuButton: true },
       { headerName: "PrecioUnit$", field: "detalle_factura.precio_unitario", valueGetter: p => p.data ? Number(p.data["detalle_factura.precio_unitario"]) : 0, aggFunc: 'avg', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), width: 120, suppressHeaderMenuButton: true },

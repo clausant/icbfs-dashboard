@@ -135,7 +135,7 @@ export const useComparativo = () => {
         headerName: currentLevelDef.columnDefs[0].headerName,
         field: mainDimensionField,
         valueGetter: params => params.data ? params.data[mainDimensionField] : '',
-        minWidth: 320,
+        minWidth: 150,
         sortable: true,
         filter: 'agSetColumnFilter',
       },
