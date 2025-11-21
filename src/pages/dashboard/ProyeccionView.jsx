@@ -84,13 +84,21 @@ const ProyeccionView = () => {
       <div className="dashboard-header">
         <div className="dashboard-header-content">
           <div className="dashboard-controls">
-            {/* SocietyFilter integrado aquí */}
-            <ViewSelector views={views} selectedView={selectedView} setSelectedView={handleViewChange} />
-            <MonthFilter selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth} />
-            <SocietyFilter
-              selectedSociety={selectedSociety}
-              onSocietyChange={handleSocietyChange}
-            />
+            <div className="control-group">
+              <label>Mes:</label>
+              <MonthFilter selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth} />
+            </div>
+            <div className="control-group">
+              <label>Sociedad:</label>
+              <SocietyFilter
+                selectedSociety={selectedSociety}
+                onSocietyChange={handleSocietyChange}
+              />
+            </div>
+            <div className="control-group">
+              <label>Vista:</label>
+              <ViewSelector views={views} selectedView={selectedView} setSelectedView={handleViewChange} />
+            </div>
             <RappelToggle onToggle={setIsRappelActive} />
           </div>
         </div>

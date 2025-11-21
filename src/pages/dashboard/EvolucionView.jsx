@@ -62,13 +62,6 @@ const EvolucionView = () => {
         <div className="dashboard-header-content">
           <div className="dashboard-controls">
             <div className="control-group">
-              <label>Métrica:</label>
-              <MetricSelector
-                selectedMetric={selectedMetric}
-                setSelectedMetric={setSelectedMetric}
-              />
-            </div>
-            <div className="control-group">
               <label>Períodos:</label>
               <input
                 type="number"
@@ -77,6 +70,13 @@ const EvolucionView = () => {
                 min="1"
                 max={months.length}
                 style={{ width: '60px', padding: '5px' }}
+              />
+            </div>
+            <div className="control-group">
+              <label>Métrica:</label>
+              <MetricSelector
+                selectedMetric={selectedMetric}
+                setSelectedMetric={setSelectedMetric}
               />
             </div>
             <div className="control-group">
