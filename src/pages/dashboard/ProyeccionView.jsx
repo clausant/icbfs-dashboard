@@ -118,6 +118,8 @@ const ProyeccionView = () => {
             onRowClicked={handleRowClicked}
             suppressRowClickSelection={false}
             rowSelection="single"
+            suppressCellFocus={true}
+            suppressRowHoverHighlight={false}
             pivotPanelShow="always"
             loadingOverlayComponent={customLoadingOverlay}
             loadingOverlayComponentParams={loadingOverlayComponentParams}
