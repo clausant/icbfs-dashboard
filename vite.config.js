@@ -63,6 +63,7 @@ export default defineConfig({
             './src/pages/dashboard/levels/gerencia.js',
             './src/pages/dashboard/levels/sucursal.js',
             './src/pages/dashboard/levels/holding.js',
+            './src/pages/dashboard/levels/fecha.js',
           ],
         },
       },
