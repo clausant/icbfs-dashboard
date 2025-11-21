@@ -14,7 +14,8 @@
       "Bash(node update-currency-format.cjs:*)",
       "Bash(node update-sku-headers.cjs:*)",
       "Bash(node update-first-column-width.cjs:*)",
-      "Bash(node update-headers-no-spaces.cjs:*)"
+      "Bash(node update-headers-no-spaces.cjs:*)",
+      "Bash(node:*)"
     ],
     "deny": [],
     "ask": []
