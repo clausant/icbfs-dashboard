@@ -16,7 +16,11 @@
       "Bash(node update-first-column-width.cjs:*)",
       "Bash(node update-headers-no-spaces.cjs:*)",
       "Bash(node:*)",
-      "Bash(git revert:*)"
+      "Bash(git revert:*)",
+      "Bash(cat:*)",
+      "Bash(gh repo view:*)",
+      "Bash(vercel --version:*)",
+      "Bash(vercel:*)"
     ],
     "deny": [],
     "ask": []
