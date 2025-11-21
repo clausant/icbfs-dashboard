@@ -116,6 +116,8 @@ const ProyeccionView = () => {
             columnDefs={dynamicColumnDefs}
             defaultColDef={defaultColDef}
             onRowClicked={handleRowClicked}
+            suppressRowClickSelection={false}
+            rowSelection="single"
             pivotPanelShow="always"
             loadingOverlayComponent={customLoadingOverlay}
             loadingOverlayComponentParams={loadingOverlayComponentParams}
