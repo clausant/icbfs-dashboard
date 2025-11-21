@@ -28,7 +28,6 @@ const MonthFilter = ({ selectedMonth, setSelectedMonth }) => {
   // Mostrar el componente incluso mientras carga (con el mes por defecto)
   return (
     <div className="month-filter-container">
-      <label className="month-filter-label">Mes:</label>
       <MultiSelectMonthDropdown
         options={loading ? selectedMonth : months}
         selectedValues={selectedMonth}
