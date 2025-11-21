@@ -60,9 +60,6 @@ const EvolucionView = () => {
 
       <div className="dashboard-header">
         <div className="dashboard-header-content">
-          <div className="dashboard-logo">
-            <img src="/logo-icbfs.png" alt="ICB Food Services" className="dashboard-logo" />
-          </div>
           <div className="dashboard-controls">
             <div className="control-group">
               <label>Métrica:</label>
