@@ -170,7 +170,7 @@ export const useComparativo = () => {
         headerName: `Variación%`,
         field: 'variation',
         valueGetter: params => params.data ? params.data.variation : 0,
-        valueFormatter: p => `${Number(p.value).toFixed(1)} %`,
+        valueFormatter: p => Number(p.value).toFixed(1),
         sortable: true,
         filter: 'agNumberColumnFilter',
         type: 'numericColumn',

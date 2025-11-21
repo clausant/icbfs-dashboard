@@ -64,6 +64,12 @@ const ProyeccionView = () => {
   const onGridReady = useCallback((params) => {
     // Auto-size todas las columnas al cargar
     params.api.autoSizeAllColumns();
+
+    // Luego fijar el ancho de la primera columna a 150px
+    const firstColumn = params.api.getAllDisplayedColumns()[0];
+    if (firstColumn) {
+      params.api.setColumnWidth(firstColumn, 150);
+    }
   }, []);
 
   const getRowStyle = params => {
