@@ -17,8 +17,10 @@ import { especialidad } from './levels/especialidad';
 import { gerencia } from './levels/gerencia';
 import { sucursal } from './levels/sucursal';
 import { holding } from './levels/holding';
+import { fecha } from './levels/fecha';
 
 export const levelDefs = {
+  fecha,
   categoria,
   cliente,
   vendedor,
