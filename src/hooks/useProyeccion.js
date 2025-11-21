@@ -19,6 +19,7 @@ export const useProyeccion = (selectedSociety) => {
   const [dynamicDimensions, setDynamicDimensions] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState([getDefaultMonth()]); // Mes por defecto
   const [isRappelActive, setIsRappelActive] = useState(false);
+  const [showToast, setShowToast] = useState(false);
 
   const location = useLocation();
 
@@ -201,7 +202,7 @@ export const useProyeccion = (selectedSociety) => {
       setDrilldownLevel(drilldownLevel + 1);
     } else {
       console.log('No hay siguiente nivel');
-      alert("No hay mas niveles");
+      setShowToast(true);
     }
   }, [currentLevelDef, drilldownLevel, filters, selectedView]);
 
@@ -251,5 +252,7 @@ export const useProyeccion = (selectedSociety) => {
     handleBreadcrumbClick,
     currentLevelDef,
     pinnedTopRowData,
+    showToast,
+    setShowToast,
   };
 };

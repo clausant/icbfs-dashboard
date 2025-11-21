@@ -10,6 +10,7 @@ import ViewSelector from "../../components/ui/ViewSelector/ViewSelector";
 import RappelToggle from "../../components/ui/RappelToggle/RappelToggle";
 import MonthFilter from "../../components/ui/MonthFilter/MonthFilter";
 import SocietyFilter from "../../components/ui/SocietyFilter/SocietyFilter"; // Importar SocietyFilter
+import Toast from "../../components/ui/Toast/Toast";
 import { useProyeccion } from "../../hooks/useProyeccion";
 import { views } from "./dashboardConstants";
 import "../../styles/Dashboard.css";
@@ -42,6 +43,8 @@ const ProyeccionView = () => {
     handleBreadcrumbClick,
     currentLevelDef,
     pinnedTopRowData,
+    showToast,
+    setShowToast,
   } = useProyeccion(selectedSociety); // Pasar selectedSociety al hook
 
   const handleSocietyChange = (newSociety) => {
@@ -129,6 +132,14 @@ const ProyeccionView = () => {
           />
         </div>
       </div>
+
+      {showToast && (
+        <Toast
+          message="Has llegado al nivel más detallado"
+          type="info"
+          onClose={() => setShowToast(false)}
+        />
+      )}
     </>
   );
 };
