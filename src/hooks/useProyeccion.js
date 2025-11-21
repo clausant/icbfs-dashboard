@@ -165,9 +165,30 @@ export const useProyeccion = (selectedSociety) => {
   }, []);
 
   const handleRowClicked = useCallback((event) => {
+    // Ignorar clicks en fila pinned (TOTAL)
+    if (event.node.isRowPinned()) {
+      return;
+    }
+
     const { drillDownField } = currentLevelDef;
+
+    // Debug: verificar que todo esté correcto
+    console.log('Row clicked:', {
+      drillDownField,
+      clickedValue: event.data[drillDownField],
+      hasNextLevel: !!levelDefs[selectedView][drilldownLevel + 1],
+      currentLevel: drilldownLevel
+    });
+
     if (drillDownField && levelDefs[selectedView][drilldownLevel + 1]) {
       const clickedValue = event.data[drillDownField];
+
+      // Validar que el valor no sea vacío
+      if (!clickedValue) {
+        console.warn('Valor clickeado está vacío');
+        return;
+      }
+
       const newFilter = {
         member: drillDownField,
         operator: 'equals',
