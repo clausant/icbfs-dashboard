@@ -30,8 +30,8 @@ export const themeCostum = themeAlpine.withParams({
   cellHorizontalPadding: "0.2rem",
 
   // Fuentes
-  fontSize: "0.775rem",
-  dataFontSize: "0.750rem", // Añadido para controlar el tamaño de fuente de las celdas
+  fontSize: "0.750rem",
+  dataFontSize: "0.725rem", // Añadido para controlar el tamaño de fuente de las celdas
   fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
 
   // Iconos y controles

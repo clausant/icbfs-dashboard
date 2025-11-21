@@ -121,6 +121,7 @@ export const useEvolucion = () => {
 
   const defaultColDef = useMemo(
     () => ({
+      sortable: false,
       minWidth: 100,
       resizable: true,
       cellClassRules: {
