@@ -12,53 +12,9 @@ const numberFormatter = new Intl.NumberFormat('es-CL', {
   minimumFractionDigits: 0,
   maximumFractionDigits: 0,
 });
-const dateFormatter = (dateString) => {
-  if (!dateString) return '';
-  const date = new Date(dateString);
-  const day = String(date.getDate()).padStart(2, '0');
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const year = date.getFullYear();
-  return `${day}-${month}-${year}`;
-};
-
 
 export const categoria = {
   0: {
-    dimensions: ["detalle_factura.fecha_factura"],
-    measures: ["detalle_factura.valor_neto_sum",
-      "detalle_factura.peso_neto_sum",
-      "detalle_factura.sku_count",
-      "detalle_factura.margen_porcentaje",
-      "detalle_factura.margen_valor",
-      "detalle_factura.ventas_proyeccion",
-      "detalle_factura.kilos_proyeccion",
-      "detalle_factura.margen_proyeccion",
-      "detalle_factura.precio_unitario",
-      "detalle_factura.margen_unitario",
-      "detalle_factura.producto_foco_valor",
-      "detalle_factura.ratio_sku_cliente",
-      "detalle_factura.combinacion_sku_cliente"
-    ],
-    columnDefs: [
-      { headerName: "Fecha", field: "detalle_factura.fecha_factura", valueGetter: p => p.data ? dateFormatter(p.data["detalle_factura.fecha_factura"]) : '', enableRowGroup: true, filter: false, width: 150, pinned: 'left' },
-      { headerName: "Venta$", field: "detalle_factura.valor_neto_sum", valueGetter: p => p.data ? Number(p.data["detalle_factura.valor_neto_sum"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), sort: 'desc', width: 110, suppressHeaderMenuButton: true },
-      { headerName: "VentasProy$", field: "detalle_factura.ventas_proyeccion", valueGetter: p => p.data ? Number(p.data["detalle_factura.ventas_proyeccion"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), width: 120, suppressHeaderMenuButton: true },
-      { headerName: "PrecioUnit$", field: "detalle_factura.precio_unitario", valueGetter: p => p.data ? Number(p.data["detalle_factura.precio_unitario"]) : 0, aggFunc: 'avg', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), width: 120, suppressHeaderMenuButton: true },
-      { headerName: "Kilos", field: "detalle_factura.peso_neto_sum", valueGetter: p => p.data ? Number(p.data["detalle_factura.peso_neto_sum"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => `${kilosFormatter.format(p.value || 0)}`, width: 120, suppressHeaderMenuButton: true },
-      { headerName: "KilosProy", field: "detalle_factura.kilos_proyeccion", valueGetter: p => p.data ? Number(p.data["detalle_factura.kilos_proyeccion"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => `${kilosFormatter.format(p.value || 0)}`, width: 120, suppressHeaderMenuButton: true },
-      { headerName: "#SKU", field: "detalle_factura.sku_count", valueGetter: p => p.data ? Number(p.data["detalle_factura.sku_count"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => numberFormatter.format(p.value), width: 120, suppressHeaderMenuButton: true },
-      { headerName: "MargenUnit$", field: "detalle_factura.margen_unitario", valueGetter: p => p.data ? Number(p.data["detalle_factura.margen_unitario"]) : 0, aggFunc: 'avg', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), width: 120, suppressHeaderMenuButton: true },
-      { headerName: "Margen%", field: "detalle_factura.margen_porcentaje", valueGetter: p => p.data ? Number(p.data["detalle_factura.margen_porcentaje"]) : 0, aggFunc: 'avg', enableValue: true, valueFormatter: p => Number(p.value).toFixed(2), width: 120, suppressHeaderMenuButton: true },
-      { headerName: "Margen$", field: "detalle_factura.margen_valor", valueGetter: p => p.data ? Number(p.data["detalle_factura.margen_valor"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), width: 120, suppressHeaderMenuButton: true },
-      { headerName: "MargenProy$", field: "detalle_factura.margen_proyeccion", valueGetter: p => p.data ? Number(p.data["detalle_factura.margen_proyeccion"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), width: 120, suppressHeaderMenuButton: true },
-      { headerName: "PFoco$", field: "detalle_factura.producto_foco_valor", valueGetter: p => p.data ? Number(p.data["detalle_factura.producto_foco_valor"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), width: 120, suppressHeaderMenuButton: true },
-      { headerName: "#SKU/Cliente", field: "detalle_factura.ratio_sku_cliente", valueGetter: p => p.data ? Number(p.data["detalle_factura.ratio_sku_cliente"]) : 0, aggFunc: 'sum', enableValue: true, width: 120, suppressHeaderMenuButton: true },
-      { headerName: "CombSKU/Cliente#", field: "detalle_factura.combinacion_sku_cliente", valueGetter: p => p.data ? Number(p.data["detalle_factura.combinacion_sku_cliente"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => numberFormatter.format(p.value), width: 120, suppressHeaderMenuButton: true },
-    ],
-    drillDownField: "detalle_factura.fecha_factura",
-  },
-
-  1: {
     dimensions: ["detalle_factura.categoria"],
     measures: ["detalle_factura.valor_neto_sum",
       "detalle_factura.peso_neto_sum",
@@ -92,7 +48,7 @@ export const categoria = {
     ],
     drillDownField: "detalle_factura.categoria",
   },
-  2: {
+  1: {
     dimensions: ["detalle_factura.familia"],
     measures: ["detalle_factura.valor_neto_sum",
       "detalle_factura.peso_neto_sum",
@@ -126,7 +82,7 @@ export const categoria = {
     ],
     drillDownField: "detalle_factura.familia",
   },
-  3: {
+  2: {
     dimensions: ["detalle_factura.sub_familia"],
     measures: ["detalle_factura.valor_neto_sum",
       "detalle_factura.peso_neto_sum",
@@ -160,7 +116,7 @@ export const categoria = {
     ],
     drillDownField: "detalle_factura.sub_familia",
   },
-  4: {
+  3: {
     dimensions: ["detalle_factura.sku"],
     measures: ["detalle_factura.valor_neto_sum",
       "detalle_factura.peso_neto_sum",
@@ -194,7 +150,7 @@ export const categoria = {
     ],
     drillDownField: "detalle_factura.sku",
   },
-  5: {
+  4: {
     dimensions: ["detalle_factura.nombre_holding"],
     measures: ["detalle_factura.valor_neto_sum",
       "detalle_factura.peso_neto_sum",
@@ -228,7 +184,7 @@ export const categoria = {
     ],
     drillDownField: "detalle_factura.nombre_holding",
   },
-  6: {
+  5: {
     dimensions: ["detalle_factura.nombre_cliente"],
     measures: ["detalle_factura.valor_neto_sum",
       "detalle_factura.peso_neto_sum",
@@ -262,7 +218,7 @@ export const categoria = {
     ],
     drillDownField: "detalle_factura.nombre_cliente",
   },
-  7: {
+  6: {
     dimensions: ["detalle_factura.id_sala"],
     measures: ["detalle_factura.valor_neto_sum",
       "detalle_factura.peso_neto_sum",
