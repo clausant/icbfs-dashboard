@@ -149,7 +149,7 @@ export const useComparativo = () => {
         type: 'numericColumn',
       },
       {
-        headerName: `Actual Proyectado`,
+        headerName: `ActualProyectado`,
         field: 'actualProjected',
         valueGetter: params => params.data ? params.data.actual || 0 : 0,
         valueFormatter: metricFormatter || (p => p.value),
@@ -167,7 +167,7 @@ export const useComparativo = () => {
         type: 'numericColumn',
       },
       {
-        headerName: `Variación (%)`,
+        headerName: `Variación%`,
         field: 'variation',
         valueGetter: params => params.data ? params.data.variation : 0,
         valueFormatter: p => `${Number(p.value).toFixed(1)} %`,
