@@ -33,6 +33,8 @@ export const useProyeccion = (selectedSociety) => {
   };
 
   const query = useMemo(() => {
+    if (!currentLevelDef) return null;
+
     const monthFilter = selectedMonth.length > 0 ? [{
       member: "detalle_factura.fecha_year_month",
       operator: "in",
@@ -171,6 +173,8 @@ export const useProyeccion = (selectedSociety) => {
       console.log('Click en fila TOTAL - ignorado');
       return;
     }
+
+    if (!currentLevelDef) return;
 
     const { drillDownField } = currentLevelDef;
 

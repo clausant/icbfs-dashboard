@@ -55,7 +55,7 @@ const ProyeccionView = () => {
   };
 
   const onColumnPivotModeChanged = useCallback(() => {
-    if (gridRef.current && gridRef.current.api) {
+    if (gridRef.current && gridRef.current.api && currentLevelDef) {
       const isPivotMode = gridRef.current.api.isPivotMode();
       if (!isPivotMode) {
         gridRef.current.api.setRowData(rowData);

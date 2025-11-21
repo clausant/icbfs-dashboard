@@ -21,6 +21,18 @@ const dateFormatter = (dateString) => {
   return `${day}-${month}-${year}`;
 };
 
+// Comparador para ordenar fechas correctamente
+const dateComparator = (date1, date2) => {
+  if (!date1) return -1;
+  if (!date2) return 1;
+
+  // Extraer la fecha del formato ISO (antes del formateador)
+  const d1 = new Date(date1.split('T')[0]);
+  const d2 = new Date(date2.split('T')[0]);
+
+  return d1.getTime() - d2.getTime();
+};
+
 export const fecha = {
   0: {
     dimensions: ["detalle_factura.fecha_factura"],
@@ -39,7 +51,7 @@ export const fecha = {
       "detalle_factura.combinacion_sku_cliente"
     ],
     columnDefs: [
-      { headerName: "Fecha", field: "detalle_factura.fecha_factura", valueGetter: p => p.data ? dateFormatter(p.data["detalle_factura.fecha_factura"]) : '', enableRowGroup: true, filter: false, width: 150, pinned: 'left' },
+      { headerName: "Fecha", field: "detalle_factura.fecha_factura", valueGetter: p => p.data ? dateFormatter(p.data["detalle_factura.fecha_factura"]) : '', comparator: (date1, date2, node1, node2) => dateComparator(node1.data["detalle_factura.fecha_factura"], node2.data["detalle_factura.fecha_factura"]), enableRowGroup: true, filter: false, width: 150, pinned: 'left', sort: 'asc' },
       { headerName: "Venta$", field: "detalle_factura.valor_neto_sum", valueGetter: p => p.data ? Number(p.data["detalle_factura.valor_neto_sum"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), sort: 'desc', width: 110, suppressHeaderMenuButton: true },
       { headerName: "VentasProy$", field: "detalle_factura.ventas_proyeccion", valueGetter: p => p.data ? Number(p.data["detalle_factura.ventas_proyeccion"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), width: 120, suppressHeaderMenuButton: true },
       { headerName: "PrecioUnit$", field: "detalle_factura.precio_unitario", valueGetter: p => p.data ? Number(p.data["detalle_factura.precio_unitario"]) : 0, aggFunc: 'avg', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), width: 120, suppressHeaderMenuButton: true },
