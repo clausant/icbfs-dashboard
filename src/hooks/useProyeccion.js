@@ -62,14 +62,14 @@ export const useProyeccion = (selectedSociety) => {
         if (isRappelActive) {
           return {
             ...colDef,
-            headerName: "Venta (Rappel)",
+            headerName: "Venta(Rappel)$",
             field: "detalle_factura.valor_resta_rappel",
             valueGetter: p => p.data ? Number(p.data["detalle_factura.valor_resta_rappel"]) : 0,
           };
         }
         return {
           ...colDef,
-          headerName: "Venta",
+          headerName: "Venta$",
           field: "detalle_factura.valor_neto_sum",
           valueGetter: p => p.data ? Number(p.data["detalle_factura.valor_neto_sum"]) : 0,
         };
