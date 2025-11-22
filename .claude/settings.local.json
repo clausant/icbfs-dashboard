@@ -20,7 +20,11 @@
       "Bash(cat:*)",
       "Bash(gh repo view:*)",
       "Bash(vercel --version:*)",
-      "Bash(vercel:*)"
+      "Bash(vercel:*)",
+      "Bash(git remote:*)",
+      "Bash(curl:*)",
+      "Bash(git checkout:*)",
+      "Bash(git merge:*)"
     ],
     "deny": [],
     "ask": []
