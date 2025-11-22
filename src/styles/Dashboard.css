@@ -3,7 +3,9 @@
 .dashboard-container {
   padding: 0.05rem;
   min-height: 100vh;
-  background-color: #fca5a5;
+  background: linear-gradient(135deg, #dc2626 0%, #ef4444 50%, #f87171 100%);
+  background-size: 200% 200%;
+  animation: gradientShift 15s ease infinite;
 }
 
 .dashboard-header {
@@ -159,6 +161,15 @@
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
   }
 }
 
