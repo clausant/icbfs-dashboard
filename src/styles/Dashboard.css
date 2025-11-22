@@ -50,13 +50,16 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 0.5rem;
+  min-height: 68px;
 }
 
 .control-group label {
-  font-size: 0.95rem;
+  font-size: 0.875rem;
   font-weight: 600;
   color: #4b5563;
   white-space: nowrap;
+  line-height: 1.2;
+  height: 18px;
 }
 
 /* Comparativo selects - modern style */
