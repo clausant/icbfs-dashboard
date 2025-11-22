@@ -102,7 +102,10 @@ const ProyeccionView = () => {
               <label>Vista:</label>
               <ViewSelector views={views} selectedView={selectedView} setSelectedView={handleViewChange} />
             </div>
-            <RappelToggle onToggle={setIsRappelActive} />
+            <div className="control-group">
+              <label>Restar Rappel:</label>
+              <RappelToggle onToggle={setIsRappelActive} />
+            </div>
           </div>
         </div>
       </div>

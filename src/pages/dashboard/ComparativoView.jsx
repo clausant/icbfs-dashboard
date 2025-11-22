@@ -72,7 +72,7 @@ const ComparativoView = () => {
               <select
                 value={actualMonth}
                 onChange={(e) => setActualMonth(e.target.value)}
-                style={{ padding: '8px 12px', borderRadius: '4px', border: '1px solid #ddd', minWidth: '120px' }}
+                className="comparativo-select"
               >
                 <option value="">Seleccionar...</option>
                 {availableMonths.map(month => (
@@ -85,7 +85,7 @@ const ComparativoView = () => {
               <select
                 value={compareMonth}
                 onChange={(e) => setCompareMonth(e.target.value)}
-                style={{ padding: '8px 12px', borderRadius: '4px', border: '1px solid #ddd', minWidth: '120px' }}
+                className="comparativo-select"
               >
                 <option value="">Seleccionar...</option>
                 {availableMonths.map(month => (
@@ -98,7 +98,7 @@ const ComparativoView = () => {
               <select
                 value={periodType}
                 onChange={(e) => setPeriodType(e.target.value)}
-                style={{ padding: '8px 12px', borderRadius: '4px', border: '1px solid #ddd', minWidth: '120px' }}
+                className="comparativo-select"
               >
                 {periodOptions.map(period => (
                   <option key={period} value={period}>{period}</option>
@@ -120,7 +120,10 @@ const ComparativoView = () => {
                 setSelectedView={handleViewChange}
               />
             </div>
-            <RappelToggle onToggle={setIsRappelActive} />
+            <div className="control-group">
+              <label>Restar Rappel:</label>
+              <RappelToggle onToggle={setIsRappelActive} />
+            </div>
           </div>
         </div>
       </div>
