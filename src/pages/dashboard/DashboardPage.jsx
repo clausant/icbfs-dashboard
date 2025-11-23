@@ -1,6 +1,5 @@
 import React, { useState, lazy, Suspense } from 'react';
 import NavMenu from '../../components/ui/NavMenu/NavMenu';
-import Version from '../../components/ui/Version/Version';
 import '../../styles/Dashboard.css';
 
 // Lazy loading de las vistas para mejorar la carga inicial
@@ -37,7 +36,6 @@ const DashboardPage = () => {
           {renderView()}
         </Suspense>
       </div>
-      <Version />
     </div>
   );
 };

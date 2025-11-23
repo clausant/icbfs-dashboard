@@ -4,6 +4,7 @@ import './NavMenu.css';
 
 const NavMenu = ({ activeTab, onTabClick }) => {
   const { timestamp, loading, error } = useUpdateTimestamp();
+  const version = import.meta.env.VITE_APP_VERSION || 'dev';
 
   return (
     <>
@@ -29,6 +30,8 @@ const NavMenu = ({ activeTab, onTabClick }) => {
           </button>
         </div>
         <div className='date-update'>
+          <span className='version-badge'>v{version}</span>
+          {' • '}
           Última actualización: {loading ? 'Cargando...' : error ? 'Error' : timestamp}
         </div>
       </div>
