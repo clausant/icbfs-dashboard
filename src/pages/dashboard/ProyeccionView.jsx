@@ -11,6 +11,7 @@ import RappelToggle from "../../components/ui/RappelToggle/RappelToggle";
 import MonthFilter from "../../components/ui/MonthFilter/MonthFilter";
 import SocietyFilter from "../../components/ui/SocietyFilter/SocietyFilter"; // Importar SocietyFilter
 import Toast from "../../components/ui/Toast/Toast";
+import DrillDownSelector from "../../components/ui/DrillDownSelector/DrillDownSelector";
 import { useProyeccion } from "../../hooks/useProyeccion";
 import { views } from "./dashboardConstants";
 import "../../styles/Dashboard.css";
@@ -45,6 +46,10 @@ const ProyeccionView = () => {
     pinnedTopRowData,
     showToast,
     setShowToast,
+    isModalOpen,
+    setIsModalOpen,
+    clickedRowData,
+    handleDrillDownToView,
   } = useProyeccion(selectedSociety); // Pasar selectedSociety al hook
 
   const handleSocietyChange = (newSociety) => {
@@ -143,6 +148,15 @@ const ProyeccionView = () => {
           onClose={() => setShowToast(false)}
         />
       )}
+
+      <DrillDownSelector
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSelectView={handleDrillDownToView}
+        views={views}
+        selectedValue={clickedRowData && currentLevelDef ? clickedRowData[currentLevelDef.drillDownField] : ''}
+        currentView={selectedView}
+      />
     </>
   );
 };

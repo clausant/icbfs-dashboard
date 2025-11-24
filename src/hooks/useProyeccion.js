@@ -20,6 +20,8 @@ export const useProyeccion = (selectedSociety) => {
   const [selectedMonth, setSelectedMonth] = useState([getDefaultMonth()]); // Mes por defecto
   const [isRappelActive, setIsRappelActive] = useState(false);
   const [showToast, setShowToast] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [clickedRowData, setClickedRowData] = useState(null);
 
   const location = useLocation();
 
@@ -167,6 +169,39 @@ export const useProyeccion = (selectedSociety) => {
     }
   }, []);
 
+  const handleDrillDownToView = useCallback((targetViewId) => {
+    if (!clickedRowData || !currentLevelDef) return;
+
+    const { drillDownField } = currentLevelDef;
+    const clickedValue = clickedRowData[drillDownField];
+
+    if (!clickedValue) {
+      console.warn('Valor clickeado está vacío');
+      return;
+    }
+
+    console.log('Drill down dinámico:', {
+      from: selectedView,
+      to: targetViewId,
+      filter: { field: drillDownField, value: clickedValue }
+    });
+
+    // Crear el nuevo filtro
+    const newFilter = {
+      member: drillDownField,
+      operator: 'equals',
+      values: [clickedValue],
+    };
+
+    // Cambiar a la nueva vista con el filtro aplicado
+    setSelectedView(targetViewId);
+    setDrilldownLevel(0);
+    setFilters([newFilter]);
+    setDynamicDimensions([]);
+    setIsModalOpen(false);
+    setClickedRowData(null);
+  }, [clickedRowData, currentLevelDef, selectedView]);
+
   const handleRowClicked = useCallback((event) => {
     // Ignorar clicks en fila pinned (TOTAL)
     if (event.node.isRowPinned()) {
@@ -177,38 +212,25 @@ export const useProyeccion = (selectedSociety) => {
     if (!currentLevelDef) return;
 
     const { drillDownField } = currentLevelDef;
+    const clickedValue = event.data[drillDownField];
 
-    // Debug: verificar que todo esté correcto
+    // Validar que el valor no sea vacío
+    if (!clickedValue) {
+      console.warn('Valor clickeado está vacío');
+      return;
+    }
+
     console.log('Row clicked:', {
       drillDownField,
-      clickedValue: event.data[drillDownField],
+      clickedValue,
       hasNextLevel: !!levelDefs[selectedView][drilldownLevel + 1],
       currentLevel: drilldownLevel,
-      allData: event.data
     });
 
-    if (drillDownField && levelDefs[selectedView][drilldownLevel + 1]) {
-      const clickedValue = event.data[drillDownField];
-
-      // Validar que el valor no sea vacío
-      if (!clickedValue) {
-        console.warn('Valor clickeado está vacío');
-        return;
-      }
-
-      console.log('Aplicando filtro y avanzando nivel...');
-      const newFilter = {
-        member: drillDownField,
-        operator: 'equals',
-        values: [clickedValue],
-      };
-      setFilters([...filters, newFilter]);
-      setDrilldownLevel(drilldownLevel + 1);
-    } else {
-      console.log('No hay siguiente nivel');
-      setShowToast(true);
-    }
-  }, [currentLevelDef, drilldownLevel, filters, selectedView]);
+    // Guardar datos de la fila clickeada y abrir modal
+    setClickedRowData(event.data);
+    setIsModalOpen(true);
+  }, [currentLevelDef, drilldownLevel, selectedView]);
 
   const defaultColDef = useMemo(
     () => ({
@@ -258,5 +280,9 @@ export const useProyeccion = (selectedSociety) => {
     pinnedTopRowData,
     showToast,
     setShowToast,
+    isModalOpen,
+    setIsModalOpen,
+    clickedRowData,
+    handleDrillDownToView,
   };
 };
