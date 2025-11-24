@@ -23,3 +23,5 @@ GEMINI.md
 *.njsproj
 *.sln
 *.sw?
+
+.vercel
