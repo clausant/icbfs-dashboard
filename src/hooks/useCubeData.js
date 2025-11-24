@@ -20,13 +20,22 @@ export const useCubeData = (query, isQueryReady = true) => {
     setData([]);
     setLoading(true);
 
+    console.log('🔵 Ejecutando query en Cube.js:', query);
+
     cubeApi
       .load(query)
       .then((resultSet) => {
-        setData(resultSet.tablePivot());
+        const tableData = resultSet.tablePivot();
+        console.log('🟢 Respuesta de Cube.js:', {
+          rowCount: tableData.length,
+          firstRow: tableData[0],
+          query: query
+        });
+        setData(tableData);
         setLoading(false);
       })
       .catch((error) => {
+        console.error('🔴 Error en Cube.js:', error);
         setError(error);
         setLoading(false);
       });
