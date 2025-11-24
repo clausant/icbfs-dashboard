@@ -14,7 +14,12 @@ export const useCubeData = (query, isQueryReady = true) => {
       setLoading(false);
       return;
     }
+
+    // ✅ Limpiar datos inmediatamente al cambiar la query
+    // Esto evita mostrar datos viejos con columnas nuevas
+    setData([]);
     setLoading(true);
+
     cubeApi
       .load(query)
       .then((resultSet) => {
