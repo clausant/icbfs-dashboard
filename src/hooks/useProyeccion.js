@@ -232,17 +232,33 @@ export const useProyeccion = (selectedSociety) => {
       return;
     }
 
+    const hasNextLevel = !!levelDefs[selectedView][drilldownLevel + 1];
+
     console.log('Row clicked:', {
       drillDownField,
       clickedValue,
-      hasNextLevel: !!levelDefs[selectedView][drilldownLevel + 1],
+      hasNextLevel,
       currentLevel: drilldownLevel,
     });
 
-    // Guardar datos de la fila clickeada y abrir modal
-    setClickedRowData(event.data);
-    setIsModalOpen(true);
-  }, [currentLevelDef, drilldownLevel, selectedView]);
+    // Si hay siguiente nivel en la jerarquía actual → Drill down automático
+    if (drillDownField && hasNextLevel) {
+      console.log('Drill down jerárquico al siguiente nivel...');
+      const newFilter = {
+        member: drillDownField,
+        operator: 'equals',
+        values: [clickedValue],
+        viewName: getViewName(selectedView), // Metadata para breadcrumb
+      };
+      setFilters([...filters, newFilter]);
+      setDrilldownLevel(drilldownLevel + 1);
+    } else {
+      // Si NO hay siguiente nivel → Abrir modal para drill down cruzado
+      console.log('No hay siguiente nivel, abriendo modal para drill down cruzado...');
+      setClickedRowData(event.data);
+      setIsModalOpen(true);
+    }
+  }, [currentLevelDef, drilldownLevel, filters, selectedView]);
 
   const defaultColDef = useMemo(
     () => ({
