@@ -21,6 +21,7 @@ const getViewName = (viewId) => {
 export const useProyeccion = (selectedSociety) => {
   const [drilldownLevel, setDrilldownLevel] = useState(0);
   const [filters, setFilters] = useState([]);
+  const [filterMetadata, setFilterMetadata] = useState([]); // Metadata separada para breadcrumb
   const [selectedView, setSelectedView] = useState('categoria');
   const [dynamicDimensions, setDynamicDimensions] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState([getDefaultMonth()]); // Mes por defecto
@@ -37,6 +38,7 @@ export const useProyeccion = (selectedSociety) => {
     setSelectedView(viewId);
     setDrilldownLevel(0);
     setFilters([]);
+    setFilterMetadata([]);
     setDynamicDimensions([]);
   };
 
@@ -172,9 +174,10 @@ export const useProyeccion = (selectedSociety) => {
       }
     });
     filters.forEach((filter, index) => {
-      // Construir label con formato "Dimensión: Valor" si hay metadata
-      const label = filter.viewName
-        ? `${filter.viewName}: ${filter.values[0]}`
+      // Construir label con formato "Dimensión: Valor" usando metadata
+      const metadata = filterMetadata[index];
+      const label = metadata?.viewName
+        ? `${metadata.viewName}: ${filter.values[0]}`
         : filter.values[0];
 
       breadcrumbs.push({
@@ -185,11 +188,12 @@ export const useProyeccion = (selectedSociety) => {
       });
     });
     return breadcrumbs;
-  }, [location.pathname, filters]);
+  }, [location.pathname, filters, filterMetadata]);
 
   const handleBreadcrumbClick = (level) => {
     setDrilldownLevel(level);
     setFilters(filters.slice(0, level));
+    setFilterMetadata(filterMetadata.slice(0, level));
   };
 
   const handleColumnVisible = useCallback((event) => {
@@ -228,11 +232,15 @@ export const useProyeccion = (selectedSociety) => {
       filter: { field: drillDownField, value: clickedValue }
     });
 
-    // Crear el nuevo filtro con metadata para el breadcrumb
+    // Crear el nuevo filtro SIN metadata (limpio para Cube.js)
     const newFilter = {
       member: drillDownField,
       operator: 'equals',
       values: [clickedValue],
+    };
+
+    // Crear metadata SEPARADA para el breadcrumb
+    const newMetadata = {
       viewName: getViewName(selectedView), // Nombre amigable de la vista de origen
     };
 
@@ -240,10 +248,11 @@ export const useProyeccion = (selectedSociety) => {
     setSelectedView(targetViewId);
     setDrilldownLevel(0);
     setFilters([...filters, newFilter]); // ✅ Acumular en lugar de reemplazar
+    setFilterMetadata([...filterMetadata, newMetadata]); // ✅ Acumular metadata separada
     setDynamicDimensions([]);
     setIsModalOpen(false);
     setClickedRowData(null);
-  }, [clickedRowData, currentLevelDef, selectedView, filters]);
+  }, [clickedRowData, currentLevelDef, selectedView, filters, filterMetadata]);
 
   const handleRowClicked = useCallback((event) => {
     // Ignorar clicks en fila pinned (TOTAL)
@@ -280,9 +289,12 @@ export const useProyeccion = (selectedSociety) => {
         member: drillDownField,
         operator: 'equals',
         values: [clickedValue],
+      };
+      const newMetadata = {
         viewName: getViewName(selectedView), // Metadata para breadcrumb
       };
       setFilters([...filters, newFilter]);
+      setFilterMetadata([...filterMetadata, newMetadata]);
       setDrilldownLevel(drilldownLevel + 1);
     } else {
       // Si NO hay siguiente nivel → Abrir modal para drill down cruzado
@@ -290,7 +302,7 @@ export const useProyeccion = (selectedSociety) => {
       setClickedRowData(event.data);
       setIsModalOpen(true);
     }
-  }, [currentLevelDef, drilldownLevel, filters, selectedView]);
+  }, [currentLevelDef, drilldownLevel, filters, filterMetadata, selectedView]);
 
   const defaultColDef = useMemo(
     () => ({
