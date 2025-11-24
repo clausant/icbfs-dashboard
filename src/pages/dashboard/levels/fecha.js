@@ -51,12 +51,12 @@ export const fecha = {
       "detalle_factura.combinacion_sku_cliente"
     ],
     columnDefs: [
-      { headerName: "Fecha", field: "detalle_factura.fecha_factura", valueGetter: p => {
+      { headerName: "Fecha", field: "detalle_factura.fecha_factura", valueFormatter: p => {
         if (!p.data) return '';
         // Si la fila es pinned (TOTAL), devolver el valor tal cual
         if (p.node && p.node.rowPinned) return p.data["detalle_factura.fecha_factura"];
-        // Si no, formatear la fecha
-        return dateFormatter(p.data["detalle_factura.fecha_factura"]);
+        // Si no, formatear la fecha para display
+        return dateFormatter(p.value || p.data["detalle_factura.fecha_factura"]);
       }, comparator: (date1, date2, node1, node2) => dateComparator(node1.data["detalle_factura.fecha_factura"], node2.data["detalle_factura.fecha_factura"]), enableRowGroup: true, filter: false, width: 150, pinned: 'left', sort: 'asc' },
       { headerName: "Venta$", field: "detalle_factura.valor_neto_sum", valueGetter: p => p.data ? Number(p.data["detalle_factura.valor_neto_sum"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), sort: 'desc', width: 110, suppressHeaderMenuButton: true },
       { headerName: "VentasProy$", field: "detalle_factura.ventas_proyeccion", valueGetter: p => p.data ? Number(p.data["detalle_factura.ventas_proyeccion"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), width: 120, suppressHeaderMenuButton: true },

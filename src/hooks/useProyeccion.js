@@ -79,8 +79,12 @@ export const useProyeccion = (selectedSociety) => {
       view: selectedView,
       level: drilldownLevel,
       dimensions: finalDimensions,
+      measures: measures,
       filters: filters,
-      filterDimensions
+      monthFilter,
+      societyFilter,
+      filterDimensions,
+      allFilters: [...filters, ...monthFilter, ...societyFilter]
     });
 
     return {
@@ -264,31 +268,34 @@ export const useProyeccion = (selectedSociety) => {
       return;
     }
 
-    console.log('Drill down dinámico:', {
+    console.log('🔍 Drill down dinámico:', {
       from: selectedView,
       to: targetViewId,
-      filter: { field: drillDownField, value: clickedValue }
+      drillDownField,
+      clickedValue,
+      clickedValueType: typeof clickedValue,
+      allClickedData: clickedRowData
     });
 
-    // Formatear el valor para display en breadcrumb (especialmente para fechas)
+    // Formatear el valor para display en breadcrumb y preparar filtro
     let displayValue = clickedValue;
     let newFilter;
 
-    // Manejar filtros de fecha de forma especial usando inDateRange
+    // Para fechas, usar un filtro especial que funcione con timestamps
     if (drillDownField === 'detalle_factura.fecha_factura' && typeof clickedValue === 'string' && clickedValue.includes('T')) {
-      // Extraer solo la parte de la fecha (sin timestamp)
       const datePart = clickedValue.split('T')[0];
       const [year, month, day] = datePart.split('-');
       displayValue = `${day}-${month}-${year}`;
 
-      // Usar inDateRange para filtrar solo por fecha (todo el día)
+      // Usar inDateRange con el mismo día como inicio y fin
+      // Esto capturará todos los registros de ese día específico
       newFilter = {
         member: drillDownField,
         operator: 'inDateRange',
         values: [datePart, datePart],
       };
     } else {
-      // Para otros campos usar equals
+      // Para otros campos usar equals con el valor exacto
       newFilter = {
         member: drillDownField,
         operator: 'equals',
