@@ -6,14 +6,14 @@
 }
 
 .society-filter-label {
-  font-size: 0.925rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: #475569;
 }
 
 .society-filter-select {
   padding: 0.5rem 2.25rem 0.5rem 0.875rem;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 500;
   border: 2px solid #e2e8f0;
   border-radius: 0.625rem;

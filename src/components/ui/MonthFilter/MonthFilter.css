@@ -6,13 +6,13 @@
 }
 
 .month-filter-label {
-  font-size: 0.925rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: #475569;
 }
 
 .month-filter-loading {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: #64748b;
   display: flex;
   align-items: center;
@@ -20,7 +20,7 @@
 }
 
 .month-filter-error {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: #ef4444;
   display: flex;
   align-items: center;
