@@ -54,7 +54,7 @@ const Breadcrumb = ({ crumbs, onDrilldownClick }) => {
 
   const handleClick = (crumb) => {
     if (onDrilldownClick && crumb.drilldownLevel !== undefined) {
-      onDrilldownClick(crumb.drilldownLevel);
+      onDrilldownClick(crumb.drilldownLevel, crumb.viewId);
     } else if (crumb.path !== '#') {
       navigate(crumb.path);
     }

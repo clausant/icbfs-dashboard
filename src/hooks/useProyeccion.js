@@ -168,12 +168,14 @@ export const useProyeccion = (selectedSociety) => {
 
     // Solo mostrar breadcrumbs si hay filtros aplicados
     if (filters.length > 0) {
-      // Agregar "Inicio" al principio para poder limpiar todos los filtros
+      // Agregar vista inicial al principio para poder volver
+      const initialViewName = getViewName(selectedView);
       breadcrumbs.push({
-        label: 'Inicio',
+        label: initialViewName,
         path: '#',
         isDrilldown: true,
         drilldownLevel: 0,
+        viewId: selectedView, // Vista actual para volver
         isHome: true, // Marcar como inicio para limpiar filtros
       });
 
@@ -189,18 +191,25 @@ export const useProyeccion = (selectedSociety) => {
           label,
           path: `#`,
           isDrilldown: true,
-          drilldownLevel: index + 1
+          drilldownLevel: index + 1,
+          viewId: metadata?.viewId, // Vista guardada para este nivel
         });
       });
     }
 
     return breadcrumbs;
-  }, [filters, filterMetadata]);
+  }, [filters, filterMetadata, selectedView]);
 
-  const handleBreadcrumbClick = (level) => {
+  const handleBreadcrumbClick = (level, viewId) => {
     setDrilldownLevel(level);
     setFilters(filters.slice(0, level));
     setFilterMetadata(filterMetadata.slice(0, level));
+
+    // Restaurar la vista guardada en este nivel
+    if (viewId && viewId !== selectedView) {
+      console.log('Restaurando vista:', viewId);
+      setSelectedView(viewId);
+    }
   };
 
   const handleColumnVisible = useCallback((event) => {
@@ -249,6 +258,7 @@ export const useProyeccion = (selectedSociety) => {
     // Crear metadata SEPARADA para el breadcrumb
     const newMetadata = {
       viewName: getViewName(selectedView), // Nombre amigable de la vista de origen
+      viewId: selectedView, // ID de la vista para poder restaurarla
     };
 
     // Cambiar a la nueva vista ACUMULANDO el filtro aplicado
