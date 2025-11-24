@@ -59,8 +59,16 @@ export const useProyeccion = (selectedSociety) => {
       ? currentLevelDef.measures.map(m => m === "detalle_factura.valor_neto_sum" ? "detalle_factura.valor_resta_rappel" : m)
       : currentLevelDef.measures;
 
+    // Extraer las dimensiones de los filtros aplicados para incluirlas en la consulta
+    // Esto asegura que los datos contengan los valores de todos los niveles de drill down
+    const filterDimensions = filters.map(f => f.member);
+
     return {
-      dimensions: [...currentLevelDef.dimensions, ...dynamicDimensions],
+      dimensions: [
+        ...currentLevelDef.dimensions,
+        ...dynamicDimensions,
+        ...filterDimensions  // ✅ Incluir dimensiones filtradas para mantener valores en datos
+      ],
       measures: measures,
       filters: [...filters, ...monthFilter, ...societyFilter], // Incluir societyFilter aquí
     };
