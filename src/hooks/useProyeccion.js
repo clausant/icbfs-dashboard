@@ -2,7 +2,7 @@ import { useState, useMemo, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { levelDefs } from '../pages/dashboard/levelDefs';
 import { useCubeData } from './useCubeData';
-import { breadcrumbNameMap } from '../pages/dashboard/dashboardConstants';
+import { breadcrumbNameMap, views } from '../pages/dashboard/dashboardConstants';
 
 // Función helper para obtener el mes actual por defecto
 const getDefaultMonth = () => {
@@ -10,6 +10,12 @@ const getDefaultMonth = () => {
   const year = now.getFullYear();
   const month = String(now.getMonth() + 1).padStart(2, '0'); // Mes actual (getMonth es 0-indexed)
   return `${year}-${month}`;
+};
+
+// Función helper para obtener el nombre amigable de una vista por su id
+const getViewName = (viewId) => {
+  const view = views.find(v => v.id === viewId);
+  return view ? view.name : viewId;
 };
 
 export const useProyeccion = (selectedSociety) => {
@@ -135,8 +141,13 @@ export const useProyeccion = (selectedSociety) => {
       }
     });
     filters.forEach((filter, index) => {
+      // Construir label con formato "Dimensión: Valor" si hay metadata
+      const label = filter.viewName
+        ? `${filter.viewName}: ${filter.values[0]}`
+        : filter.values[0];
+
       breadcrumbs.push({
-        label: filter.values[0],
+        label,
         path: `#`,
         isDrilldown: true,
         drilldownLevel: index + 1
@@ -186,21 +197,22 @@ export const useProyeccion = (selectedSociety) => {
       filter: { field: drillDownField, value: clickedValue }
     });
 
-    // Crear el nuevo filtro
+    // Crear el nuevo filtro con metadata para el breadcrumb
     const newFilter = {
       member: drillDownField,
       operator: 'equals',
       values: [clickedValue],
+      viewName: getViewName(selectedView), // Nombre amigable de la vista de origen
     };
 
-    // Cambiar a la nueva vista con el filtro aplicado
+    // Cambiar a la nueva vista ACUMULANDO el filtro aplicado
     setSelectedView(targetViewId);
     setDrilldownLevel(0);
-    setFilters([newFilter]);
+    setFilters([...filters, newFilter]); // ✅ Acumular en lugar de reemplazar
     setDynamicDimensions([]);
     setIsModalOpen(false);
     setClickedRowData(null);
-  }, [clickedRowData, currentLevelDef, selectedView]);
+  }, [clickedRowData, currentLevelDef, selectedView, filters]);
 
   const handleRowClicked = useCallback((event) => {
     // Ignorar clicks en fila pinned (TOTAL)
