@@ -227,15 +227,22 @@ export const useProyeccion = (selectedSociety) => {
   }, [filters, filterMetadata, selectedView]);
 
   const handleBreadcrumbClick = (level, viewId) => {
-    setDrilldownLevel(level);
-    setFilters(filters.slice(0, level));
-    setFilterMetadata(filterMetadata.slice(0, level));
+    console.log('🔙 Navegación reversa:', { level, viewId, currentView: selectedView });
 
-    // Restaurar la vista guardada en este nivel
+    // Restaurar la vista PRIMERO si es necesario
     if (viewId && viewId !== selectedView) {
       console.log('Restaurando vista:', viewId);
       setSelectedView(viewId);
     }
+
+    // Siempre usar drilldownLevel 0 cuando navegamos (nivel base de cada vista)
+    setDrilldownLevel(0);
+
+    // Cortar los filtros hasta el nivel anterior al clickeado
+    // Si clickeas en breadcrumb[0] "Inicio" -> level=0 -> slice(0,0) = sin filtros
+    // Si clickeas en breadcrumb[1] "Fecha: 01-11" -> level=1 -> slice(0,1) = mantener 1 filtro
+    setFilters(filters.slice(0, level));
+    setFilterMetadata(filterMetadata.slice(0, level));
   };
 
   const handleColumnVisible = useCallback((event) => {
