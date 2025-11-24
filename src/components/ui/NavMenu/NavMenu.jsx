@@ -32,7 +32,7 @@ const NavMenu = ({ activeTab, onTabClick }) => {
         <div className='date-update'>
           <span className='version-badge'>v{version}</span>
           {' • '}
-          Última actualización: {loading ? 'Cargando...' : error ? 'Error' : timestamp}
+          actualización: {loading ? 'Cargando...' : error ? 'Error' : timestamp}
         </div>
       </div>
     </>
