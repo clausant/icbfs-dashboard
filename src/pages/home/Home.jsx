@@ -13,9 +13,19 @@ const Home = () => {
   const [isHoveringLogin, setIsHoveringLogin] = useState(false);
   const [isHoveringLogout, setIsHoveringLogout] = useState(false);
 
+  // Usuarios válidos
+  const validUsers = [
+    { username: 'admin', password: 'icb8899' },
+    { username: 'gbraun', password: 'icbfs.2025_' }
+  ];
+
   const handleLogin = (e) => {
     e.preventDefault();
-    if (username === 'admin' && password === 'icb8899') {
+    const isValidUser = validUsers.some(
+      user => user.username === username && user.password === password
+    );
+
+    if (isValidUser) {
       login();
       setError('');
       navigate('/dashboard');
