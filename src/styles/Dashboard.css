@@ -42,6 +42,22 @@
   transform: scale(0.95);
 }
 
+/* Encabezados de sección */
+.section-header {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+  margin-top: 1.5rem;
+  padding-left: 0.25rem;
+}
+
+.section-header:first-of-type {
+  margin-top: 0;
+}
+
 .dashboard-header {
   background: white;
   border-radius: 1rem;

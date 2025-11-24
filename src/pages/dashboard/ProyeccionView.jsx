@@ -109,35 +109,42 @@ const ProyeccionView = () => {
       </button>
 
       {isHeaderVisible && (
-        <div className="dashboard-header">
-          <div className="dashboard-header-content">
-            <div className="dashboard-controls">
-              <div className="control-group">
-                <label>Mes:</label>
-                <MonthFilter selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth} />
-              </div>
-              <div className="control-group">
-                <label>Sociedad:</label>
-                <SocietyFilter
-                  selectedSociety={selectedSociety}
-                  onSocietyChange={handleSocietyChange}
-                />
-              </div>
-              <div className="control-group">
-                <label>Vista:</label>
-                <ViewSelector views={views} selectedView={selectedView} setSelectedView={handleViewChange} />
-              </div>
-              <div className="control-group">
-                <label>Restar Rappel:</label>
-                <RappelToggle onToggle={setIsRappelActive} />
+        <>
+          <div className="section-header">Filtros</div>
+          <div className="dashboard-header">
+            <div className="dashboard-header-content">
+              <div className="dashboard-controls">
+                <div className="control-group">
+                  <label>Mes:</label>
+                  <MonthFilter selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth} />
+                </div>
+                <div className="control-group">
+                  <label>Sociedad:</label>
+                  <SocietyFilter
+                    selectedSociety={selectedSociety}
+                    onSocietyChange={handleSocietyChange}
+                  />
+                </div>
+                <div className="control-group">
+                  <label>Vista:</label>
+                  <ViewSelector views={views} selectedView={selectedView} setSelectedView={handleViewChange} />
+                </div>
+                <div className="control-group">
+                  <label>Restar Rappel:</label>
+                  <RappelToggle onToggle={setIsRappelActive} />
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </>
       )}
 
+      <div className="section-header">Ruta de navegación</div>
       <Breadcrumb crumbs={crumbs} onDrilldownClick={handleBreadcrumbClick} />
 
+      <div className="section-header">
+        Vista: {views.find(v => v.id === selectedView)?.name || selectedView}
+      </div>
       <div className="grid-container">
         <div className="grid-wrapper">
           <AgGridReact
