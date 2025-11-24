@@ -203,9 +203,11 @@ export const useProyeccion = (selectedSociety) => {
       filters.forEach((filter, index) => {
         // Construir label con formato "Dimensión: Valor" usando metadata
         const metadata = filterMetadata[index];
+        // Usar displayValue de metadata si existe, sino usar el valor raw del filtro
+        const displayValue = metadata?.displayValue || filter.values[0];
         const label = metadata?.viewName
-          ? `${metadata.viewName}: ${filter.values[0]}`
-          : filter.values[0];
+          ? `${metadata.viewName}: ${displayValue}`
+          : displayValue;
 
         breadcrumbs.push({
           label,
@@ -268,17 +270,37 @@ export const useProyeccion = (selectedSociety) => {
       filter: { field: drillDownField, value: clickedValue }
     });
 
-    // Crear el nuevo filtro SIN metadata (limpio para Cube.js)
-    const newFilter = {
-      member: drillDownField,
-      operator: 'equals',
-      values: [clickedValue],
-    };
+    // Formatear el valor para display en breadcrumb (especialmente para fechas)
+    let displayValue = clickedValue;
+    let newFilter;
+
+    // Manejar filtros de fecha de forma especial usando inDateRange
+    if (drillDownField === 'detalle_factura.fecha_factura' && typeof clickedValue === 'string' && clickedValue.includes('T')) {
+      // Extraer solo la parte de la fecha (sin timestamp)
+      const datePart = clickedValue.split('T')[0];
+      const [year, month, day] = datePart.split('-');
+      displayValue = `${day}-${month}-${year}`;
+
+      // Usar inDateRange para filtrar solo por fecha (todo el día)
+      newFilter = {
+        member: drillDownField,
+        operator: 'inDateRange',
+        values: [datePart, datePart],
+      };
+    } else {
+      // Para otros campos usar equals
+      newFilter = {
+        member: drillDownField,
+        operator: 'equals',
+        values: [clickedValue],
+      };
+    }
 
     // Crear metadata SEPARADA para el breadcrumb
     const newMetadata = {
       viewName: getViewName(selectedView), // Nombre amigable de la vista de origen
       viewId: selectedView, // ID de la vista para poder restaurarla
+      displayValue: displayValue, // Valor formateado para mostrar
     };
 
     // Cambiar a la nueva vista ACUMULANDO el filtro aplicado
