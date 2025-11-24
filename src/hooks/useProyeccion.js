@@ -63,16 +63,30 @@ export const useProyeccion = (selectedSociety) => {
     // Esto asegura que los datos contengan los valores de todos los niveles de drill down
     const filterDimensions = filters.map(f => f.member);
 
+    // Combinar todas las dimensiones y eliminar duplicados
+    const allDimensions = [
+      ...currentLevelDef.dimensions,
+      ...dynamicDimensions,
+      ...filterDimensions  // ✅ Incluir dimensiones filtradas para mantener valores en datos
+    ];
+
+    // Eliminar dimensiones duplicadas (puede causar problemas en Cube.js)
+    const finalDimensions = [...new Set(allDimensions)];
+
+    console.log('📊 Query construida:', {
+      view: selectedView,
+      level: drilldownLevel,
+      dimensions: finalDimensions,
+      filters: filters,
+      filterDimensions
+    });
+
     return {
-      dimensions: [
-        ...currentLevelDef.dimensions,
-        ...dynamicDimensions,
-        ...filterDimensions  // ✅ Incluir dimensiones filtradas para mantener valores en datos
-      ],
+      dimensions: finalDimensions,
       measures: measures,
       filters: [...filters, ...monthFilter, ...societyFilter], // Incluir societyFilter aquí
     };
-  }, [currentLevelDef, filters, dynamicDimensions, selectedMonth, isRappelActive, selectedSociety]); // Añadir selectedSociety a las dependencias
+  }, [currentLevelDef, filters, dynamicDimensions, selectedMonth, isRappelActive, selectedSociety, selectedView, drilldownLevel]); // Añadir selectedSociety a las dependencias
 
   const dynamicColumnDefs = useMemo(() => {
     if (!currentLevelDef) return [];
@@ -98,6 +112,15 @@ export const useProyeccion = (selectedSociety) => {
   }, [currentLevelDef, isRappelActive]);
 
   const { data: rowData, loading } = useCubeData(query, true); // Siempre cargar datos
+
+  // Debug: Log de datos recibidos
+  console.log('📦 Datos recibidos de Cube.js:', {
+    view: selectedView,
+    level: drilldownLevel,
+    rowCount: rowData?.length || 0,
+    firstRow: rowData?.[0],
+    loading
+  });
 
   const pinnedTopRowData = useMemo(() => {
     if (!rowData || rowData.length === 0) {
@@ -242,11 +265,12 @@ export const useProyeccion = (selectedSociety) => {
 
     const hasNextLevel = !!levelDefs[selectedView][drilldownLevel + 1];
 
-    console.log('Row clicked:', {
+    console.log('🖱️ Row clicked:', {
       drillDownField,
       clickedValue,
       hasNextLevel,
       currentLevel: drilldownLevel,
+      allRowData: event.data  // 👈 Ver TODOS los datos de la fila
     });
 
     // Si hay siguiente nivel en la jerarquía actual → Drill down automático

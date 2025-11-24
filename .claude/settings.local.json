@@ -25,7 +25,8 @@
       "Bash(curl:*)",
       "Bash(git checkout:*)",
       "Bash(git merge:*)",
-      "Bash(git tag:*)"
+      "Bash(git tag:*)",
+      "Bash(npm run dev:*)"
     ],
     "deny": [],
     "ask": []
