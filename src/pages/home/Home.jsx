@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import Version from '../../components/ui/Version/Version';
 import './Home.css';
 
 const Home = () => {
@@ -80,6 +81,7 @@ const Home = () => {
           </button>
         </form>
       </div>
+      <Version />
     </div>
   );
 };
