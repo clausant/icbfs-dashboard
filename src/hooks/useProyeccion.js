@@ -279,21 +279,31 @@ export const useProyeccion = (selectedSociety) => {
 
     // Formatear el valor para display en breadcrumb
     let displayValue = clickedValue;
+    let newFilter;
 
-    // Para fechas, formatear el display value
+    // Para fechas, usar inDateRange que soporta timestamps
     if (drillDownField === 'detalle_factura.fecha_factura' && typeof clickedValue === 'string' && clickedValue.includes('T')) {
-      const datePart = clickedValue.split('T')[0];
+      const datePart = clickedValue.split('T')[0]; // Extraer YYYY-MM-DD
       const [year, month, day] = datePart.split('-');
       displayValue = `${day}-${month}-${year}`;
-    }
 
-    // Crear el filtro usando siempre equals con el valor exacto de la base de datos
-    // Esto asegura que el filtro coincida exactamente con los datos
-    const newFilter = {
-      member: drillDownField,
-      operator: 'equals',
-      values: [clickedValue],
-    };
+      // inDateRange usa formato YYYY-MM-DD y captura todo el día
+      // Para un día específico, usamos el mismo día como inicio y fin
+      newFilter = {
+        member: drillDownField,
+        operator: 'inDateRange',
+        values: [datePart, datePart],
+      };
+
+      console.log('📅 Filtro de fecha creado:', newFilter);
+    } else {
+      // Para otros campos usar equals con el valor exacto
+      newFilter = {
+        member: drillDownField,
+        operator: 'equals',
+        values: [clickedValue],
+      };
+    }
 
     // Crear metadata SEPARADA para el breadcrumb
     const newMetadata = {
