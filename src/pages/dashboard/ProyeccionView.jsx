@@ -1,5 +1,5 @@
 'use client';
-import React, { useRef, useCallback, useState } from "react"; // Importar useState
+import React, { useRef, useCallback, useState, useEffect } from "react"; // Importar useState y useEffect
 import { ModuleRegistry, AllCommunityModule } from "ag-grid-community";
 import { AllEnterpriseModule } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
@@ -23,6 +23,17 @@ const ProyeccionView = () => {
 
   // Estado local para el filtro de sociedad
   const [selectedSociety, setSelectedSociety] = useState('all');
+
+  // Estado para mostrar/ocultar header (persistir en localStorage)
+  const [isHeaderVisible, setIsHeaderVisible] = useState(() => {
+    const saved = localStorage.getItem('headerVisible');
+    return saved !== null ? JSON.parse(saved) : true;
+  });
+
+  // Guardar preferencia en localStorage
+  useEffect(() => {
+    localStorage.setItem('headerVisible', JSON.stringify(isHeaderVisible));
+  }, [isHeaderVisible]);
 
   const {
     drilldownLevel,
@@ -88,32 +99,42 @@ const ProyeccionView = () => {
 
   return (
     <>
+      {/* Botón flotante para toggle header */}
+      <button
+        className="header-toggle-btn"
+        onClick={() => setIsHeaderVisible(!isHeaderVisible)}
+        title={isHeaderVisible ? "Ocultar controles" : "Mostrar controles"}
+      >
+        {isHeaderVisible ? '▲' : '▼'}
+      </button>
 
-      <div className="dashboard-header">
-        <div className="dashboard-header-content">
-          <div className="dashboard-controls">
-            <div className="control-group">
-              <label>Mes:</label>
-              <MonthFilter selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth} />
-            </div>
-            <div className="control-group">
-              <label>Sociedad:</label>
-              <SocietyFilter
-                selectedSociety={selectedSociety}
-                onSocietyChange={handleSocietyChange}
-              />
-            </div>
-            <div className="control-group">
-              <label>Vista:</label>
-              <ViewSelector views={views} selectedView={selectedView} setSelectedView={handleViewChange} />
-            </div>
-            <div className="control-group">
-              <label>Restar Rappel:</label>
-              <RappelToggle onToggle={setIsRappelActive} />
+      {isHeaderVisible && (
+        <div className="dashboard-header">
+          <div className="dashboard-header-content">
+            <div className="dashboard-controls">
+              <div className="control-group">
+                <label>Mes:</label>
+                <MonthFilter selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth} />
+              </div>
+              <div className="control-group">
+                <label>Sociedad:</label>
+                <SocietyFilter
+                  selectedSociety={selectedSociety}
+                  onSocietyChange={handleSocietyChange}
+                />
+              </div>
+              <div className="control-group">
+                <label>Vista:</label>
+                <ViewSelector views={views} selectedView={selectedView} setSelectedView={handleViewChange} />
+              </div>
+              <div className="control-group">
+                <label>Restar Rappel:</label>
+                <RappelToggle onToggle={setIsRappelActive} />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
       <Breadcrumb crumbs={crumbs} onDrilldownClick={handleBreadcrumbClick} />
 

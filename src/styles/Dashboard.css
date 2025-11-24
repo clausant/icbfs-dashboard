@@ -8,6 +8,40 @@
   animation: gradientShift 15s ease infinite;
 }
 
+/* Botón flotante para toggle header */
+.header-toggle-btn {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid #e2e8f0;
+  color: #dc2626;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+  z-index: 1000;
+}
+
+.header-toggle-btn:hover {
+  background: #dc2626;
+  color: white;
+  border-color: #dc2626;
+  box-shadow: 0 6px 16px rgba(220, 38, 38, 0.3);
+  transform: scale(1.1);
+}
+
+.header-toggle-btn:active {
+  transform: scale(0.95);
+}
+
 .dashboard-header {
   background: white;
   border-radius: 1rem;
