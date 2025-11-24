@@ -18,6 +18,7 @@ import { gerencia } from './levels/gerencia';
 import { sucursal } from './levels/sucursal';
 import { holding } from './levels/holding';
 import { fecha } from './levels/fecha';
+import { sku } from './levels/sku';
 
 export const levelDefs = {
   fecha,
@@ -40,4 +41,5 @@ export const levelDefs = {
   gerencia,
   sucursal,
   holding,
+  sku,
 };

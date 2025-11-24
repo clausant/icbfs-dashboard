@@ -18,6 +18,7 @@ export const views = [
   { id: 'marca', name: 'Marca' },
   { id: 'region', name: 'Región' },
   { id: 'origen', name: 'Sistema Orígen' },
+  { id: 'sku', name: 'SKU' },
   { id: 'sociedad', name: 'Sociedad' },
   { id: 'sucursal', name: 'Sucursal' },
   { id: 'um_venta', name: 'Unidad Medida Venta' },
