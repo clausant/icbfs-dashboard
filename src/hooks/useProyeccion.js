@@ -164,15 +164,9 @@ export const useProyeccion = (selectedSociety) => {
   }, [rowData, dynamicColumnDefs]);
 
   const crumbs = useMemo(() => {
-    const pathnames = location.pathname.split('/').filter((x) => x);
-    const breadcrumbs = [{ label: 'Inicio', path: '/' }];
-    let currentPath = '';
-    pathnames.forEach(name => {
-      currentPath += `/${name}`;
-      if (breadcrumbNameMap[currentPath]) {
-        breadcrumbs.push({ label: breadcrumbNameMap[currentPath], path: currentPath, drilldownLevel: 0 });
-      }
-    });
+    const breadcrumbs = [];
+
+    // Solo incluir los filtros aplicados (sin rutas de navegación)
     filters.forEach((filter, index) => {
       // Construir label con formato "Dimensión: Valor" usando metadata
       const metadata = filterMetadata[index];
@@ -184,11 +178,11 @@ export const useProyeccion = (selectedSociety) => {
         label,
         path: `#`,
         isDrilldown: true,
-        drilldownLevel: index + 1
+        drilldownLevel: index
       });
     });
     return breadcrumbs;
-  }, [location.pathname, filters, filterMetadata]);
+  }, [filters, filterMetadata]);
 
   const handleBreadcrumbClick = (level) => {
     setDrilldownLevel(level);
