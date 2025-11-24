@@ -155,6 +155,21 @@ export const useProyeccion = (selectedSociety) => {
       }
     });
 
+    // Calcular campos derivados correctamente
+    // PrecioUnit$ = Venta$ / Kilos
+    if (totals['detalle_factura.precio_unitario'] !== undefined &&
+        totals['detalle_factura.peso_neto_sum'] > 0) {
+      totals['detalle_factura.precio_unitario'] =
+        totals['detalle_factura.valor_neto_sum'] / totals['detalle_factura.peso_neto_sum'];
+    }
+
+    // MargenUnit$ = Margen$ / Kilos
+    if (totals['detalle_factura.margen_unitario'] !== undefined &&
+        totals['detalle_factura.peso_neto_sum'] > 0) {
+      totals['detalle_factura.margen_unitario'] =
+        totals['detalle_factura.margen_valor'] / totals['detalle_factura.peso_neto_sum'];
+    }
+
     const firstColumnField = dynamicColumnDefs[0]?.field;
     if (firstColumnField) {
       totals[firstColumnField] = 'TOTAL';
