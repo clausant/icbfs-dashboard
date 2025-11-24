@@ -166,21 +166,34 @@ export const useProyeccion = (selectedSociety) => {
   const crumbs = useMemo(() => {
     const breadcrumbs = [];
 
-    // Solo incluir los filtros aplicados (sin rutas de navegación)
-    filters.forEach((filter, index) => {
-      // Construir label con formato "Dimensión: Valor" usando metadata
-      const metadata = filterMetadata[index];
-      const label = metadata?.viewName
-        ? `${metadata.viewName}: ${filter.values[0]}`
-        : filter.values[0];
-
+    // Solo mostrar breadcrumbs si hay filtros aplicados
+    if (filters.length > 0) {
+      // Agregar "Inicio" al principio para poder limpiar todos los filtros
       breadcrumbs.push({
-        label,
-        path: `#`,
+        label: 'Inicio',
+        path: '#',
         isDrilldown: true,
-        drilldownLevel: index
+        drilldownLevel: 0,
+        isHome: true, // Marcar como inicio para limpiar filtros
       });
-    });
+
+      // Incluir los filtros aplicados
+      filters.forEach((filter, index) => {
+        // Construir label con formato "Dimensión: Valor" usando metadata
+        const metadata = filterMetadata[index];
+        const label = metadata?.viewName
+          ? `${metadata.viewName}: ${filter.values[0]}`
+          : filter.values[0];
+
+        breadcrumbs.push({
+          label,
+          path: `#`,
+          isDrilldown: true,
+          drilldownLevel: index + 1
+        });
+      });
+    }
+
     return breadcrumbs;
   }, [filters, filterMetadata]);
 
