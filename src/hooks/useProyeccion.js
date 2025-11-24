@@ -168,14 +168,19 @@ export const useProyeccion = (selectedSociety) => {
 
     // Solo mostrar breadcrumbs si hay filtros aplicados
     if (filters.length > 0) {
-      // Agregar vista inicial al principio para poder volver
-      const initialViewName = getViewName(selectedView);
+      // Agregar vista de ORIGEN del primer filtro (no la vista actual)
+      // Si el primer filtro tiene metadata, usa esa vista (hubo cambio de vista)
+      // Si no, usa la vista actual (drill down jerárquico sin cambio de vista)
+      const firstFilterMetadata = filterMetadata[0];
+      const initialViewId = firstFilterMetadata?.viewId || selectedView;
+      const initialViewName = getViewName(initialViewId);
+
       breadcrumbs.push({
         label: initialViewName,
         path: '#',
         isDrilldown: true,
         drilldownLevel: 0,
-        viewId: selectedView, // Vista actual para volver
+        viewId: initialViewId, // Vista de origen del primer filtro
         isHome: true, // Marcar como inicio para limpiar filtros
       });
 
