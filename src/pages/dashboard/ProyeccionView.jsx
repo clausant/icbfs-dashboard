@@ -175,7 +175,16 @@ const ProyeccionView = () => {
         onClose={() => setIsModalOpen(false)}
         onSelectView={handleDrillDownToView}
         views={views}
-        selectedValue={clickedRowData && currentLevelDef ? clickedRowData[currentLevelDef.drillDownField] : ''}
+        selectedValue={clickedRowData && currentLevelDef ? (() => {
+          const value = clickedRowData[currentLevelDef.drillDownField];
+          // Formatear fechas para display
+          if (currentLevelDef.drillDownField === 'detalle_factura.fecha_factura' && typeof value === 'string' && value.includes('T')) {
+            const datePart = value.split('T')[0];
+            const [year, month, day] = datePart.split('-');
+            return `${day}-${month}-${year}`;
+          }
+          return value;
+        })() : ''}
         currentView={selectedView}
       />
     </>
