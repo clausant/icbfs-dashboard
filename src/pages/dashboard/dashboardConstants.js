@@ -25,5 +25,4 @@ export const views = [
   { id: 'sucursal', name: 'Sucursal' },
   { id: 'um_venta', name: 'Unidad Medida Venta' },
   { id: 'canal', name: 'Canal' },
-  { id: 'zona', name: 'Zona' },
 ];
