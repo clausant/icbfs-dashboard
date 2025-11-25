@@ -6,7 +6,7 @@ export const useEvolucion = () => {
   const [selectedView, setSelectedView] = useState('categoria');
   const [selectedMetric, setSelectedMetric] = useState('detalle_factura.valor_neto_sum');
   const [numMonths, setNumMonths] = useState(6);
-  const [isRappelActive, setIsRappelActive] = useState(false);
+  const [isRappelActive, setIsRappelActive] = useState(true);
   const { months, loading: monthsLoading } = useCubeMonths();
 
   // Obtener los últimos N meses
@@ -27,7 +27,7 @@ export const useEvolucion = () => {
       values: selectedMonths
     }] : [];
 
-    const metricToUse = isRappelActive && selectedMetric === 'detalle_factura.valor_neto_sum'
+    const metricToUse = !isRappelActive && selectedMetric === 'detalle_factura.valor_neto_sum'
       ? 'detalle_factura.valor_resta_rappel'
       : selectedMetric;
 
@@ -53,7 +53,7 @@ export const useEvolucion = () => {
     const mainDimensionField = currentLevelDef.dimensions[0];
 
     // Determinar qué métrica usar
-    const metricToUse = isRappelActive && selectedMetric === 'detalle_factura.valor_neto_sum'
+    const metricToUse = !isRappelActive && selectedMetric === 'detalle_factura.valor_neto_sum'
       ? 'detalle_factura.valor_resta_rappel'
       : selectedMetric;
 

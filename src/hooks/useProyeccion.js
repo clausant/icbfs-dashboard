@@ -25,7 +25,7 @@ export const useProyeccion = (selectedSociety) => {
   const [selectedView, setSelectedView] = useState('categoria');
   const [dynamicDimensions, setDynamicDimensions] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState([getDefaultMonth()]); // Mes por defecto
-  const [isRappelActive, setIsRappelActive] = useState(false);
+  const [isRappelActive, setIsRappelActive] = useState(true);
   const [showToast, setShowToast] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [clickedRowData, setClickedRowData] = useState(null);
@@ -58,8 +58,8 @@ export const useProyeccion = (selectedSociety) => {
     }] : [];
 
     const measures = isRappelActive
-      ? currentLevelDef.measures.map(m => m === "detalle_factura.valor_neto_sum" ? "detalle_factura.valor_resta_rappel" : m)
-      : currentLevelDef.measures;
+      ? currentLevelDef.measures
+      : currentLevelDef.measures.map(m => m === "detalle_factura.valor_neto_sum" ? "detalle_factura.valor_resta_rappel" : m);
 
     // Extraer las dimensiones de los filtros aplicados para incluirlas en la consulta
     // Esto asegura que los datos contengan los valores de todos los niveles de drill down
@@ -101,16 +101,16 @@ export const useProyeccion = (selectedSociety) => {
         if (isRappelActive) {
           return {
             ...colDef,
-            headerName: "Venta(Rappel)$",
-            field: "detalle_factura.valor_resta_rappel",
-            valueGetter: p => p.data ? Number(p.data["detalle_factura.valor_resta_rappel"]) : 0,
+            headerName: "Venta$",
+            field: "detalle_factura.valor_neto_sum",
+            valueGetter: p => p.data ? Number(p.data["detalle_factura.valor_neto_sum"]) : 0,
           };
         }
         return {
           ...colDef,
-          headerName: "Venta$",
-          field: "detalle_factura.valor_neto_sum",
-          valueGetter: p => p.data ? Number(p.data["detalle_factura.valor_neto_sum"]) : 0,
+          headerName: "Venta(Rappel)$",
+          field: "detalle_factura.valor_resta_rappel",
+          valueGetter: p => p.data ? Number(p.data["detalle_factura.valor_resta_rappel"]) : 0,
         };
       }
       return colDef;
