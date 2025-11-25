@@ -20,6 +20,7 @@ import { holding } from './levels/holding';
 import { fecha } from './levels/fecha';
 import { sku } from './levels/sku';
 import { grupo_cliente } from './levels/grupo_cliente';
+import { subfamilia } from './levels/subfamilia';
 
 export const levelDefs = {
   fecha,
@@ -44,4 +45,5 @@ export const levelDefs = {
   holding,
   sku,
   grupo_cliente,
+  subfamilia,
 };

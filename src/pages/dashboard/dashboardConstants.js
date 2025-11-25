@@ -21,6 +21,7 @@ export const views = [
   { id: 'origen', name: 'Sistema Orígen' },
   { id: 'sku', name: 'SKU' },
   { id: 'sociedad', name: 'Sociedad' },
+  { id: 'subfamilia', name: 'Subcategoría' },
   { id: 'sucursal', name: 'Sucursal' },
   { id: 'um_venta', name: 'Unidad Medida Venta' },
   { id: 'canal', name: 'Canal' },
