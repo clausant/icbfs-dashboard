@@ -58,8 +58,8 @@ export const useProyeccion = (selectedSociety) => {
     }] : [];
 
     const measures = isRappelActive
-      ? currentLevelDef.measures
-      : currentLevelDef.measures.map(m => m === "detalle_factura.valor_neto_sum" ? "detalle_factura.valor_resta_rappel" : m);
+      ? currentLevelDef.measures.map(m => m === "detalle_factura.valor_neto_sum" ? "detalle_factura.valor_resta_rappel" : m)
+      : currentLevelDef.measures;
 
     // Extraer las dimensiones de los filtros aplicados para incluirlas en la consulta
     // Esto asegura que los datos contengan los valores de todos los niveles de drill down
@@ -102,15 +102,15 @@ export const useProyeccion = (selectedSociety) => {
           return {
             ...colDef,
             headerName: "Venta$",
-            field: "detalle_factura.valor_neto_sum",
-            valueGetter: p => p.data ? Number(p.data["detalle_factura.valor_neto_sum"]) : 0,
+            field: "detalle_factura.valor_resta_rappel",
+            valueGetter: p => p.data ? Number(p.data["detalle_factura.valor_resta_rappel"]) : 0,
           };
         }
         return {
           ...colDef,
-          headerName: "Venta(Rappel)$",
-          field: "detalle_factura.valor_resta_rappel",
-          valueGetter: p => p.data ? Number(p.data["detalle_factura.valor_resta_rappel"]) : 0,
+          headerName: "Venta(+Rappel)$",
+          field: "detalle_factura.valor_neto_sum",
+          valueGetter: p => p.data ? Number(p.data["detalle_factura.valor_neto_sum"]) : 0,
         };
       }
       return colDef;

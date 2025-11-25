@@ -35,7 +35,7 @@ export const useComparativo = () => {
   const queryActual = useMemo(() => {
     if (!actualMonth) return null;
 
-    const metricToUse = !isRappelActive && selectedMetric === 'detalle_factura.valor_neto_sum'
+    const metricToUse = isRappelActive && selectedMetric === 'detalle_factura.valor_neto_sum'
       ? 'detalle_factura.valor_resta_rappel'
       : selectedMetric;
 
@@ -56,7 +56,7 @@ export const useComparativo = () => {
   const queryCompare = useMemo(() => {
     if (!compareMonth) return null;
 
-    const metricToUse = !isRappelActive && selectedMetric === 'detalle_factura.valor_neto_sum'
+    const metricToUse = isRappelActive && selectedMetric === 'detalle_factura.valor_neto_sum'
       ? 'detalle_factura.valor_resta_rappel'
       : selectedMetric;
 
@@ -84,7 +84,7 @@ export const useComparativo = () => {
     }
 
     const mainDimensionField = currentLevelDef.dimensions[0];
-    const metricToUse = !isRappelActive && selectedMetric === 'detalle_factura.valor_neto_sum'
+    const metricToUse = isRappelActive && selectedMetric === 'detalle_factura.valor_neto_sum'
       ? 'detalle_factura.valor_resta_rappel'
       : selectedMetric;
 

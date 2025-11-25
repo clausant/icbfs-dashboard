@@ -1,0 +1,544 @@
+cube(`detalle_factura`, {
+  sql: `
+    SELECT *
+    FROM icbfs_datalake_prod_analytics_database.detalle_factura
+    WHERE fecha_factura >= DATE('2024-01-01')
+  `,
+
+joins: {
+  factor_proyeccion: {
+    relationship: `one_to_one`,
+    sql: `
+      date_trunc('month', current_date) =
+      date_trunc('month', ${factor_proyeccion}.fecha_actual)
+      `
+  }
+},
+  
+  dimensions: {
+    posicion: {
+      sql: `posicion`,
+      type: `string`,
+      primary_key: true
+    },
+
+    nombre_holding: {
+      sql: `nombre_holding`,
+      type: `string`
+    },
+    
+    numero_factura: {
+      sql: `numero_factura`,
+      type: `string`,
+      primary_key: true
+    },
+
+    numero_factura_view: {
+      sql: `numero_factura`,
+      type: `string`,
+    },
+    
+    peso_neto: {
+      sql: `peso_neto`,
+      type: `number`
+    },
+    
+    peso_bruto: {
+      sql: `peso_bruto`,
+      type: `number`
+    },
+    
+    cajas: {
+      sql: `cajas`,
+      type: `number`
+    },
+    
+    valor_neto: {
+      sql: `valor_neto`,
+      type: `number`
+    },
+    
+    dcto_lista: {
+      sql: `dcto_lista`,
+      type: `number`
+    },
+    
+    dcto_ajuste: {
+      sql: `dcto_ajuste`,
+      type: `number`
+    },
+    
+    dcto_promo_venta: {
+      sql: `dcto_promo_venta`,
+      type: `number`
+    },
+    
+    dcto_promo_trade: {
+      sql: `dcto_promo_trade`,
+      type: `number`
+    },
+    
+    dcto_representa: {
+      sql: `dcto_representa`,
+      type: `number`
+    },
+    
+    rappel: {
+      sql: `rappel`,
+      type: `number`
+    },
+    
+    b2b: {
+      sql: `b2b`,
+      type: `number`
+    },
+    
+    reposicion: {
+      sql: `reposicion`,
+      type: `number`
+    },
+    
+    exibidores: {
+      sql: `exibidores`,
+      type: `number`
+    },
+    
+    plan_crecimiento: {
+      sql: `plan_crecimiento`,
+      type: `number`
+    },
+    
+    merma_cero: {
+      sql: `merma_cero`,
+      type: `number`
+    },
+    
+    centralizacion: {
+      sql: `centralizacion`,
+      type: `number`
+    },
+    
+    factor_conversion: {
+      sql: `factor_conversion`,
+      type: `number`
+    },
+    
+    costo_interperiodo: {
+      sql: `costo_interperiodo`,
+      type: `number`
+    },
+    
+    costo_estandar: {
+      sql: `costo_estandar`,
+      type: `number`
+    },
+    
+    id_sociedad: {
+      sql: `id_sociedad`,
+      type: `string`
+    },
+    
+    sociedad: {
+      sql: `sociedad`,
+      type: `string`
+    },
+    
+    numero_pedido: {
+      sql: `numero_pedido`,
+      type: `string`
+    },
+    
+    id_cliente: {
+      sql: `id_cliente`,
+      type: `string`
+    },
+    
+    status_contabilidad: {
+      sql: `status_contabilidad`,
+      type: `string`
+    },
+    
+    id_sala: {
+      sql: `id_sala`,
+      type: `string`
+    },
+    
+    id_oficina_ventas: {
+      sql: `id_oficina_ventas`,
+      type: `string`
+    },
+    
+    oficina_ventas: {
+      sql: `oficina_ventas`,
+      type: `string`
+    },
+    
+    id_clase_pedido: {
+      sql: `id_clase_pedido`,
+      type: `string`
+    },
+    
+    clase_pedido: {
+      sql: `clase_pedido`,
+      type: `string`
+    },
+    
+    id_clase_factura: {
+      sql: `id_clase_factura`,
+      type: `string`
+    },
+    
+    clase_factura: {
+      sql: `clase_factura`,
+      type: `string`
+    },
+    
+    factura_anulada: {
+      sql: `factura_anulada`,
+      type: `string`
+    },
+    
+    id_tipo_doc_comercial: {
+      sql: `id_tipo_doc_comercial`,
+      type: `string`
+    },
+    
+    tipo_doc_comercial: {
+      sql: `tipo_doc_comercial`,
+      type: `string`
+    },
+    
+    id_vendedor: {
+      sql: `id_vendedor`,
+      type: `string`
+    },
+    
+    vendedor: {
+      sql: `vendedor`,
+      type: `string`
+    },
+    
+    id_centro: {
+      sql: `id_centro`,
+      type: `string`
+    },
+    
+    centro: {
+      sql: `centro`,
+      type: `string`
+    },
+    
+    id_categoria: {
+      sql: `id_categoria`,
+      type: `string`
+    },
+    
+    categoria: {
+      sql: `categoria`,
+      type: `string`
+    },
+    
+    id_marca: {
+      sql: `id_marca`,
+      type: `string`
+    },
+    
+    marca: {
+      sql: `marca`,
+      type: `string`
+    },
+    
+    id_familia: {
+      sql: `id_familia`,
+      type: `string`
+    },
+    
+    familia: {
+      sql: `familia`,
+      type: `string`
+    },
+    
+    sku: {
+      sql: `sku`,
+      type: `string`
+    },
+    
+    nombre_producto: {
+      sql: `nombre_producto`,
+      type: `string`
+    },
+    
+    um_venta: {
+      sql: `um_venta`,
+      type: `string`
+    },
+    
+    um_base: {
+      sql: `um_base`,
+      type: `string`
+    },
+    
+    id_gerencia: {
+      sql: `id_gerencia`,
+      type: `string`
+    },
+    
+    gerencia: {
+      sql: `gerencia`,
+      type: `string`
+    },
+    
+    id_canal: {
+      sql: `id_canal`,
+      type: `string`
+    },
+    
+    canal: {
+      sql: `canal`,
+      type: `string`
+    },
+    
+    id_jefe_categoria: {
+      sql: `id_jefe_categoria`,
+      type: `string`
+    },
+    
+    jefe_categoria: {
+      sql: `jefe_categoria`,
+      type: `string`
+    },
+    
+    region: {
+      sql: `region`,
+      type: `string`
+    },
+    
+    pais: {
+      sql: `pais`,
+      type: `string`
+    },
+    
+    id_zona_ventas: {
+      sql: `id_zona_ventas`,
+      type: `string`
+    },
+    
+    zona_ventas: {
+      sql: `zona_ventas`,
+      type: `string`
+    },
+    
+    id_grupo_cliente: {
+      sql: `id_grupo_cliente`,
+      type: `string`
+    },
+    
+    grupo_cliente: {
+      sql: `grupo_cliente`,
+      type: `string`
+    },
+    
+    origen_pedido: {
+      sql: `origen_pedido`,
+      type: `string`
+    },
+    
+    um_peso: {
+      sql: `um_peso`,
+      type: `string`
+    },
+    
+    producto_foco: {
+      sql: `producto_foco`,
+      type: `string`
+    },
+    
+    fecha_factura: {
+      sql: `fecha_factura`,
+      type: `time`
+    },
+    
+    fecha_creado: {
+      sql: `fecha_creado`,
+      type: `time`
+    },
+    
+    extraction_timestamp: {
+      sql: `extraction_timestamp`,
+      type: `time`
+    },
+
+    fecha_year_month: {
+      sql: `date_format(${CUBE}.fecha_factura, '%Y-%m')`,
+      type: `string`
+    },
+
+    nombre_cliente: {
+      sql: `nombre_cliente`,
+      type: `string`
+    },
+
+    rappel_icbnet: {
+      sql: `rappel_icbnet`,
+      type: `number`
+    },
+
+    factor_proyeccion_valor: {
+      sql: `${factor_proyeccion.factor_proyeccion}`,
+      type: `number`
+    },
+
+    sku_cliente: {
+      sql: `CONCAT(${sku}, '-', ${id_cliente})`,
+      type: `string`
+    },
+
+    sub_familia: {
+      sql: `subfamilia`,
+      type: `string`
+    }
+
+  },
+  
+  measures: {
+    count: {
+      type: `count`
+    },
+
+  valor_neto_sum: {
+      sql: `valor_neto`,
+      type: `sum`
+    },
+
+  costo_estandar_sum: {
+      sql: `costo_estandar`,
+      type: `sum`
+    },
+
+  dcto_ajuste_sum: {
+      sql: `dcto_ajuste`,
+      type: `sum`
+    },
+
+  dcto_promo_venta_sum: {
+      sql: `dcto_promo_venta`,
+      type: `sum`
+    },
+
+  factor_conversion_sum: {
+      sql: `factor_conversion`,
+      type: `sum`
+    },
+
+  peso_neto_sum: {
+      sql: `peso_neto`,
+      type: `sum`
+    },
+
+  cliente_count: {
+      sql: `id_cliente`,
+      type: `countDistinct`
+    },
+
+  sku_count: {
+      sql: `sku`,
+      type: `countDistinct`
+    },
+
+  ratio_sku_cliente: {
+      sql: `COUNT(DISTINCT (${sku})) / COUNT(DISTINCT ${id_cliente})`,
+      type: `number`,
+    },
+
+  margen_valor: {
+      sql: `SUM(${valor_neto}) - ABS(SUM(${costo_estandar}))`,
+      type: `number`
+    },
+
+
+  valor_resta_rappel: {
+      sql: `${valor_neto} - ABS(${rappel_icbnet})`,
+      type: `sum`
+    },
+
+  ventas_proyeccion: {
+      sql: `${valor_neto} * ${factor_proyeccion_valor}`,
+      type: `sum`
+    },
+
+  kilos_proyeccion: {
+      sql: `${peso_neto} * ${factor_proyeccion_valor}`,
+      type: `sum`
+    },
+
+  margen_porcentaje: {
+      sql: `CASE
+      WHEN SUM(${valor_neto}) IS NULL OR SUM(${valor_neto}) = 0
+      THEN 0
+      ELSE (1 - (SUM(${costo_estandar}) / SUM(${valor_neto}))) * 100
+    END`,
+      type: `number`
+    },
+
+  margen_proyeccion: {
+      sql: `(SUM(${valor_neto}) - SUM(${costo_estandar})) * MAX(${factor_proyeccion_valor})`,
+      type: `number`
+    },
+
+  precio_unitario: {
+      sql: `CASE
+      WHEN SUM(${peso_neto}) IS NULL OR SUM(${peso_neto}) = 0
+      THEN NULL
+      ELSE ROUND(SUM(${valor_neto}) / SUM(${peso_neto}))
+    END`,
+      type: `number`
+    },
+
+  margen_unitario: {
+      sql: `CASE 
+      WHEN SUM(${peso_neto}) IS NULL OR SUM(${peso_neto}) = 0
+        OR SUM(${valor_neto}) IS NULL OR SUM(${valor_neto}) = 0
+      THEN NULL
+      ELSE ROUND(
+        (SUM(${valor_neto}) / SUM(${peso_neto})) * 
+        (1 - (SUM(${costo_estandar}) / SUM(${valor_neto}))), 
+        2
+      )
+    END`,
+      type: `number`
+    },
+
+  producto_foco_valor: {
+      sql: `CASE WHEN ${CUBE}.producto_foco = 'X' THEN ${CUBE}.valor_neto ELSE 0 END`,
+      type: `sum`
+    },
+
+  combinacion_sku_cliente: {
+      sql: `
+        CASE
+          WHEN
+            ${sku} NOT IN (
+              '90557778','90940300','90940404','CWBL-BLK-0','90467777','90127777',
+              '90427777','90437777','90547777','90527777','90557777','90497777',
+              '90507777','90477777','90457777','90940206','90557777','90940401',
+              '90940206','90940401','90940400','90940403','90447777','90940402',
+              '90487777'
+            )
+            AND ${valor_neto} > 0
+          THEN ${sku_cliente}
+        END
+      `,
+      type: `countDistinct`
+    },
+
+    ultimo_update: {
+      sql: `MAX(extraction_timestamp)`,
+      type: `time`
+    }
+  },
+  
+  pre_aggregations: {
+    // Pre-aggregation definitions go here.
+    // Learn more in the documentation: https://cube.dev/docs/caching/pre-aggregations/getting-started
+  }
+});
