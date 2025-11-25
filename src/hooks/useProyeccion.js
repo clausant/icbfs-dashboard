@@ -97,6 +97,7 @@ export const useProyeccion = (selectedSociety) => {
   const dynamicColumnDefs = useMemo(() => {
     if (!currentLevelDef) return [];
     return currentLevelDef.columnDefs.map(colDef => {
+      // Manejar columna Venta$
       if (colDef.field === "detalle_factura.valor_neto_sum") {
         if (isRappelActive) {
           return {
@@ -113,6 +114,26 @@ export const useProyeccion = (selectedSociety) => {
           valueGetter: p => p.data ? Number(p.data["detalle_factura.valor_neto_sum"]) : 0,
         };
       }
+
+      // Manejar columna PrecioUnit$ - calcular en base a la venta actual
+      if (colDef.field === "detalle_factura.precio_unitario") {
+        if (isRappelActive) {
+          return {
+            ...colDef,
+            headerName: "PrecioUnit$",
+            field: "precio_unitario_calculado",
+            valueGetter: p => {
+              if (!p.data) return 0;
+              const venta = Number(p.data["detalle_factura.valor_resta_rappel"]) || 0;
+              const kilos = Number(p.data["detalle_factura.peso_neto_sum"]) || 0;
+              return kilos > 0 ? Math.round(venta / kilos) : 0;
+            },
+          };
+        }
+        // Cuando rappel inactivo, usar el precio_unitario del backend
+        return colDef;
+      }
+
       return colDef;
     });
   }, [currentLevelDef, isRappelActive]);
