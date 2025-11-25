@@ -35,8 +35,8 @@ export const useComparativo = () => {
   const queryActual = useMemo(() => {
     if (!actualMonth) return null;
 
-    const metricToUse = isRappelActive && selectedMetric === 'detalle_factura.valor_neto_sum'
-      ? 'detalle_factura.valor_resta_rappel'
+    const metricToUse = selectedMetric === 'detalle_factura.valor_neto_sum'
+      ? (isRappelActive ? 'detalle_factura.valor_resta_eerr' : 'detalle_factura.valor_con_rappel_sin_eerr')
       : selectedMetric;
 
     return {
@@ -56,8 +56,8 @@ export const useComparativo = () => {
   const queryCompare = useMemo(() => {
     if (!compareMonth) return null;
 
-    const metricToUse = isRappelActive && selectedMetric === 'detalle_factura.valor_neto_sum'
-      ? 'detalle_factura.valor_resta_rappel'
+    const metricToUse = selectedMetric === 'detalle_factura.valor_neto_sum'
+      ? (isRappelActive ? 'detalle_factura.valor_resta_eerr' : 'detalle_factura.valor_con_rappel_sin_eerr')
       : selectedMetric;
 
     return {
@@ -84,8 +84,8 @@ export const useComparativo = () => {
     }
 
     const mainDimensionField = currentLevelDef.dimensions[0];
-    const metricToUse = isRappelActive && selectedMetric === 'detalle_factura.valor_neto_sum'
-      ? 'detalle_factura.valor_resta_rappel'
+    const metricToUse = selectedMetric === 'detalle_factura.valor_neto_sum'
+      ? (isRappelActive ? 'detalle_factura.valor_resta_eerr' : 'detalle_factura.valor_con_rappel_sin_eerr')
       : selectedMetric;
 
     // Crear mapa de datos por dimensión

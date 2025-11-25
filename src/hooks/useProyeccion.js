@@ -58,8 +58,8 @@ export const useProyeccion = (selectedSociety) => {
     }] : [];
 
     const measures = isRappelActive
-      ? currentLevelDef.measures.map(m => m === "detalle_factura.valor_neto_sum" ? "detalle_factura.valor_resta_rappel" : m)
-      : currentLevelDef.measures;
+      ? currentLevelDef.measures.map(m => m === "detalle_factura.valor_neto_sum" ? "detalle_factura.valor_resta_eerr" : m)
+      : currentLevelDef.measures.map(m => m === "detalle_factura.valor_neto_sum" ? "detalle_factura.valor_con_rappel_sin_eerr" : m);
 
     // Extraer las dimensiones de los filtros aplicados para incluirlas en la consulta
     // Esto asegura que los datos contengan los valores de todos los niveles de drill down
@@ -103,15 +103,15 @@ export const useProyeccion = (selectedSociety) => {
           return {
             ...colDef,
             headerName: "Venta$",
-            field: "detalle_factura.valor_resta_rappel",
-            valueGetter: p => p.data ? Number(p.data["detalle_factura.valor_resta_rappel"]) : 0,
+            field: "detalle_factura.valor_resta_eerr",
+            valueGetter: p => p.data ? Number(p.data["detalle_factura.valor_resta_eerr"]) : 0,
           };
         }
         return {
           ...colDef,
           headerName: "Venta(+Rappel)$",
-          field: "detalle_factura.valor_neto_sum",
-          valueGetter: p => p.data ? Number(p.data["detalle_factura.valor_neto_sum"]) : 0,
+          field: "detalle_factura.valor_con_rappel_sin_eerr",
+          valueGetter: p => p.data ? Number(p.data["detalle_factura.valor_con_rappel_sin_eerr"]) : 0,
         };
       }
 
@@ -124,14 +124,24 @@ export const useProyeccion = (selectedSociety) => {
             field: "precio_unitario_calculado",
             valueGetter: p => {
               if (!p.data) return 0;
-              const venta = Number(p.data["detalle_factura.valor_resta_rappel"]) || 0;
+              const venta = Number(p.data["detalle_factura.valor_resta_eerr"]) || 0;
               const kilos = Number(p.data["detalle_factura.peso_neto_sum"]) || 0;
               return kilos > 0 ? Math.round(venta / kilos) : 0;
             },
           };
         }
-        // Cuando rappel inactivo, usar el precio_unitario del backend
-        return colDef;
+        // Cuando rappel inactivo, calcular con la venta con rappel sin EERR
+        return {
+          ...colDef,
+          headerName: "PrecioUnit$",
+          field: "precio_unitario_calculado",
+          valueGetter: p => {
+            if (!p.data) return 0;
+            const venta = Number(p.data["detalle_factura.valor_con_rappel_sin_eerr"]) || 0;
+            const kilos = Number(p.data["detalle_factura.peso_neto_sum"]) || 0;
+            return kilos > 0 ? Math.round(venta / kilos) : 0;
+          },
+        };
       }
 
       return colDef;

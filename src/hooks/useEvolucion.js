@@ -27,8 +27,8 @@ export const useEvolucion = () => {
       values: selectedMonths
     }] : [];
 
-    const metricToUse = isRappelActive && selectedMetric === 'detalle_factura.valor_neto_sum'
-      ? 'detalle_factura.valor_resta_rappel'
+    const metricToUse = selectedMetric === 'detalle_factura.valor_neto_sum'
+      ? (isRappelActive ? 'detalle_factura.valor_resta_eerr' : 'detalle_factura.valor_con_rappel_sin_eerr')
       : selectedMetric;
 
     return {
@@ -53,8 +53,8 @@ export const useEvolucion = () => {
     const mainDimensionField = currentLevelDef.dimensions[0];
 
     // Determinar qué métrica usar
-    const metricToUse = isRappelActive && selectedMetric === 'detalle_factura.valor_neto_sum'
-      ? 'detalle_factura.valor_resta_rappel'
+    const metricToUse = selectedMetric === 'detalle_factura.valor_neto_sum'
+      ? (isRappelActive ? 'detalle_factura.valor_resta_eerr' : 'detalle_factura.valor_con_rappel_sin_eerr')
       : selectedMetric;
 
     // Agrupar datos por dimensión principal
