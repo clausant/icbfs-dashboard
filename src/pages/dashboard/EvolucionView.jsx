@@ -8,7 +8,7 @@ import Breadcrumb from "../../components/common/Breadcrumb";
 import customLoadingOverlay from "../../components/ui/customLoadingOverlay";
 import ViewSelector from "../../components/ui/ViewSelector/ViewSelector";
 import MetricSelector from "../../components/ui/MetricSelector/MetricSelector";
-import RappelToggle from "../../components/ui/RappelToggle/RappelToggle";
+// import RappelToggle from "../../components/ui/RappelToggle/RappelToggle"; // TEMPORALMENTE OCULTO
 import { useEvolucion } from "../../hooks/useEvolucion";
 import { views } from "./dashboardConstants";
 import "../../styles/Dashboard.css";
@@ -87,7 +87,9 @@ const EvolucionView = () => {
                 setSelectedView={handleViewChange}
               />
             </div>
+            {/* TEMPORALMENTE OCULTO - Toggle Rappel
             <RappelToggle onToggle={setIsRappelActive} />
+            */}
           </div>
         </div>
       </div>

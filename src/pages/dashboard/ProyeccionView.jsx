@@ -7,7 +7,7 @@ import { themeCostum } from "../../styles/theme";
 import Breadcrumb from "../../components/common/Breadcrumb";
 import customLoadingOverlay from "../../components/ui/customLoadingOverlay";
 import ViewSelector from "../../components/ui/ViewSelector/ViewSelector";
-import RappelToggle from "../../components/ui/RappelToggle/RappelToggle";
+// import RappelToggle from "../../components/ui/RappelToggle/RappelToggle"; // TEMPORALMENTE OCULTO
 import MonthFilter from "../../components/ui/MonthFilter/MonthFilter";
 import SocietyFilter from "../../components/ui/SocietyFilter/SocietyFilter"; // Importar SocietyFilter
 import Toast from "../../components/ui/Toast/Toast";
@@ -129,10 +129,12 @@ const ProyeccionView = () => {
                   <label>Vista:</label>
                   <ViewSelector views={views} selectedView={selectedView} setSelectedView={handleViewChange} />
                 </div>
+                {/* TEMPORALMENTE OCULTO - Toggle Rappel
                 <div className="control-group">
                   <label>Restar Rappel:</label>
                   <RappelToggle onToggle={setIsRappelActive} />
                 </div>
+                */}
               </div>
             </div>
           </div>

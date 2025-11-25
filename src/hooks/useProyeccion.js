@@ -57,9 +57,10 @@ export const useProyeccion = (selectedSociety) => {
       values: [selectedSociety]
     }] : [];
 
-    const measures = isRappelActive
-      ? currentLevelDef.measures.map(m => m === "detalle_factura.valor_neto_sum" ? "detalle_factura.valor_resta_eerr" : m)
-      : currentLevelDef.measures.map(m => m === "detalle_factura.valor_neto_sum" ? "detalle_factura.valor_con_rappel_sin_eerr" : m);
+    // Usar solo valor_neto_puro (sin rappel, con EERR incluidas)
+    const measures = currentLevelDef.measures.map(m =>
+      m === "detalle_factura.valor_neto_sum" ? "detalle_factura.valor_neto_puro" : m
+    );
 
     // Extraer las dimensiones de los filtros aplicados para incluirlas en la consulta
     // Esto asegura que los datos contengan los valores de todos los niveles de drill down
@@ -97,47 +98,25 @@ export const useProyeccion = (selectedSociety) => {
   const dynamicColumnDefs = useMemo(() => {
     if (!currentLevelDef) return [];
     return currentLevelDef.columnDefs.map(colDef => {
-      // Manejar columna Venta$
+      // Manejar columna Venta$ - usar valor_neto_puro
       if (colDef.field === "detalle_factura.valor_neto_sum") {
-        if (isRappelActive) {
-          return {
-            ...colDef,
-            headerName: "Venta$",
-            field: "detalle_factura.valor_resta_eerr",
-            valueGetter: p => p.data ? Number(p.data["detalle_factura.valor_resta_eerr"]) : 0,
-          };
-        }
         return {
           ...colDef,
-          headerName: "Venta(+Rappel)$",
-          field: "detalle_factura.valor_con_rappel_sin_eerr",
-          valueGetter: p => p.data ? Number(p.data["detalle_factura.valor_con_rappel_sin_eerr"]) : 0,
+          headerName: "Venta$",
+          field: "detalle_factura.valor_neto_puro",
+          valueGetter: p => p.data ? Number(p.data["detalle_factura.valor_neto_puro"]) : 0,
         };
       }
 
-      // Manejar columna PrecioUnit$ - calcular en base a la venta actual
+      // Manejar columna PrecioUnit$ - calcular en base a valor_neto_puro
       if (colDef.field === "detalle_factura.precio_unitario") {
-        if (isRappelActive) {
-          return {
-            ...colDef,
-            headerName: "PrecioUnit$",
-            field: "precio_unitario_calculado",
-            valueGetter: p => {
-              if (!p.data) return 0;
-              const venta = Number(p.data["detalle_factura.valor_resta_eerr"]) || 0;
-              const kilos = Number(p.data["detalle_factura.peso_neto_sum"]) || 0;
-              return kilos > 0 ? Math.round(venta / kilos) : 0;
-            },
-          };
-        }
-        // Cuando rappel inactivo, calcular con la venta con rappel sin EERR
         return {
           ...colDef,
           headerName: "PrecioUnit$",
           field: "precio_unitario_calculado",
           valueGetter: p => {
             if (!p.data) return 0;
-            const venta = Number(p.data["detalle_factura.valor_con_rappel_sin_eerr"]) || 0;
+            const venta = Number(p.data["detalle_factura.valor_neto_puro"]) || 0;
             const kilos = Number(p.data["detalle_factura.peso_neto_sum"]) || 0;
             return kilos > 0 ? Math.round(venta / kilos) : 0;
           },
@@ -146,7 +125,7 @@ export const useProyeccion = (selectedSociety) => {
 
       return colDef;
     });
-  }, [currentLevelDef, isRappelActive]);
+  }, [currentLevelDef]);
 
   const { data: rowData, loading } = useCubeData(query, true); // Siempre cargar datos
 

@@ -8,7 +8,7 @@ import Breadcrumb from "../../components/common/Breadcrumb";
 import customLoadingOverlay from "../../components/ui/customLoadingOverlay";
 import ViewSelector from "../../components/ui/ViewSelector/ViewSelector";
 import MetricSelector from "../../components/ui/MetricSelector/MetricSelector";
-import RappelToggle from "../../components/ui/RappelToggle/RappelToggle";
+// import RappelToggle from "../../components/ui/RappelToggle/RappelToggle"; // TEMPORALMENTE OCULTO
 import { useComparativo } from "../../hooks/useComparativo";
 import { views } from "./dashboardConstants";
 import "../../styles/Dashboard.css";
@@ -120,10 +120,12 @@ const ComparativoView = () => {
                 setSelectedView={handleViewChange}
               />
             </div>
+            {/* TEMPORALMENTE OCULTO - Toggle Rappel
             <div className="control-group">
               <label>Restar Rappel:</label>
               <RappelToggle onToggle={setIsRappelActive} />
             </div>
+            */}
           </div>
         </div>
       </div>
