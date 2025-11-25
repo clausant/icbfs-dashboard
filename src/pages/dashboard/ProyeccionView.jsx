@@ -11,6 +11,7 @@ import ViewSelector from "../../components/ui/ViewSelector/ViewSelector";
 import MonthFilter from "../../components/ui/MonthFilter/MonthFilter";
 import SocietyFilter from "../../components/ui/SocietyFilter/SocietyFilter";
 import DateRangeFilter from "../../components/ui/DateRangeFilter/DateRangeFilter";
+import EERRToggle from "../../components/ui/EERRToggle/EERRToggle";
 import Toast from "../../components/ui/Toast/Toast";
 import DrillDownSelector from "../../components/ui/DrillDownSelector/DrillDownSelector";
 import { useProyeccion } from "../../hooks/useProyeccion";
@@ -44,6 +45,8 @@ const ProyeccionView = () => {
     setIsRappelActive,
     selectedDateRange,
     setSelectedDateRange,
+    isEERRExcluded,
+    setIsEERRExcluded,
     handleViewChange,
     setSelectedMonth,
     rowData,
@@ -134,6 +137,10 @@ const ProyeccionView = () => {
                     selectedRange={selectedDateRange}
                     onRangeChange={setSelectedDateRange}
                   />
+                </div>
+                <div className="control-group">
+                  <label>Excluir EERR:</label>
+                  <EERRToggle onToggle={setIsEERRExcluded} />
                 </div>
                 <div className="control-group">
                   <label>Vista:</label>

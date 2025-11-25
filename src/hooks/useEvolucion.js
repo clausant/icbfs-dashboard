@@ -8,6 +8,7 @@ export const useEvolucion = () => {
   const [numMonths, setNumMonths] = useState(6);
   const [isRappelActive, setIsRappelActive] = useState(true);
   const [selectedDateRange, setSelectedDateRange] = useState('today'); // 'today' o 'yesterday'
+  const [isEERRExcluded, setIsEERRExcluded] = useState(true); // Por defecto SÍ excluir EERR
   const { months, loading: monthsLoading } = useCubeMonths();
 
   // Obtener los últimos N meses
@@ -35,6 +36,13 @@ export const useEvolucion = () => {
       values: [new Date().toISOString().split('T')[0]]
     }] : [];
 
+    // Filtro EERR: excluir empresas relacionadas (id_grupo_cliente = '99')
+    const eerrFilter = isEERRExcluded ? [{
+      member: "detalle_factura.id_grupo_cliente",
+      operator: "notEquals",
+      values: ["99"]
+    }] : [];
+
     // Usar solo valor_neto_puro
     const metricToUse = selectedMetric === 'detalle_factura.valor_neto_sum'
       ? 'detalle_factura.valor_neto_puro'
@@ -43,12 +51,12 @@ export const useEvolucion = () => {
     return {
       dimensions: [currentLevelDef.dimensions[0], "detalle_factura.fecha_year_month"],
       measures: [metricToUse],
-      filters: [...monthFilter, ...dateRangeFilter],
+      filters: [...monthFilter, ...dateRangeFilter, ...eerrFilter],
       order: {
         [currentLevelDef.dimensions[0]]: 'asc',
       }
     };
-  }, [currentLevelDef, selectedMetric, selectedMonths, isRappelActive, selectedDateRange]);
+  }, [currentLevelDef, selectedMetric, selectedMonths, isRappelActive, selectedDateRange, isEERRExcluded]);
 
   const { data: rawData, loading } = useCubeData(query, selectedMonths.length > 0);
 
@@ -175,6 +183,8 @@ export const useEvolucion = () => {
     setIsRappelActive,
     selectedDateRange,
     setSelectedDateRange,
+    isEERRExcluded,
+    setIsEERRExcluded,
     handleViewChange,
     setSelectedMetric,
     setNumMonths,

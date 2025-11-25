@@ -10,6 +10,7 @@ export const useComparativo = () => {
   const [periodType, setPeriodType] = useState('Mes');
   const [isRappelActive, setIsRappelActive] = useState(true);
   const [selectedDateRange, setSelectedDateRange] = useState('today'); // 'today' o 'yesterday'
+  const [isEERRExcluded, setIsEERRExcluded] = useState(true); // Por defecto SÍ excluir EERR
   const { months, loading: monthsLoading } = useCubeMonths();
 
   // Inicializar meses si están disponibles
@@ -48,6 +49,13 @@ export const useComparativo = () => {
       values: [new Date().toISOString().split('T')[0]]
     }] : [];
 
+    // Filtro EERR: excluir empresas relacionadas (id_grupo_cliente = '99')
+    const eerrFilter = isEERRExcluded ? [{
+      member: "detalle_factura.id_grupo_cliente",
+      operator: "notEquals",
+      values: ["99"]
+    }] : [];
+
     return {
       dimensions: [currentLevelDef.dimensions[0]],
       measures: [metricToUse],
@@ -55,12 +63,12 @@ export const useComparativo = () => {
         member: "detalle_factura.fecha_year_month",
         operator: "equals",
         values: [actualMonth]
-      }, ...dateRangeFilter],
+      }, ...dateRangeFilter, ...eerrFilter],
       order: {
         [currentLevelDef.dimensions[0]]: 'asc',
       }
     };
-  }, [actualMonth, currentLevelDef, selectedMetric, isRappelActive, selectedDateRange]);
+  }, [actualMonth, currentLevelDef, selectedMetric, isRappelActive, selectedDateRange, isEERRExcluded]);
 
   const queryCompare = useMemo(() => {
     if (!compareMonth) return null;
@@ -77,6 +85,13 @@ export const useComparativo = () => {
       values: [new Date().toISOString().split('T')[0]]
     }] : [];
 
+    // Filtro EERR: excluir empresas relacionadas (id_grupo_cliente = '99')
+    const eerrFilter = isEERRExcluded ? [{
+      member: "detalle_factura.id_grupo_cliente",
+      operator: "notEquals",
+      values: ["99"]
+    }] : [];
+
     return {
       dimensions: [currentLevelDef.dimensions[0]],
       measures: [metricToUse],
@@ -84,12 +99,12 @@ export const useComparativo = () => {
         member: "detalle_factura.fecha_year_month",
         operator: "equals",
         values: [compareMonth]
-      }, ...dateRangeFilter],
+      }, ...dateRangeFilter, ...eerrFilter],
       order: {
         [currentLevelDef.dimensions[0]]: 'asc',
       }
     };
-  }, [compareMonth, currentLevelDef, selectedMetric, isRappelActive, selectedDateRange]);
+  }, [compareMonth, currentLevelDef, selectedMetric, isRappelActive, selectedDateRange, isEERRExcluded]);
 
   const { data: actualData, loading: loadingActual } = useCubeData(queryActual, !!actualMonth);
   const { data: compareData, loading: loadingCompare } = useCubeData(queryCompare, !!compareMonth);
@@ -261,6 +276,8 @@ export const useComparativo = () => {
     setIsRappelActive,
     selectedDateRange,
     setSelectedDateRange,
+    isEERRExcluded,
+    setIsEERRExcluded,
     handleViewChange,
     setSelectedMetric,
     setActualMonth,

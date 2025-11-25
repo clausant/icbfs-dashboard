@@ -10,6 +10,7 @@ import ViewSelector from "../../components/ui/ViewSelector/ViewSelector";
 import MetricSelector from "../../components/ui/MetricSelector/MetricSelector";
 // import RappelToggle from "../../components/ui/RappelToggle/RappelToggle"; // TEMPORALMENTE OCULTO
 import DateRangeFilter from "../../components/ui/DateRangeFilter/DateRangeFilter";
+import EERRToggle from "../../components/ui/EERRToggle/EERRToggle";
 import { useEvolucion } from "../../hooks/useEvolucion";
 import { views } from "./dashboardConstants";
 import "../../styles/Dashboard.css";
@@ -35,6 +36,8 @@ const EvolucionView = () => {
     setIsRappelActive,
     selectedDateRange,
     setSelectedDateRange,
+    isEERRExcluded,
+    setIsEERRExcluded,
     handleViewChange,
     setSelectedMetric,
     setNumMonths,
@@ -88,6 +91,10 @@ const EvolucionView = () => {
                 selectedRange={selectedDateRange}
                 onRangeChange={setSelectedDateRange}
               />
+            </div>
+            <div className="control-group">
+              <label>Excluir EERR:</label>
+              <EERRToggle onToggle={setIsEERRExcluded} />
             </div>
             <div className="control-group">
               <label>Vista:</label>
