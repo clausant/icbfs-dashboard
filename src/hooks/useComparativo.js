@@ -9,6 +9,7 @@ export const useComparativo = () => {
   const [compareMonth, setCompareMonth] = useState('');
   const [periodType, setPeriodType] = useState('Mes');
   const [isRappelActive, setIsRappelActive] = useState(true);
+  const [selectedDateRange, setSelectedDateRange] = useState('today'); // 'today' o 'yesterday'
   const { months, loading: monthsLoading } = useCubeMonths();
 
   // Inicializar meses si están disponibles
@@ -40,6 +41,13 @@ export const useComparativo = () => {
       ? 'detalle_factura.valor_neto_puro'
       : selectedMetric;
 
+    // Filtro de fecha: "Hasta ayer" excluye el día actual
+    const dateRangeFilter = selectedDateRange === 'yesterday' ? [{
+      member: "detalle_factura.fecha_factura",
+      operator: "beforeDate",
+      values: [new Date().toISOString().split('T')[0]]
+    }] : [];
+
     return {
       dimensions: [currentLevelDef.dimensions[0]],
       measures: [metricToUse],
@@ -47,12 +55,12 @@ export const useComparativo = () => {
         member: "detalle_factura.fecha_year_month",
         operator: "equals",
         values: [actualMonth]
-      }],
+      }, ...dateRangeFilter],
       order: {
         [currentLevelDef.dimensions[0]]: 'asc',
       }
     };
-  }, [actualMonth, currentLevelDef, selectedMetric, isRappelActive]);
+  }, [actualMonth, currentLevelDef, selectedMetric, isRappelActive, selectedDateRange]);
 
   const queryCompare = useMemo(() => {
     if (!compareMonth) return null;
@@ -62,6 +70,13 @@ export const useComparativo = () => {
       ? 'detalle_factura.valor_neto_puro'
       : selectedMetric;
 
+    // Filtro de fecha: "Hasta ayer" excluye el día actual
+    const dateRangeFilter = selectedDateRange === 'yesterday' ? [{
+      member: "detalle_factura.fecha_factura",
+      operator: "beforeDate",
+      values: [new Date().toISOString().split('T')[0]]
+    }] : [];
+
     return {
       dimensions: [currentLevelDef.dimensions[0]],
       measures: [metricToUse],
@@ -69,12 +84,12 @@ export const useComparativo = () => {
         member: "detalle_factura.fecha_year_month",
         operator: "equals",
         values: [compareMonth]
-      }],
+      }, ...dateRangeFilter],
       order: {
         [currentLevelDef.dimensions[0]]: 'asc',
       }
     };
-  }, [compareMonth, currentLevelDef, selectedMetric, isRappelActive]);
+  }, [compareMonth, currentLevelDef, selectedMetric, isRappelActive, selectedDateRange]);
 
   const { data: actualData, loading: loadingActual } = useCubeData(queryActual, !!actualMonth);
   const { data: compareData, loading: loadingCompare } = useCubeData(queryCompare, !!compareMonth);
@@ -244,6 +259,8 @@ export const useComparativo = () => {
     statusBar,
     isRappelActive,
     setIsRappelActive,
+    selectedDateRange,
+    setSelectedDateRange,
     handleViewChange,
     setSelectedMetric,
     setActualMonth,

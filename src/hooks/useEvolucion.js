@@ -7,6 +7,7 @@ export const useEvolucion = () => {
   const [selectedMetric, setSelectedMetric] = useState('detalle_factura.valor_neto_sum');
   const [numMonths, setNumMonths] = useState(6);
   const [isRappelActive, setIsRappelActive] = useState(true);
+  const [selectedDateRange, setSelectedDateRange] = useState('today'); // 'today' o 'yesterday'
   const { months, loading: monthsLoading } = useCubeMonths();
 
   // Obtener los últimos N meses
@@ -27,6 +28,13 @@ export const useEvolucion = () => {
       values: selectedMonths
     }] : [];
 
+    // Filtro de fecha: "Hasta ayer" excluye el día actual
+    const dateRangeFilter = selectedDateRange === 'yesterday' ? [{
+      member: "detalle_factura.fecha_factura",
+      operator: "beforeDate",
+      values: [new Date().toISOString().split('T')[0]]
+    }] : [];
+
     // Usar solo valor_neto_puro
     const metricToUse = selectedMetric === 'detalle_factura.valor_neto_sum'
       ? 'detalle_factura.valor_neto_puro'
@@ -35,12 +43,12 @@ export const useEvolucion = () => {
     return {
       dimensions: [currentLevelDef.dimensions[0], "detalle_factura.fecha_year_month"],
       measures: [metricToUse],
-      filters: monthFilter,
+      filters: [...monthFilter, ...dateRangeFilter],
       order: {
         [currentLevelDef.dimensions[0]]: 'asc',
       }
     };
-  }, [currentLevelDef, selectedMetric, selectedMonths, isRappelActive]);
+  }, [currentLevelDef, selectedMetric, selectedMonths, isRappelActive, selectedDateRange]);
 
   const { data: rawData, loading } = useCubeData(query, selectedMonths.length > 0);
 
@@ -165,6 +173,8 @@ export const useEvolucion = () => {
     statusBar,
     isRappelActive,
     setIsRappelActive,
+    selectedDateRange,
+    setSelectedDateRange,
     handleViewChange,
     setSelectedMetric,
     setNumMonths,

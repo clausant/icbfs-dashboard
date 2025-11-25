@@ -9,7 +9,8 @@ import customLoadingOverlay from "../../components/ui/customLoadingOverlay";
 import ViewSelector from "../../components/ui/ViewSelector/ViewSelector";
 // import RappelToggle from "../../components/ui/RappelToggle/RappelToggle"; // TEMPORALMENTE OCULTO
 import MonthFilter from "../../components/ui/MonthFilter/MonthFilter";
-import SocietyFilter from "../../components/ui/SocietyFilter/SocietyFilter"; // Importar SocietyFilter
+import SocietyFilter from "../../components/ui/SocietyFilter/SocietyFilter";
+import DateRangeFilter from "../../components/ui/DateRangeFilter/DateRangeFilter";
 import Toast from "../../components/ui/Toast/Toast";
 import DrillDownSelector from "../../components/ui/DrillDownSelector/DrillDownSelector";
 import { useProyeccion } from "../../hooks/useProyeccion";
@@ -41,6 +42,8 @@ const ProyeccionView = () => {
     selectedView,
     selectedMonth,
     setIsRappelActive,
+    selectedDateRange,
+    setSelectedDateRange,
     handleViewChange,
     setSelectedMonth,
     rowData,
@@ -123,6 +126,13 @@ const ProyeccionView = () => {
                   <SocietyFilter
                     selectedSociety={selectedSociety}
                     onSocietyChange={handleSocietyChange}
+                  />
+                </div>
+                <div className="control-group">
+                  <label>Rango:</label>
+                  <DateRangeFilter
+                    selectedRange={selectedDateRange}
+                    onRangeChange={setSelectedDateRange}
                   />
                 </div>
                 <div className="control-group">

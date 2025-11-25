@@ -1,0 +1,19 @@
+.date-range-filter {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  background-color: white;
+  cursor: pointer;
+  min-width: 120px;
+}
+
+.date-range-filter:hover {
+  border-color: #999;
+}
+
+.date-range-filter:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}

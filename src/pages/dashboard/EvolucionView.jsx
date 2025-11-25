@@ -9,6 +9,7 @@ import customLoadingOverlay from "../../components/ui/customLoadingOverlay";
 import ViewSelector from "../../components/ui/ViewSelector/ViewSelector";
 import MetricSelector from "../../components/ui/MetricSelector/MetricSelector";
 // import RappelToggle from "../../components/ui/RappelToggle/RappelToggle"; // TEMPORALMENTE OCULTO
+import DateRangeFilter from "../../components/ui/DateRangeFilter/DateRangeFilter";
 import { useEvolucion } from "../../hooks/useEvolucion";
 import { views } from "./dashboardConstants";
 import "../../styles/Dashboard.css";
@@ -32,6 +33,8 @@ const EvolucionView = () => {
     statusBar,
     isRappelActive,
     setIsRappelActive,
+    selectedDateRange,
+    setSelectedDateRange,
     handleViewChange,
     setSelectedMetric,
     setNumMonths,
@@ -77,6 +80,13 @@ const EvolucionView = () => {
               <MetricSelector
                 selectedMetric={selectedMetric}
                 setSelectedMetric={setSelectedMetric}
+              />
+            </div>
+            <div className="control-group">
+              <label>Rango:</label>
+              <DateRangeFilter
+                selectedRange={selectedDateRange}
+                onRangeChange={setSelectedDateRange}
               />
             </div>
             <div className="control-group">

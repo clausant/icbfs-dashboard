@@ -26,6 +26,7 @@ export const useProyeccion = (selectedSociety) => {
   const [dynamicDimensions, setDynamicDimensions] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState([getDefaultMonth()]); // Mes por defecto
   const [isRappelActive, setIsRappelActive] = useState(true);
+  const [selectedDateRange, setSelectedDateRange] = useState('today'); // 'today' o 'yesterday'
   const [showToast, setShowToast] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [clickedRowData, setClickedRowData] = useState(null);
@@ -57,6 +58,13 @@ export const useProyeccion = (selectedSociety) => {
       values: [selectedSociety]
     }] : [];
 
+    // Filtro de fecha: "Hasta ayer" excluye el día actual
+    const dateRangeFilter = selectedDateRange === 'yesterday' ? [{
+      member: "detalle_factura.fecha_factura",
+      operator: "beforeDate",
+      values: [new Date().toISOString().split('T')[0]] // Solo fecha YYYY-MM-DD
+    }] : [];
+
     // Usar solo valor_neto_puro (sin rappel, con EERR incluidas)
     const measures = currentLevelDef.measures.map(m =>
       m === "detalle_factura.valor_neto_sum" ? "detalle_factura.valor_neto_puro" : m
@@ -84,16 +92,17 @@ export const useProyeccion = (selectedSociety) => {
       filters: filters,
       monthFilter,
       societyFilter,
+      dateRangeFilter,
       filterDimensions,
-      allFilters: [...filters, ...monthFilter, ...societyFilter]
+      allFilters: [...filters, ...monthFilter, ...societyFilter, ...dateRangeFilter]
     });
 
     return {
       dimensions: finalDimensions,
       measures: measures,
-      filters: [...filters, ...monthFilter, ...societyFilter], // Incluir societyFilter aquí
+      filters: [...filters, ...monthFilter, ...societyFilter, ...dateRangeFilter],
     };
-  }, [currentLevelDef, filters, dynamicDimensions, selectedMonth, isRappelActive, selectedSociety, selectedView, drilldownLevel]); // Añadir selectedSociety a las dependencias
+  }, [currentLevelDef, filters, dynamicDimensions, selectedMonth, isRappelActive, selectedSociety, selectedDateRange, selectedView, drilldownLevel]);
 
   const dynamicColumnDefs = useMemo(() => {
     if (!currentLevelDef) return [];
@@ -402,6 +411,8 @@ export const useProyeccion = (selectedSociety) => {
     selectedMonth,
     isRappelActive,
     setIsRappelActive,
+    selectedDateRange,
+    setSelectedDateRange,
     handleViewChange,
     setSelectedMonth,
     rowData,
