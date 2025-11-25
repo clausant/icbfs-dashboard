@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './RappelToggle.css';
 
 const RappelToggle = ({ onToggle }) => {
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(true);
 
   const handleToggle = () => {
     const newIsActive = !isActive;
