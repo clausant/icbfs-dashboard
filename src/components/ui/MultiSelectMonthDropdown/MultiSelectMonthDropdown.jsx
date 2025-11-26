@@ -4,6 +4,7 @@ import './MultiSelectMonthDropdown.css';
 const MultiSelectMonthDropdown = ({ options, selectedValues, onChange, disabled = false }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [tempSelectedValues, setTempSelectedValues] = useState(selectedValues);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -18,6 +19,13 @@ const MultiSelectMonthDropdown = ({ options, selectedValues, onChange, disabled 
     };
   }, []);
 
+  // Sincronizar estado temporal cuando se abre el dropdown
+  useEffect(() => {
+    if (isOpen) {
+      setTempSelectedValues(selectedValues);
+    }
+  }, [isOpen, selectedValues]);
+
   const handleHeaderClick = () => {
     if (!disabled) {
       setIsOpen((prev) => !prev);
@@ -31,10 +39,22 @@ const MultiSelectMonthDropdown = ({ options, selectedValues, onChange, disabled 
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target;
     if (checked) {
-      onChange([...selectedValues, value]);
+      setTempSelectedValues([...tempSelectedValues, value]);
     } else {
-      onChange(selectedValues.filter((val) => val !== value));
+      setTempSelectedValues(tempSelectedValues.filter((val) => val !== value));
     }
+  };
+
+  const handleApply = () => {
+    onChange(tempSelectedValues);
+    setIsOpen(false);
+    setSearchTerm('');
+  };
+
+  const handleCancel = () => {
+    setTempSelectedValues(selectedValues);
+    setIsOpen(false);
+    setSearchTerm('');
   };
 
   const filteredOptions = options.filter((option) =>
@@ -63,18 +83,34 @@ const MultiSelectMonthDropdown = ({ options, selectedValues, onChange, disabled 
             value={searchTerm}
             onChange={handleSearchChange}
           />
-          {filteredOptions.map((option) => (
-            <label key={option} className="multi-select-month-dropdown-checkbox-item">
-              <input
-                type="checkbox"
-                value={option}
-                checked={selectedValues.includes(option)}
-                onChange={handleCheckboxChange}
-                className="multi-select-month-dropdown-checkbox-input"
-              />
-              {option}
-            </label>
-          ))}
+          <div className="multi-select-month-dropdown-options">
+            {filteredOptions.map((option) => (
+              <label key={option} className="multi-select-month-dropdown-checkbox-item">
+                <input
+                  type="checkbox"
+                  value={option}
+                  checked={tempSelectedValues.includes(option)}
+                  onChange={handleCheckboxChange}
+                  className="multi-select-month-dropdown-checkbox-input"
+                />
+                {option}
+              </label>
+            ))}
+          </div>
+          <div className="multi-select-month-dropdown-actions">
+            <button
+              className="multi-select-month-dropdown-btn-apply"
+              onClick={handleApply}
+            >
+              Aplicar
+            </button>
+            <button
+              className="multi-select-month-dropdown-btn-cancel"
+              onClick={handleCancel}
+            >
+              Cancelar
+            </button>
+          </div>
         </div>
       )}
     </div>

@@ -9,7 +9,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 2.25rem 0.5rem 0.875rem;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   font-weight: 500;
   border: 2px solid #e2e8f0;
   border-radius: 0.625rem;
@@ -62,9 +62,9 @@
   border-radius: 0.75rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   margin-top: 0.5rem;
-  max-height: 280px;
-  overflow-y: auto;
   animation: slideDown 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
 }
 
 @keyframes slideDown {
@@ -78,21 +78,27 @@
   }
 }
 
-.multi-select-month-dropdown-list::-webkit-scrollbar {
+.multi-select-month-dropdown-options {
+  max-height: 220px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.multi-select-month-dropdown-options::-webkit-scrollbar {
   width: 8px;
 }
 
-.multi-select-month-dropdown-list::-webkit-scrollbar-track {
+.multi-select-month-dropdown-options::-webkit-scrollbar-track {
   background: #f8fafc;
   border-radius: 0.75rem;
 }
 
-.multi-select-month-dropdown-list::-webkit-scrollbar-thumb {
+.multi-select-month-dropdown-options::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 0.75rem;
 }
 
-.multi-select-month-dropdown-list::-webkit-scrollbar-thumb:hover {
+.multi-select-month-dropdown-options::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
 
@@ -144,4 +150,51 @@
 
 .multi-select-month-dropdown-checkbox-input:hover {
   transform: scale(1.1);
+}
+
+.multi-select-month-dropdown-actions {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem 0.875rem;
+  border-top: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+  border-radius: 0 0 0.75rem 0.75rem;
+}
+
+.multi-select-month-dropdown-btn-apply,
+.multi-select-month-dropdown-btn-cancel {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.multi-select-month-dropdown-btn-apply {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.multi-select-month-dropdown-btn-apply:hover {
+  background-color: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
+}
+
+.multi-select-month-dropdown-btn-apply:active {
+  transform: translateY(0);
+}
+
+.multi-select-month-dropdown-btn-cancel {
+  background-color: #ffffff;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+}
+
+.multi-select-month-dropdown-btn-cancel:hover {
+  background-color: #f1f5f9;
+  border-color: #cbd5e1;
 }
