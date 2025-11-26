@@ -33,6 +33,9 @@ const ProyeccionView = () => {
     return saved !== null ? JSON.parse(saved) : true;
   });
 
+  // Estado para el Quick Filter
+  const [quickFilterText, setQuickFilterText] = useState('');
+
   // Guardar preferencia en localStorage
   useEffect(() => {
     localStorage.setItem('headerVisible', JSON.stringify(isHeaderVisible));
@@ -78,10 +81,19 @@ const ProyeccionView = () => {
   };
 
   const handleQuickFilter = (filterText) => {
+    setQuickFilterText(filterText);
     if (gridRef.current && gridRef.current.api) {
       gridRef.current.api.setGridOption('quickFilterText', filterText);
     }
   };
+
+  // Limpiar Quick Filter cuando cambia la vista o el nivel de drilldown
+  useEffect(() => {
+    setQuickFilterText('');
+    if (gridRef.current && gridRef.current.api) {
+      gridRef.current.api.setGridOption('quickFilterText', '');
+    }
+  }, [selectedView, drilldownLevel]);
 
   const onColumnPivotModeChanged = useCallback(() => {
     if (gridRef.current && gridRef.current.api && currentLevelDef) {
@@ -170,7 +182,7 @@ const ProyeccionView = () => {
 
       <div className="section-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span>Vista: {views.find(v => v.id === selectedView)?.name || selectedView}</span>
-        <QuickFilter onFilterChange={handleQuickFilter} />
+        <QuickFilter onFilterChange={handleQuickFilter} value={quickFilterText} />
       </div>
       <div className="grid-container">
         <div className="grid-wrapper">

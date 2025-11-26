@@ -15,7 +15,7 @@ const numberFormatter = new Intl.NumberFormat('es-CL', {
 
 export const sku = {
   0: {
-    dimensions: ["detalle_factura.sku"],
+    dimensions: ["detalle_factura.sku", "detalle_factura.nombre_producto"],
     measures: ["detalle_factura.valor_neto_sum",
       "detalle_factura.peso_neto_sum",
       "detalle_factura.sku_count",
@@ -31,7 +31,7 @@ export const sku = {
       "detalle_factura.combinacion_sku_cliente"
     ],
     columnDefs: [
-      { headerName: "SKU", field: "detalle_factura.sku", valueGetter: p => p.data ? p.data["detalle_factura.sku"] : '', enableRowGroup: true, filter: 'agSetColumnFilter', width: 200, pinned: 'left', cellStyle: { fontSize: '12px' } },
+      { headerName: "SKU", field: "detalle_factura.sku", valueGetter: p => p.data ? `${p.data["detalle_factura.sku"]} - ${p.data["detalle_factura.nombre_producto"] || ''}` : '', enableRowGroup: true, filter: 'agSetColumnFilter', width: 400, pinned: 'left', cellStyle: { fontSize: '12px' } },
       { headerName: "Venta$", field: "detalle_factura.valor_neto_sum", valueGetter: p => p.data ? Number(p.data["detalle_factura.valor_neto_sum"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), sort: 'desc', cellStyle: { fontSize: '12px' } },
       { headerName: "VentasProy$", field: "detalle_factura.ventas_proyeccion", valueGetter: p => p.data ? Number(p.data["detalle_factura.ventas_proyeccion"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), cellStyle: { fontSize: '12px' } },
       { headerName: "PrecioUnit$", field: "detalle_factura.precio_unitario", valueGetter: p => p.data ? (Number(p.data["detalle_factura.precio_unitario"]) || 0) : 0, aggFunc: 'avg', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), cellStyle: { fontSize: '12px' } },
