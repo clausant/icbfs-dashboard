@@ -180,7 +180,7 @@ const ProyeccionView = () => {
       <div className="section-header">Ruta de navegación</div>
       <Breadcrumb crumbs={crumbs} onDrilldownClick={handleBreadcrumbClick} />
 
-      <div className="section-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div className="section-header" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
         <span>Vista: {views.find(v => v.id === selectedView)?.name || selectedView}</span>
         <QuickFilter onFilterChange={handleQuickFilter} value={quickFilterText} />
       </div>
