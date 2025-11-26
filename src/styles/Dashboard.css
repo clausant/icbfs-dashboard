@@ -254,6 +254,7 @@
 /* Headers de columnas numéricas también a la derecha */
 .ag-header-cell[col-id*="valor_neto"] .ag-header-cell-label,
 .ag-header-cell[col-id*="peso_neto"] .ag-header-cell-label,
+.ag-header-cell[col-id*="cliente_count"] .ag-header-cell-label,
 .ag-header-cell[col-id*="sku_count"] .ag-header-cell-label,
 .ag-header-cell[col-id*="margen"] .ag-header-cell-label,
 .ag-header-cell[col-id*="proyeccion"] .ag-header-cell-label,

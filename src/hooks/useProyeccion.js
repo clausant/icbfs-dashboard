@@ -92,19 +92,6 @@ export const useProyeccion = (selectedSociety) => {
     // Eliminar dimensiones duplicadas (puede causar problemas en Cube.js)
     const finalDimensions = [...new Set(allDimensions)];
 
-    console.log('📊 Query construida:', {
-      view: selectedView,
-      level: drilldownLevel,
-      dimensions: finalDimensions,
-      measures: measures,
-      filters: filters,
-      monthFilter,
-      societyFilter,
-      dateRangeFilter,
-      eerrFilter,
-      filterDimensions,
-      allFilters: [...filters, ...monthFilter, ...societyFilter, ...dateRangeFilter, ...eerrFilter]
-    });
 
     return {
       dimensions: finalDimensions,
@@ -112,6 +99,46 @@ export const useProyeccion = (selectedSociety) => {
       filters: [...filters, ...monthFilter, ...societyFilter, ...dateRangeFilter, ...eerrFilter],
     };
   }, [currentLevelDef, filters, dynamicDimensions, selectedMonth, isRappelActive, selectedSociety, selectedDateRange, isEERRExcluded, selectedView, drilldownLevel]);
+
+  // Query adicional para obtener totales globales (COUNT DISTINCT real)
+  const totalsQuery = useMemo(() => {
+    if (!currentLevelDef) return null;
+
+    const monthFilter = selectedMonth.length > 0 ? [{
+      member: "detalle_factura.fecha_year_month",
+      operator: "in",
+      values: selectedMonth
+    }] : [];
+
+    const societyFilter = selectedSociety && selectedSociety !== 'all' ? [{
+      member: "detalle_factura.sociedad",
+      operator: "equals",
+      values: [selectedSociety]
+    }] : [];
+
+    const dateRangeFilter = selectedDateRange === 'yesterday' ? [{
+      member: "detalle_factura.fecha_factura",
+      operator: "beforeDate",
+      values: [new Date().toISOString().split('T')[0]]
+    }] : [];
+
+    const eerrFilter = isEERRExcluded ? [{
+      member: "detalle_factura.id_grupo_cliente",
+      operator: "notEquals",
+      values: ["99"]
+    }] : [];
+
+    return {
+      dimensions: [], // SIN dimensiones para obtener el total global
+      measures: [
+        "detalle_factura.cliente_count",
+        "detalle_factura.sku_count",
+        "detalle_factura.ratio_sku_cliente"
+        // NO incluir combinacion_sku_cliente porque no es un COUNT DISTINCT puro
+      ],
+      filters: [...filters, ...monthFilter, ...societyFilter, ...dateRangeFilter, ...eerrFilter],
+    };
+  }, [currentLevelDef, filters, selectedMonth, selectedSociety, selectedDateRange, isEERRExcluded]);
 
   const dynamicColumnDefs = useMemo(() => {
     if (!currentLevelDef) return [];
@@ -147,19 +174,17 @@ export const useProyeccion = (selectedSociety) => {
 
   const { data: rowData, loading } = useCubeData(query, true); // Siempre cargar datos
 
-  // Debug: Log de datos recibidos
-  console.log('📦 Datos recibidos de Cube.js:', {
-    view: selectedView,
-    level: drilldownLevel,
-    rowCount: rowData?.length || 0,
-    firstRow: rowData?.[0],
-    loading
-  });
+  // Query para totales globales (COUNT DISTINCT real)
+  const { data: totalsData, loading: loadingTotals } = useCubeData(totalsQuery, true);
+
 
   const pinnedTopRowData = useMemo(() => {
     if (!rowData || rowData.length === 0) {
       return [];
     }
+
+    // Extraer totales globales de la query de totales
+    const globalTotals = totalsData && totalsData.length > 0 ? totalsData[0] : {};
 
     const totals = {};
     dynamicColumnDefs.forEach(colDef => {
@@ -180,12 +205,21 @@ export const useProyeccion = (selectedSociety) => {
         // Aplicar el tipo de agregación correcto
         if (colDef.aggFunc === 'avg') {
           totals[field] = values.length > 0 ? values.reduce((a, b) => a + b, 0) / values.length : 0;
+        } else if (field === 'detalle_factura.cliente_count' ||
+                   field === 'detalle_factura.sku_count' ||
+                   field === 'detalle_factura.ratio_sku_cliente') {
+          // Para COUNT DISTINCT: usar valores globales de la query de totales
+          totals[field] = globalTotals[field] ? Number(globalTotals[field]) : 0;
+        } else if (field === 'detalle_factura.combinacion_sku_cliente') {
+          // Para #CombSKU/Cliente: SUMAR los valores de las filas (no es COUNT DISTINCT puro)
+          totals[field] = values.reduce((sum, val) => sum + val, 0);
         } else {
           // Por defecto suma (aggFunc: 'sum')
           totals[field] = values.reduce((sum, val) => sum + val, 0);
         }
       }
     });
+
 
     // Calcular campos derivados correctamente
     // PrecioUnit$ = Venta$ / Kilos
@@ -202,13 +236,23 @@ export const useProyeccion = (selectedSociety) => {
         totals['detalle_factura.margen_valor'] / totals['detalle_factura.peso_neto_sum'];
     }
 
+    // #SKU/Cliente ya viene calculado de la query de totales (COUNT DISTINCT)
+    // No necesitamos calcularlo manualmente
+
+    // Margen% = (Total Margen$ / Total Venta$) × 100 (promedio ponderado)
+    const totalVenta = totals['detalle_factura.valor_neto_puro'] || totals['detalle_factura.valor_neto_sum'];
+    if (totalVenta > 0 && totals['detalle_factura.margen_valor']) {
+      totals['detalle_factura.margen_porcentaje'] =
+        (totals['detalle_factura.margen_valor'] / totalVenta) * 100;
+    }
+
     const firstColumnField = dynamicColumnDefs[0]?.field;
     if (firstColumnField) {
       totals[firstColumnField] = 'TOTAL';
     }
 
     return [totals];
-  }, [rowData, dynamicColumnDefs]);
+  }, [rowData, dynamicColumnDefs, totalsData]);
 
   const crumbs = useMemo(() => {
     const breadcrumbs = [];
@@ -427,7 +471,7 @@ export const useProyeccion = (selectedSociety) => {
     handleViewChange,
     setSelectedMonth,
     rowData,
-    loading,
+    loading: loading || loadingTotals,
     dynamicColumnDefs,
     defaultColDef,
     handleRowClicked,

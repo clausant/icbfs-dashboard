@@ -27,6 +27,7 @@ export const subfamilia = {
       "detalle_factura.precio_unitario",
       "detalle_factura.margen_unitario",
       "detalle_factura.producto_foco_valor",
+      "detalle_factura.cliente_count",
       "detalle_factura.ratio_sku_cliente",
       "detalle_factura.combinacion_sku_cliente"
     ],
@@ -43,6 +44,7 @@ export const subfamilia = {
       { headerName: "Margen$", field: "detalle_factura.margen_valor", valueGetter: p => p.data ? Number(p.data["detalle_factura.margen_valor"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), cellStyle: { fontSize: '12px' } },
       { headerName: "MargenProy$", field: "detalle_factura.margen_proyeccion", valueGetter: p => p.data ? Number(p.data["detalle_factura.margen_proyeccion"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), cellStyle: { fontSize: '12px' } },
       { headerName: "PFoco$", field: "detalle_factura.producto_foco_valor", valueGetter: p => p.data ? Number(p.data["detalle_factura.producto_foco_valor"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => currencyFormatter.format(p.value), cellStyle: { fontSize: '12px' } },
+      { headerName: "#Cliente", field: "detalle_factura.cliente_count", valueGetter: p => p.data ? Number(p.data["detalle_factura.cliente_count"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => numberFormatter.format(p.value), cellStyle: { fontSize: '12px' } },
       { headerName: "#SKU/Cliente", field: "detalle_factura.ratio_sku_cliente", valueGetter: p => p.data ? Number(p.data["detalle_factura.ratio_sku_cliente"]) : 0, aggFunc: 'sum', enableValue: true, cellStyle: { fontSize: '12px' } },
       { headerName: "CombSKU/Cliente#", field: "detalle_factura.combinacion_sku_cliente", valueGetter: p => p.data ? Number(p.data["detalle_factura.combinacion_sku_cliente"]) : 0, aggFunc: 'sum', enableValue: true, valueFormatter: p => numberFormatter.format(p.value), cellStyle: { fontSize: '12px' } },
     ],
