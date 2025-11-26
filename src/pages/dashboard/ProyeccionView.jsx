@@ -12,6 +12,7 @@ import MonthFilter from "../../components/ui/MonthFilter/MonthFilter";
 import SocietyFilter from "../../components/ui/SocietyFilter/SocietyFilter";
 import DateRangeFilter from "../../components/ui/DateRangeFilter/DateRangeFilter";
 import EERRToggle from "../../components/ui/EERRToggle/EERRToggle";
+import QuickFilter from "../../components/ui/QuickFilter/QuickFilter";
 import Toast from "../../components/ui/Toast/Toast";
 import DrillDownSelector from "../../components/ui/DrillDownSelector/DrillDownSelector";
 import { useProyeccion } from "../../hooks/useProyeccion";
@@ -74,6 +75,12 @@ const ProyeccionView = () => {
     // Aquí puedes añadir la lógica para filtrar los datos de ProyeccionView
     // o para pasar este valor a useProyeccion si maneja los filtros
     console.log('Sociedad seleccionada en ProyeccionView:', newSociety);
+  };
+
+  const handleQuickFilter = (filterText) => {
+    if (gridRef.current && gridRef.current.api) {
+      gridRef.current.api.setGridOption('quickFilterText', filterText);
+    }
   };
 
   const onColumnPivotModeChanged = useCallback(() => {
@@ -161,8 +168,9 @@ const ProyeccionView = () => {
       <div className="section-header">Ruta de navegación</div>
       <Breadcrumb crumbs={crumbs} onDrilldownClick={handleBreadcrumbClick} />
 
-      <div className="section-header">
-        Vista: {views.find(v => v.id === selectedView)?.name || selectedView}
+      <div className="section-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span>Vista: {views.find(v => v.id === selectedView)?.name || selectedView}</span>
+        <QuickFilter onFilterChange={handleQuickFilter} />
       </div>
       <div className="grid-container">
         <div className="grid-wrapper">
