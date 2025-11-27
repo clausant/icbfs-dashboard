@@ -91,27 +91,30 @@
 
 .dashboard-controls {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
   gap: 1.5rem;
+  width: 100%;
+  flex-wrap: wrap;
 }
 
 .control-group {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.5rem;
-  min-height: 68px;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.625rem;
+  flex: 1;
+  min-width: 200px;
 }
 
 .control-group label {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: #4b5563;
   white-space: nowrap;
   line-height: 1.2;
-  height: 18px;
+  margin: 0;
+  flex-shrink: 0;
 }
 
 /* Comparativo selects - modern style */

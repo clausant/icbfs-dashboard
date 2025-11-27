@@ -146,6 +146,10 @@ const ProyeccionView = () => {
                     onSocietyChange={handleSocietyChange}
                   />
                 </div>
+                <div className="control-group">
+                  <label>Vista:</label>
+                  <ViewSelector views={views} selectedView={selectedView} setSelectedView={handleViewChange} />
+                </div>
                 {/* OCULTO - Rango siempre "Hasta ayer"
                 <div className="control-group">
                   <label>Rango:</label>
@@ -161,10 +165,6 @@ const ProyeccionView = () => {
                   <EERRToggle onToggle={setIsEERRExcluded} />
                 </div>
                 */}
-                <div className="control-group">
-                  <label>Vista:</label>
-                  <ViewSelector views={views} selectedView={selectedView} setSelectedView={handleViewChange} />
-                </div>
                 {/* TEMPORALMENTE OCULTO - Toggle Rappel
                 <div className="control-group">
                   <label>Restar Rappel:</label>
