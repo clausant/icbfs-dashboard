@@ -26,7 +26,7 @@ export const themeCostum = themeAlpine.withParams({
   pinnedRowBackgroundColor: "#d1d5db",
 
   // Espaciado
-  spacing: "0.5rem",
+  spacing: "0",
   cellHorizontalPadding: "0.2rem",
 
   // Fuentes
