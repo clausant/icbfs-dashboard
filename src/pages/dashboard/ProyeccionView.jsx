@@ -75,9 +75,6 @@ const ProyeccionView = () => {
 
   const handleSocietyChange = (newSociety) => {
     setSelectedSociety(newSociety);
-    // Aquí puedes añadir la lógica para filtrar los datos de ProyeccionView
-    // o para pasar este valor a useProyeccion si maneja los filtros
-    console.log('Sociedad seleccionada en ProyeccionView:', newSociety);
   };
 
   const handleQuickFilter = (filterText) => {
@@ -106,13 +103,12 @@ const ProyeccionView = () => {
   }, [rowData, currentLevelDef]);
 
   const onGridReady = useCallback((params) => {
-    // Auto-size todas las columnas al cargar
-    params.api.autoSizeAllColumns();
-
-    // Luego fijar el ancho de la primera columna a 150px
+    // Optimización: No usar autoSizeAllColumns (muy costoso)
+    // Las columnas ya tienen width definido en columnDefs
+    // Solo ajustar primera columna si es necesario
     const firstColumn = params.api.getAllDisplayedColumns()[0];
     if (firstColumn) {
-      params.api.setColumnWidths([{key: firstColumn.getColId(), newWidth: 150}]);
+      params.api.setColumnWidths([{key: firstColumn.getColId(), newWidth: 200}]);
     }
   }, []);
 

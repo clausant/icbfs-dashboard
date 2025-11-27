@@ -30,6 +30,18 @@ export default defineConfig({
     'import.meta.env.VITE_COMMIT_HASH': JSON.stringify(getGitCommitHash()),
   },
   build: {
+    // Usar Terser para minificación agresiva
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true, // Eliminar todos los console.log en producción
+        drop_debugger: true, // Eliminar debugger statements
+        pure_funcs: ['console.log', 'console.info', 'console.debug'], // Funciones a eliminar
+      },
+      format: {
+        comments: false, // Eliminar comentarios
+      },
+    },
     rollupOptions: {
       output: {
         manualChunks: {

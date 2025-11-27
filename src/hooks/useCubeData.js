@@ -20,17 +20,22 @@ export const useCubeData = (query, isQueryReady = true) => {
     setData([]);
     setLoading(true);
 
-    console.log('🔵 Ejecutando query en Cube.js:', query);
+    // Solo mostrar logs en desarrollo
+    if (import.meta.env.DEV) {
+      console.log('🔵 Ejecutando query en Cube.js:', query);
+    }
 
     cubeApi
       .load(query)
       .then((resultSet) => {
         const tableData = resultSet.tablePivot();
-        console.log('🟢 Respuesta de Cube.js:', {
-          rowCount: tableData.length,
-          firstRow: tableData[0],
-          query: query
-        });
+        if (import.meta.env.DEV) {
+          console.log('🟢 Respuesta de Cube.js:', {
+            rowCount: tableData.length,
+            firstRow: tableData[0],
+            query: query
+          });
+        }
         setData(tableData);
         setLoading(false);
       })
