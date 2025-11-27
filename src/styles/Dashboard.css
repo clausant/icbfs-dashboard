@@ -239,7 +239,10 @@
 }
 
 .ag-center-cols-container,
-.ag-center-cols-viewport {
+.ag-center-cols-viewport,
+.ag-center-cols-clipper,
+.ag-body-viewport,
+.ag-body-viewport-wrapper {
   line-height: 0 !important;
   gap: 0 !important;
   row-gap: 0 !important;
@@ -249,6 +252,12 @@
   line-height: 0 !important;
   gap: 0 !important;
   row-gap: 0 !important;
+  display: block !important;
+}
+
+/* Forzar que no haya espacio entre filas */
+.ag-row + .ag-row {
+  margin-top: 0 !important;
 }
 
 .ag-cell {
