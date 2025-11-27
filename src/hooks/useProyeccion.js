@@ -26,7 +26,7 @@ export const useProyeccion = (selectedSociety) => {
   const [dynamicDimensions, setDynamicDimensions] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState([getDefaultMonth()]); // Mes por defecto
   const [isRappelActive, setIsRappelActive] = useState(true);
-  const [selectedDateRange, setSelectedDateRange] = useState('today'); // 'today' o 'yesterday'
+  const [selectedDateRange, setSelectedDateRange] = useState('yesterday'); // 'yesterday' por defecto (hasta ayer)
   const [isEERRExcluded, setIsEERRExcluded] = useState(true); // Por defecto SÍ excluir EERR
   const [showToast, setShowToast] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);

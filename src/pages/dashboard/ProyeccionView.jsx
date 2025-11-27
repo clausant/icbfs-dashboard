@@ -146,6 +146,7 @@ const ProyeccionView = () => {
                     onSocietyChange={handleSocietyChange}
                   />
                 </div>
+                {/* OCULTO - Rango siempre "Hasta ayer"
                 <div className="control-group">
                   <label>Rango:</label>
                   <DateRangeFilter
@@ -153,10 +154,13 @@ const ProyeccionView = () => {
                     onRangeChange={setSelectedDateRange}
                   />
                 </div>
+                */}
+                {/* OCULTO - Excluir EERR siempre activo
                 <div className="control-group">
                   <label>Excluir EERR:</label>
                   <EERRToggle onToggle={setIsEERRExcluded} />
                 </div>
+                */}
                 <div className="control-group">
                   <label>Vista:</label>
                   <ViewSelector views={views} selectedView={selectedView} setSelectedView={handleViewChange} />
