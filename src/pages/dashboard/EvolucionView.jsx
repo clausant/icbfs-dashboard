@@ -120,6 +120,7 @@ const EvolucionView = () => {
             loading={loading}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
+            rowHeight={24}
             loadingOverlayComponent={customLoadingOverlay}
             loadingOverlayComponentParams={loadingOverlayComponentParams}
             statusBar={statusBar}

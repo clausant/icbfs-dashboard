@@ -193,6 +193,7 @@ const ProyeccionView = () => {
             loading={loading}
             columnDefs={dynamicColumnDefs}
             defaultColDef={defaultColDef}
+            rowHeight={24}
             onRowClicked={handleRowClicked}
             onCellClicked={handleRowClicked}
             pivotPanelShow="always"
