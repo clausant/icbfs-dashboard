@@ -243,6 +243,8 @@
   line-height: 1.5 !important;
   display: flex !important;
   align-items: center !important;
+  border: none !important;
+  border-top: 1px solid #f0f0f0 !important;
 }
 
 .ag-header-cell {
@@ -255,6 +257,12 @@
   height: 24px !important;
   min-height: 24px !important;
   max-height: 24px !important;
+  border: none !important;
+}
+
+.ag-row::before,
+.ag-row::after {
+  display: none !important;
 }
 
 .ag-header-row {
