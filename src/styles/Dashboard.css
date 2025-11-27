@@ -245,6 +245,14 @@
   align-items: center !important;
   border: none !important;
   border-top: 1px solid #f0f0f0 !important;
+  height: 24px !important;
+  max-height: 24px !important;
+}
+
+.ag-cell-wrapper,
+.ag-cell-value {
+  line-height: 1.5 !important;
+  height: auto !important;
 }
 
 .ag-header-cell {
@@ -258,10 +266,29 @@
   min-height: 24px !important;
   max-height: 24px !important;
   border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.ag-row-odd,
+.ag-row-even {
+  height: 24px !important;
+  min-height: 24px !important;
+  max-height: 24px !important;
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .ag-row::before,
 .ag-row::after {
+  display: none !important;
+}
+
+.ag-row-odd::before,
+.ag-row-odd::after,
+.ag-row-even::before,
+.ag-row-even::after {
   display: none !important;
 }
 
