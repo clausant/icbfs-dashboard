@@ -239,22 +239,28 @@
 }
 
 .ag-cell {
-  padding: 4px 8px !important;
-  line-height: 1.2 !important;
+  padding: 2px 8px !important;
+  line-height: 1.5 !important;
+  display: flex !important;
+  align-items: center !important;
 }
 
 .ag-header-cell {
-  padding: 4px 8px !important;
+  padding: 2px 8px !important;
+  display: flex !important;
+  align-items: center !important;
 }
 
 .ag-row {
   height: 28px !important;
   min-height: 28px !important;
+  max-height: 28px !important;
 }
 
 .ag-header-row {
   height: 28px !important;
   min-height: 28px !important;
+  max-height: 28px !important;
 }
 
 /* Estilo para celdas de texto (por defecto a la izquierda) */
