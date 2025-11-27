@@ -1,7 +1,7 @@
 .month-filter-container {
   display: flex;
   align-items: center;
-  flex: 1;
+  width: 200px;
   position: relative;
 }
 

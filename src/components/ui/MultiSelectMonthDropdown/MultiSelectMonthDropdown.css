@@ -1,6 +1,6 @@
 .multi-select-month-dropdown-container {
   position: relative;
-  flex: 1;
+  width: 200px;
 }
 
 .multi-select-month-dropdown-header {

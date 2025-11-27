@@ -103,8 +103,7 @@
   flex-direction: row;
   align-items: center;
   gap: 0.625rem;
-  flex: 1;
-  min-width: 200px;
+  flex: 0 0 auto;
 }
 
 .control-group label {

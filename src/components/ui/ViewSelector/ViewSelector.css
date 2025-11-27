@@ -1,11 +1,11 @@
 .view-selector-container {
   display: flex;
   align-items: center;
-  flex: 1;
+  width: 200px;
 }
 
 .view-selector-select {
-  flex: 1;
+  width: 200px;
   padding: 0.625rem 2rem 0.625rem 0.875rem;
   font-size: 0.8rem;
   font-weight: 500;
