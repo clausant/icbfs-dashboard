@@ -238,6 +238,15 @@
   font-size: 13px !important;
 }
 
+.ag-center-cols-container,
+.ag-center-cols-viewport {
+  line-height: 0 !important;
+}
+
+.ag-row-container {
+  line-height: 0 !important;
+}
+
 .ag-cell {
   padding: 2px 8px !important;
   line-height: 1.5 !important;
@@ -312,6 +321,7 @@
 /* Alinear números a la derecha (mantener color original) */
 .ag-cell.numeric-cell {
   text-align: right !important;
+  justify-content: flex-end !important;
 }
 
 /* Fila total más oscura y negrita para destacar - TODAS las celdas */
