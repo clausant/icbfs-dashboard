@@ -157,6 +157,8 @@ const ComparativoView = () => {
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             rowHeight={24}
+            headerHeight={28}
+            pinnedTopRowHeight={24}
             loadingOverlayComponent={customLoadingOverlay}
             loadingOverlayComponentParams={loadingOverlayComponentParams}
             statusBar={statusBar}
