@@ -114,6 +114,8 @@
   line-height: 1.2;
   margin: 0;
   flex-shrink: 0;
+  width: 70px;
+  text-align: left;
 }
 
 /* Comparativo selects - modern style */
