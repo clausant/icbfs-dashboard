@@ -241,10 +241,14 @@
 .ag-center-cols-container,
 .ag-center-cols-viewport {
   line-height: 0 !important;
+  gap: 0 !important;
+  row-gap: 0 !important;
 }
 
 .ag-row-container {
   line-height: 0 !important;
+  gap: 0 !important;
+  row-gap: 0 !important;
 }
 
 .ag-cell {
