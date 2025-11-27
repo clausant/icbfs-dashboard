@@ -321,9 +321,9 @@
 
 /* Mantener altura mayor para la fila total (pinned) */
 .ag-row-pinned {
-  height: 32px !important;
-  min-height: 32px !important;
-  max-height: 32px !important;
+  height: 24px !important;
+  min-height: 24px !important;
+  max-height: 24px !important;
 }
 
 /* Estilo para celdas de texto (por defecto a la izquierda) */
