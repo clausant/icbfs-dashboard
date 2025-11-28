@@ -49,7 +49,7 @@ export const useEvolucion = () => {
       : selectedMetric;
 
     return {
-      dimensions: [currentLevelDef.dimensions[0], "detalle_factura.fecha_year_month"],
+      dimensions: [...currentLevelDef.dimensions, "detalle_factura.fecha_year_month"],
       measures: [metricToUse],
       filters: [...monthFilter, ...dateRangeFilter, ...eerrFilter],
       order: {
@@ -83,6 +83,10 @@ export const useEvolucion = () => {
         groupedData[key] = {
           [mainDimensionField]: key,
         };
+        // Si es vista SKU, guardar también el nombre del producto
+        if (selectedView === 'sku' && row['detalle_factura.nombre_producto']) {
+          groupedData[key]['detalle_factura.nombre_producto'] = row['detalle_factura.nombre_producto'];
+        }
       }
       const month = row['detalle_factura.fecha_year_month'];
       groupedData[key][month] = Number(row[metricToUse]) || 0;
@@ -96,8 +100,16 @@ export const useEvolucion = () => {
       {
         headerName: currentLevelDef.columnDefs[0].headerName,
         field: mainDimensionField,
-        valueGetter: params => params.data ? params.data[mainDimensionField] : '',
-        minWidth: 150,
+        valueGetter: params => {
+          if (!params.data) return '';
+          // Si es vista SKU, concatenar con nombre del producto
+          if (selectedView === 'sku' && params.data['detalle_factura.nombre_producto']) {
+            return `${params.data[mainDimensionField]} - ${params.data['detalle_factura.nombre_producto']}`;
+          }
+          return params.data[mainDimensionField];
+        },
+        minWidth: selectedView === 'sku' ? 400 : 150,
+        cellStyle: selectedView === 'sku' ? { fontSize: '12px' } : undefined,
         sortable: true,
         filter: 'agSetColumnFilter',
       },

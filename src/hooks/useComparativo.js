@@ -57,7 +57,7 @@ export const useComparativo = () => {
     }] : [];
 
     return {
-      dimensions: [currentLevelDef.dimensions[0]],
+      dimensions: currentLevelDef.dimensions,
       measures: [metricToUse],
       filters: [{
         member: "detalle_factura.fecha_year_month",
@@ -93,7 +93,7 @@ export const useComparativo = () => {
     }] : [];
 
     return {
-      dimensions: [currentLevelDef.dimensions[0]],
+      dimensions: currentLevelDef.dimensions,
       measures: [metricToUse],
       filters: [{
         member: "detalle_factura.fecha_year_month",
@@ -130,6 +130,10 @@ export const useComparativo = () => {
         const key = row[mainDimensionField];
         if (!dataMap[key]) {
           dataMap[key] = { [mainDimensionField]: key };
+          // Si es vista SKU, guardar también el nombre del producto
+          if (selectedView === 'sku' && row['detalle_factura.nombre_producto']) {
+            dataMap[key]['detalle_factura.nombre_producto'] = row['detalle_factura.nombre_producto'];
+          }
         }
         dataMap[key].actual = Number(row[metricToUse]) || 0;
       });
@@ -141,6 +145,10 @@ export const useComparativo = () => {
         const key = row[mainDimensionField];
         if (!dataMap[key]) {
           dataMap[key] = { [mainDimensionField]: key };
+          // Si es vista SKU, guardar también el nombre del producto
+          if (selectedView === 'sku' && row['detalle_factura.nombre_producto']) {
+            dataMap[key]['detalle_factura.nombre_producto'] = row['detalle_factura.nombre_producto'];
+          }
         }
         dataMap[key].compare = Number(row[metricToUse]) || 0;
       });
@@ -167,10 +175,18 @@ export const useComparativo = () => {
       {
         headerName: currentLevelDef.columnDefs[0].headerName,
         field: mainDimensionField,
-        valueGetter: params => params.data ? params.data[mainDimensionField] : '',
-        minWidth: 150,
+        valueGetter: params => {
+          if (!params.data) return '';
+          // Si es vista SKU, concatenar con nombre del producto
+          if (selectedView === 'sku' && params.data['detalle_factura.nombre_producto']) {
+            return `${params.data[mainDimensionField]} - ${params.data['detalle_factura.nombre_producto']}`;
+          }
+          return params.data[mainDimensionField];
+        },
+        minWidth: selectedView === 'sku' ? 400 : 150,
         sortable: true,
         filter: 'agSetColumnFilter',
+        cellStyle: selectedView === 'sku' ? { fontSize: '12px' } : undefined,
       },
       {
         headerName: `Actual`,
