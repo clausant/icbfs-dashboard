@@ -103,9 +103,9 @@ const ClienteFilter = ({ onClienteChange, value }) => {
         </div>
       )}
 
-      {loading && (
+      {!displayValue && (
         <div className="cliente-filter-hint" style={{color: '#64748b'}}>
-          Cargando clientes...
+          {loading ? 'Cargando clientes...' : `${clientes.length} clientes disponibles`}
         </div>
       )}
     </div>
