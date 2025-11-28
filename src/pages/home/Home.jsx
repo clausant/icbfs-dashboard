@@ -13,11 +13,13 @@ const Home = () => {
   const [isHoveringLogin, setIsHoveringLogin] = useState(false);
   const [isHoveringLogout, setIsHoveringLogout] = useState(false);
 
-  // Usuarios válidos
-  const validUsers = [
-    { username: 'admin', password: 'icb8899' },
-    { username: 'gbraun', password: 'icbfs.2025_' }
-  ];
+  // Usuarios válidos desde variables de entorno
+  const validUsers = import.meta.env.VITE_AUTH_USERS
+    ? import.meta.env.VITE_AUTH_USERS.split(',').map(user => {
+        const [username, password] = user.split(':');
+        return { username, password };
+      })
+    : [];
 
   const handleLogin = (e) => {
     e.preventDefault();
