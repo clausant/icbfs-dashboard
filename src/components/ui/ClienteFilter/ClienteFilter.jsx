@@ -1,27 +1,36 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { useCubeClientes } from '../../../hooks/useCubeClientes';
+import React, { useState, useEffect, useRef } from 'react';
+import { useCubeData } from '../../../hooks/useCubeData';
 import './ClienteFilter.css';
 
 const ClienteFilter = ({ onClienteChange, value }) => {
   const [inputText, setInputText] = useState('');
+  const [searchText, setSearchText] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
-  const { clientes, loading } = useCubeClientes();
 
-  // Filtrar clientes según el texto de búsqueda
-  const filteredClientes = useMemo(() => {
-    if (!inputText || inputText.length < 2) return [];
-    const searchLower = inputText.toLowerCase().trim();
+  // Query solo cuando searchText tiene valor
+  const query = searchText && searchText.length >= 2 ? {
+    dimensions: ["detalle_factura.id_cliente", "detalle_factura.nombre_cliente"],
+    measures: [],
+    filters: [{
+      member: "detalle_factura.nombre_cliente",
+      operator: "contains",
+      values: [searchText]
+    }],
+    order: {
+      "detalle_factura.nombre_cliente": "asc"
+    },
+    limit: 50
+  } : null;
 
-    const filtered = clientes.filter(cliente => {
-      if (!cliente || !cliente.nombre) return false;
-      const nombreLower = cliente.nombre.toLowerCase();
-      const idLower = String(cliente.id).toLowerCase();
-      return nombreLower.includes(searchLower) || idLower.includes(searchLower);
-    }).slice(0, 50);
+  const { data, loading } = useCubeData(query || {}, !!query);
 
-    return filtered;
-  }, [inputText, clientes]);
+  const clientes = data && data.length > 0
+    ? data.map(row => ({
+        id: row["detalle_factura.id_cliente"],
+        nombre: row["detalle_factura.nombre_cliente"]
+      }))
+    : [];
 
   // Cerrar dropdown al hacer click fuera
   useEffect(() => {
@@ -34,22 +43,41 @@ const ClienteFilter = ({ onClienteChange, value }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Mostrar dropdown cuando llegan resultados
+  useEffect(() => {
+    if (clientes.length > 0 && !loading) {
+      setIsOpen(true);
+    }
+  }, [clientes, loading]);
+
   const handleChange = (event) => {
-    const text = event.target.value;
-    setInputText(text);
-    setIsOpen(text.length >= 2);
+    setInputText(event.target.value);
+  };
+
+  const handleSearch = () => {
+    if (inputText && inputText.length >= 2) {
+      setSearchText(inputText);
+    }
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
   };
 
   const handleSelect = (cliente) => {
     setInputText(cliente.nombre);
     onClienteChange(cliente.nombre);
     setIsOpen(false);
+    setSearchText(''); // Limpiar búsqueda
   };
 
   const handleClear = () => {
     setInputText('');
     onClienteChange('');
     setIsOpen(false);
+    setSearchText('');
   };
 
   const displayValue = value || inputText;
@@ -61,11 +89,19 @@ const ClienteFilter = ({ onClienteChange, value }) => {
           type="text"
           value={displayValue}
           onChange={handleChange}
-          onFocus={() => displayValue.length >= 2 && setIsOpen(true)}
-          placeholder="Filtrar por cliente..."
+          onKeyPress={handleKeyPress}
+          placeholder="Buscar cliente..."
           className="cliente-filter-input"
-          title={displayValue ? `Filtrando por: ${displayValue}` : ''}
+          title={displayValue ? `Filtrando por: ${displayValue}` : 'Escribe al menos 2 caracteres y presiona Buscar'}
         />
+        <button
+          onClick={handleSearch}
+          className="cliente-filter-search-btn"
+          disabled={!inputText || inputText.length < 2}
+          title="Buscar clientes"
+        >
+          🔍
+        </button>
         {displayValue && (
           <button
             onClick={handleClear}
@@ -77,13 +113,13 @@ const ClienteFilter = ({ onClienteChange, value }) => {
         )}
       </div>
 
-      {isOpen && filteredClientes.length > 0 && (
+      {isOpen && clientes.length > 0 && (
         <div className="cliente-filter-dropdown">
           <div className="cliente-filter-dropdown-header">
-            {filteredClientes.length} cliente{filteredClientes.length !== 1 ? 's' : ''} encontrado{filteredClientes.length !== 1 ? 's' : ''}
+            {clientes.length} cliente{clientes.length !== 1 ? 's' : ''} encontrado{clientes.length !== 1 ? 's' : ''}
           </div>
           <div className="cliente-filter-options">
-            {filteredClientes.map((cliente, index) => (
+            {clientes.map((cliente, index) => (
               <div
                 key={index}
                 className="cliente-filter-option"
@@ -103,9 +139,15 @@ const ClienteFilter = ({ onClienteChange, value }) => {
         </div>
       )}
 
-      {!displayValue && (
+      {loading && (
         <div className="cliente-filter-hint" style={{color: '#64748b'}}>
-          {loading ? 'Cargando clientes...' : `${clientes.length} clientes disponibles`}
+          Buscando clientes...
+        </div>
+      )}
+
+      {!loading && searchText && clientes.length === 0 && (
+        <div className="cliente-filter-hint" style={{color: '#dc2626'}}>
+          No se encontraron clientes con "{searchText}"
         </div>
       )}
     </div>
