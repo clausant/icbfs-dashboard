@@ -18,7 +18,7 @@ const getViewName = (viewId) => {
   return view ? view.name : viewId;
 };
 
-export const useProyeccion = (selectedSociety) => {
+export const useProyeccion = (selectedSociety, selectedCliente = '') => {
   const [drilldownLevel, setDrilldownLevel] = useState(0);
   const [filters, setFilters] = useState([]);
   const [filterMetadata, setFilterMetadata] = useState([]); // Metadata separada para breadcrumb
@@ -73,6 +73,13 @@ export const useProyeccion = (selectedSociety) => {
       values: ["99"]
     }] : [];
 
+    // Filtro de cliente: buscar por nombre de cliente
+    const clienteFilter = selectedCliente && selectedCliente.trim() !== '' ? [{
+      member: "detalle_factura.nombre_cliente",
+      operator: "contains",
+      values: [selectedCliente]
+    }] : [];
+
     // Usar solo valor_neto_puro (sin rappel, con EERR incluidas)
     const measures = currentLevelDef.measures.map(m =>
       m === "detalle_factura.valor_neto_sum" ? "detalle_factura.valor_neto_puro" : m
@@ -96,9 +103,9 @@ export const useProyeccion = (selectedSociety) => {
     return {
       dimensions: finalDimensions,
       measures: measures,
-      filters: [...filters, ...monthFilter, ...societyFilter, ...dateRangeFilter, ...eerrFilter],
+      filters: [...filters, ...monthFilter, ...societyFilter, ...dateRangeFilter, ...eerrFilter, ...clienteFilter],
     };
-  }, [currentLevelDef, filters, dynamicDimensions, selectedMonth, isRappelActive, selectedSociety, selectedDateRange, isEERRExcluded, selectedView, drilldownLevel]);
+  }, [currentLevelDef, filters, dynamicDimensions, selectedMonth, isRappelActive, selectedSociety, selectedDateRange, isEERRExcluded, selectedCliente, selectedView, drilldownLevel]);
 
   // Query adicional para obtener totales globales (COUNT DISTINCT real)
   const totalsQuery = useMemo(() => {
@@ -128,6 +135,13 @@ export const useProyeccion = (selectedSociety) => {
       values: ["99"]
     }] : [];
 
+    // Filtro de cliente: buscar por nombre de cliente
+    const clienteFilter = selectedCliente && selectedCliente.trim() !== '' ? [{
+      member: "detalle_factura.nombre_cliente",
+      operator: "contains",
+      values: [selectedCliente]
+    }] : [];
+
     return {
       dimensions: [], // SIN dimensiones para obtener el total global
       measures: [
@@ -136,9 +150,9 @@ export const useProyeccion = (selectedSociety) => {
         "detalle_factura.ratio_sku_cliente"
         // NO incluir combinacion_sku_cliente porque no es un COUNT DISTINCT puro
       ],
-      filters: [...filters, ...monthFilter, ...societyFilter, ...dateRangeFilter, ...eerrFilter],
+      filters: [...filters, ...monthFilter, ...societyFilter, ...dateRangeFilter, ...eerrFilter, ...clienteFilter],
     };
-  }, [currentLevelDef, filters, selectedMonth, selectedSociety, selectedDateRange, isEERRExcluded]);
+  }, [currentLevelDef, filters, selectedMonth, selectedSociety, selectedDateRange, isEERRExcluded, selectedCliente]);
 
   const dynamicColumnDefs = useMemo(() => {
     if (!currentLevelDef) return [];

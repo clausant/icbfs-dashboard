@@ -12,7 +12,7 @@ import MonthFilter from "../../components/ui/MonthFilter/MonthFilter";
 import SocietyFilter from "../../components/ui/SocietyFilter/SocietyFilter";
 import DateRangeFilter from "../../components/ui/DateRangeFilter/DateRangeFilter";
 import EERRToggle from "../../components/ui/EERRToggle/EERRToggle";
-import QuickFilter from "../../components/ui/QuickFilter/QuickFilter";
+import ClienteFilter from "../../components/ui/ClienteFilter/ClienteFilter";
 import Toast from "../../components/ui/Toast/Toast";
 import DrillDownSelector from "../../components/ui/DrillDownSelector/DrillDownSelector";
 import { useProyeccion } from "../../hooks/useProyeccion";
@@ -33,8 +33,8 @@ const ProyeccionView = () => {
     return saved !== null ? JSON.parse(saved) : true;
   });
 
-  // Estado para el Quick Filter
-  const [quickFilterText, setQuickFilterText] = useState('');
+  // Estado para el filtro de cliente
+  const [selectedCliente, setSelectedCliente] = useState('');
 
   // Guardar preferencia en localStorage
   useEffect(() => {
@@ -71,26 +71,20 @@ const ProyeccionView = () => {
     setIsModalOpen,
     clickedRowData,
     handleDrillDownToView,
-  } = useProyeccion(selectedSociety); // Pasar selectedSociety al hook
+  } = useProyeccion(selectedSociety, selectedCliente); // Pasar selectedSociety y selectedCliente al hook
 
   const handleSocietyChange = (newSociety) => {
     setSelectedSociety(newSociety);
   };
 
-  const handleQuickFilter = (filterText) => {
-    setQuickFilterText(filterText);
-    if (gridRef.current && gridRef.current.api) {
-      gridRef.current.api.setGridOption('quickFilterText', filterText);
-    }
+  const handleClienteFilter = (clienteText) => {
+    setSelectedCliente(clienteText);
   };
 
-  // Limpiar Quick Filter cuando cambia la vista o el nivel de drilldown
+  // Limpiar filtro de cliente cuando cambia la vista
   useEffect(() => {
-    setQuickFilterText('');
-    if (gridRef.current && gridRef.current.api) {
-      gridRef.current.api.setGridOption('quickFilterText', '');
-    }
-  }, [selectedView, drilldownLevel]);
+    setSelectedCliente('');
+  }, [selectedView]);
 
   const onColumnPivotModeChanged = useCallback(() => {
     if (gridRef.current && gridRef.current.api && currentLevelDef) {
@@ -182,7 +176,7 @@ const ProyeccionView = () => {
 
       <div className="section-header" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
         <span>Vista: {views.find(v => v.id === selectedView)?.name || selectedView}</span>
-        <QuickFilter onFilterChange={handleQuickFilter} value={quickFilterText} />
+        <ClienteFilter onClienteChange={handleClienteFilter} />
       </div>
       <div className="grid-container">
         <div className="grid-wrapper">
