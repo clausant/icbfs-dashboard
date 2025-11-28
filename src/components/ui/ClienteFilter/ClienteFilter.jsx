@@ -8,17 +8,6 @@ const ClienteFilter = ({ onClienteChange, value }) => {
   const dropdownRef = useRef(null);
   const { clientes, loading } = useCubeClientes();
 
-  // Debug: Ver cuántos clientes se cargaron
-  useEffect(() => {
-    console.log('🎯 useCubeClientes result:', {
-      clientesLength: clientes.length,
-      loading,
-      primeros5: clientes.slice(0, 5),
-      tipoCliente: clientes[0] ? typeof clientes[0] : 'undefined',
-      estructuraCliente: clientes[0]
-    });
-  }, [clientes, loading]);
-
   // Filtrar clientes según el texto de búsqueda
   const filteredClientes = useMemo(() => {
     if (!inputText || inputText.length < 2) return [];
@@ -26,25 +15,10 @@ const ClienteFilter = ({ onClienteChange, value }) => {
 
     const filtered = clientes.filter(cliente => {
       if (!cliente || !cliente.nombre) return false;
-
       const nombreLower = cliente.nombre.toLowerCase();
       const idLower = String(cliente.id).toLowerCase();
-
-      // Buscar coincidencia en nombre o ID
-      const matchNombre = nombreLower.includes(searchLower);
-      const matchId = idLower.includes(searchLower);
-
-      return matchNombre || matchId;
+      return nombreLower.includes(searchLower) || idLower.includes(searchLower);
     }).slice(0, 50);
-
-    console.log('🔍 ClienteFilter debug:', {
-      inputText: searchLower,
-      clientesLength: clientes.length,
-      clientesLoaded: clientes.length > 0,
-      filteredLength: filtered.length,
-      sample: filtered.slice(0, 5),
-      firstCliente: clientes[0]
-    });
 
     return filtered;
   }, [inputText, clientes]);
@@ -62,10 +36,8 @@ const ClienteFilter = ({ onClienteChange, value }) => {
 
   const handleChange = (event) => {
     const text = event.target.value;
-    console.log('📝 Input changed:', text, 'length:', text.length);
     setInputText(text);
-    setIsOpen(text.length >= 2); // Abrir dropdown si hay al menos 2 caracteres
-    console.log('🔓 isOpen set to:', text.length >= 2);
+    setIsOpen(text.length >= 2);
   };
 
   const handleSelect = (cliente) => {
@@ -81,13 +53,6 @@ const ClienteFilter = ({ onClienteChange, value }) => {
   };
 
   const displayValue = value || inputText;
-
-  console.log('🎨 Rendering ClienteFilter:', {
-    isOpen,
-    displayValue,
-    filteredClientesLength: filteredClientes.length,
-    shouldShowDropdown: isOpen && filteredClientes.length > 0
-  });
 
   return (
     <div className="cliente-filter-container" ref={dropdownRef}>
@@ -135,6 +100,12 @@ const ClienteFilter = ({ onClienteChange, value }) => {
       {displayValue && (
         <div className="cliente-filter-hint">
           Filtrando por: "{displayValue}"
+        </div>
+      )}
+
+      {loading && (
+        <div className="cliente-filter-hint" style={{color: '#64748b'}}>
+          Cargando clientes...
         </div>
       )}
     </div>

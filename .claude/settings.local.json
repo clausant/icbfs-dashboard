@@ -33,7 +33,8 @@
       "Bash(npm install:*)",
       "Bash(git reset:*)",
       "Bash(echo:*)",
-      "Bash(git pull:*)"
+      "Bash(git pull:*)",
+      "Bash(printf:*)"
     ],
     "deny": [],
     "ask": []

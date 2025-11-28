@@ -25,3 +25,4 @@ GEMINI.md
 *.sw?
 
 .vercel
+.env*.local
