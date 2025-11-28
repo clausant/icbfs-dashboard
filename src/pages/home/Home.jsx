@@ -59,6 +59,7 @@ const Home = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="home-input"
+              autoComplete="username"
               required
             />
           </div>
@@ -72,6 +73,7 @@ const Home = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="home-input"
+              autoComplete="current-password"
               required
             />
           </div>
