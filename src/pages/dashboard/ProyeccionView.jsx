@@ -176,7 +176,7 @@ const ProyeccionView = () => {
 
       <div className="section-header" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
         <span>Vista: {views.find(v => v.id === selectedView)?.name || selectedView}</span>
-        <ClienteFilter onClienteChange={handleClienteFilter} />
+        <ClienteFilter onClienteChange={handleClienteFilter} value={selectedCliente} />
       </div>
       <div className="grid-container">
         <div className="grid-wrapper">

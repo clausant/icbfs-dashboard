@@ -1,33 +1,47 @@
 import React, { useState } from 'react';
 import './ClienteFilter.css';
 
-const ClienteFilter = ({ onClienteChange }) => {
-  const [clienteText, setClienteText] = useState('');
+const ClienteFilter = ({ onClienteChange, value }) => {
+  const [inputText, setInputText] = useState('');
 
   const handleChange = (event) => {
-    const value = event.target.value;
-    setClienteText(value);
-    onClienteChange(value);
+    const text = event.target.value;
+    setInputText(text);
+    onClienteChange(text);
   };
 
   const handleClear = () => {
-    setClienteText('');
+    setInputText('');
     onClienteChange('');
   };
 
+  const displayValue = value || inputText;
+
   return (
     <div className="cliente-filter-container">
-      <input
-        type="text"
-        value={clienteText}
-        onChange={handleChange}
-        placeholder="Buscar cliente..."
-        className="cliente-filter-input"
-      />
-      {clienteText && (
-        <button onClick={handleClear} className="cliente-filter-clear">
-          ✕
-        </button>
+      <div className="cliente-filter-wrapper">
+        <input
+          type="text"
+          value={displayValue}
+          onChange={handleChange}
+          placeholder="Filtrar por cliente..."
+          className="cliente-filter-input"
+          title={displayValue ? `Filtrando por: ${displayValue}` : ''}
+        />
+        {displayValue && (
+          <button
+            onClick={handleClear}
+            className="cliente-filter-clear"
+            title="Limpiar filtro"
+          >
+            ✕
+          </button>
+        )}
+      </div>
+      {displayValue && (
+        <div className="cliente-filter-hint">
+          Filtrando por: "{displayValue}"
+        </div>
       )}
     </div>
   );

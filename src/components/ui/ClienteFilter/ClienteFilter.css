@@ -1,6 +1,13 @@
 .cliente-filter-container {
   position: relative;
   display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.cliente-filter-wrapper {
+  position: relative;
+  display: flex;
   align-items: center;
 }
 
@@ -44,4 +51,14 @@
 
 .cliente-filter-clear:hover {
   color: #dc2626;
+}
+
+.cliente-filter-hint {
+  font-size: 0.75rem;
+  color: #3b82f6;
+  font-weight: 500;
+  padding-left: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
