@@ -10,25 +10,42 @@ const ClienteFilter = ({ onClienteChange, value }) => {
 
   // Debug: Ver cuántos clientes se cargaron
   useEffect(() => {
-    console.log('🎯 useCubeClientes result:', { clientesLength: clientes.length, loading });
+    console.log('🎯 useCubeClientes result:', {
+      clientesLength: clientes.length,
+      loading,
+      primeros5: clientes.slice(0, 5),
+      tipoCliente: clientes[0] ? typeof clientes[0] : 'undefined',
+      estructuraCliente: clientes[0]
+    });
   }, [clientes, loading]);
 
   // Filtrar clientes según el texto de búsqueda
   const filteredClientes = useMemo(() => {
     if (!inputText || inputText.length < 2) return [];
-    const searchLower = inputText.toLowerCase();
-    const filtered = clientes
-      .filter(cliente =>
-        cliente.nombre.toLowerCase().includes(searchLower) ||
-        cliente.id.toLowerCase().includes(searchLower)
-      )
-      .slice(0, 50); // Mostrar máximo 50 resultados
+    const searchLower = inputText.toLowerCase().trim();
+
+    const filtered = clientes.filter(cliente => {
+      if (!cliente || !cliente.nombre) return false;
+
+      const nombreLower = cliente.nombre.toLowerCase();
+      const idLower = String(cliente.id).toLowerCase();
+
+      // Buscar coincidencia en nombre o ID
+      const matchNombre = nombreLower.includes(searchLower);
+      const matchId = idLower.includes(searchLower);
+
+      return matchNombre || matchId;
+    }).slice(0, 50);
+
     console.log('🔍 ClienteFilter debug:', {
-      inputText,
+      inputText: searchLower,
       clientesLength: clientes.length,
+      clientesLoaded: clientes.length > 0,
       filteredLength: filtered.length,
-      sample: filtered.slice(0, 5)
+      sample: filtered.slice(0, 5),
+      firstCliente: clientes[0]
     });
+
     return filtered;
   }, [inputText, clientes]);
 
