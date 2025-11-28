@@ -15,7 +15,7 @@
   padding: 0.5rem 2rem 0.5rem 0.75rem;
   border: 2px solid #e2e8f0;
   border-radius: 0.625rem;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   min-width: 200px;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -54,7 +54,7 @@
 }
 
 .cliente-filter-hint {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: #3b82f6;
   font-weight: 500;
   padding-left: 0.25rem;
@@ -112,11 +112,25 @@
 }
 
 .cliente-filter-option {
-  padding: 0.625rem 0.75rem;
+  padding: 0.5rem 0.75rem;
   cursor: pointer;
   transition: background-color 0.15s;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.cliente-filter-option-id {
+  font-weight: 600;
+  color: #64748b;
+  font-size: 0.7rem;
+}
+
+.cliente-filter-option-nombre {
+  color: #1e293b;
+  font-size: 0.75rem;
 }
 
 .cliente-filter-option:last-child {

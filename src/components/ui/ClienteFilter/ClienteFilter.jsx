@@ -18,7 +18,10 @@ const ClienteFilter = ({ onClienteChange, value }) => {
     if (!inputText || inputText.length < 2) return [];
     const searchLower = inputText.toLowerCase();
     const filtered = clientes
-      .filter(cliente => cliente.toLowerCase().includes(searchLower))
+      .filter(cliente =>
+        cliente.nombre.toLowerCase().includes(searchLower) ||
+        cliente.id.toLowerCase().includes(searchLower)
+      )
       .slice(0, 50); // Mostrar máximo 50 resultados
     console.log('🔍 ClienteFilter debug:', {
       inputText,
@@ -49,8 +52,8 @@ const ClienteFilter = ({ onClienteChange, value }) => {
   };
 
   const handleSelect = (cliente) => {
-    setInputText(cliente);
-    onClienteChange(cliente);
+    setInputText(cliente.nombre);
+    onClienteChange(cliente.nombre);
     setIsOpen(false);
   };
 
@@ -104,7 +107,8 @@ const ClienteFilter = ({ onClienteChange, value }) => {
                 className="cliente-filter-option"
                 onClick={() => handleSelect(cliente)}
               >
-                {cliente}
+                <div className="cliente-filter-option-id">{cliente.id}</div>
+                <div className="cliente-filter-option-nombre">{cliente.nombre}</div>
               </div>
             ))}
           </div>
