@@ -27,7 +27,13 @@
       "Bash(git merge:*)",
       "Bash(git tag:*)",
       "Bash(npm run dev:*)",
-      "Bash(echo $VERCEL_TOKEN)"
+      "Bash(echo $VERCEL_TOKEN)",
+      "Bash(git log:*)",
+      "Bash(npm ls:*)",
+      "Bash(npm install:*)",
+      "Bash(git reset:*)",
+      "Bash(echo:*)",
+      "Bash(git pull:*)"
     ],
     "deny": [],
     "ask": []

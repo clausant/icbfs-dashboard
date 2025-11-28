@@ -8,13 +8,25 @@ const ClienteFilter = ({ onClienteChange, value }) => {
   const dropdownRef = useRef(null);
   const { clientes, loading } = useCubeClientes();
 
+  // Debug: Ver cuántos clientes se cargaron
+  useEffect(() => {
+    console.log('🎯 useCubeClientes result:', { clientesLength: clientes.length, loading });
+  }, [clientes, loading]);
+
   // Filtrar clientes según el texto de búsqueda
   const filteredClientes = useMemo(() => {
     if (!inputText || inputText.length < 2) return [];
     const searchLower = inputText.toLowerCase();
-    return clientes
+    const filtered = clientes
       .filter(cliente => cliente.toLowerCase().includes(searchLower))
       .slice(0, 50); // Mostrar máximo 50 resultados
+    console.log('🔍 ClienteFilter debug:', {
+      inputText,
+      clientesLength: clientes.length,
+      filteredLength: filtered.length,
+      sample: filtered.slice(0, 5)
+    });
+    return filtered;
   }, [inputText, clientes]);
 
   // Cerrar dropdown al hacer click fuera
@@ -30,8 +42,10 @@ const ClienteFilter = ({ onClienteChange, value }) => {
 
   const handleChange = (event) => {
     const text = event.target.value;
+    console.log('📝 Input changed:', text, 'length:', text.length);
     setInputText(text);
     setIsOpen(text.length >= 2); // Abrir dropdown si hay al menos 2 caracteres
+    console.log('🔓 isOpen set to:', text.length >= 2);
   };
 
   const handleSelect = (cliente) => {
@@ -47,6 +61,13 @@ const ClienteFilter = ({ onClienteChange, value }) => {
   };
 
   const displayValue = value || inputText;
+
+  console.log('🎨 Rendering ClienteFilter:', {
+    isOpen,
+    displayValue,
+    filteredClientesLength: filteredClientes.length,
+    shouldShowDropdown: isOpen && filteredClientes.length > 0
+  });
 
   return (
     <div className="cliente-filter-container" ref={dropdownRef}>
