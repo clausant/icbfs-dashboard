@@ -73,10 +73,10 @@ export const useProyeccion = (selectedSociety, selectedCliente = '') => {
       values: ["99"]
     }] : [];
 
-    // Filtro de cliente: buscar por nombre de cliente
+    // Filtro de cliente: filtrar por nombre exacto de cliente
     const clienteFilter = selectedCliente && selectedCliente.trim() !== '' ? [{
       member: "detalle_factura.nombre_cliente",
-      operator: "contains",
+      operator: "equals",
       values: [selectedCliente]
     }] : [];
 
@@ -135,10 +135,10 @@ export const useProyeccion = (selectedSociety, selectedCliente = '') => {
       values: ["99"]
     }] : [];
 
-    // Filtro de cliente: buscar por nombre de cliente
+    // Filtro de cliente: filtrar por nombre exacto de cliente
     const clienteFilter = selectedCliente && selectedCliente.trim() !== '' ? [{
       member: "detalle_factura.nombre_cliente",
-      operator: "contains",
+      operator: "equals",
       values: [selectedCliente]
     }] : [];
 
